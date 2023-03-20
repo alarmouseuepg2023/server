@@ -8,12 +8,13 @@ datasource db {
 }
 
 model User {
-  id              String    @id @db.Uuid()
-  password        String    @db.VarChar(100)
-  name            String
-  email           String    @unique
-  loginAttempts   Int       @default(0) @map("login_attempts")
-  lastFailedLogin DateTime? @map("last_failed_login") @db.Timestamp()
+  id                  String    @id @db.Uuid()
+  password            String    @db.VarChar(100)
+  name                String
+  email               String    @unique
+  loginAttempts       Int       @default(0) @map("login_attempts")
+  blocked             Boolean   @default(false)
+  lastFailedLoginDate DateTime? @map("last_failed_login_date") @db.Timestamp()
 
   role        Role[]
   guests      Guest[]
