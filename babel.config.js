@@ -22,6 +22,7 @@ module.exports = {
         "@services": "./src/application/services",
         "@providers": "./src/providers",
         "@repositories": "./src/infra/database/repositories",
+        "@mqtt": "./src/infra/mqtt",
       }}
     ],
   ],
