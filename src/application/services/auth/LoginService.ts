@@ -35,7 +35,7 @@ class LoginService {
       throw new AppError("BAD_REQUEST", i18n.__("ErrorPasswordRequired"));
 
     const [hasUser] = await transaction([
-      this.userRepository.hasActivatedUser({ email }),
+      this.userRepository.hasActivatedUser({ email, blocked: false }),
     ]);
 
     if (!hasUser)

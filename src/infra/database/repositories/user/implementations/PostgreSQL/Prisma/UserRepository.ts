@@ -9,9 +9,13 @@ import { updateLoginControlPropsInput } from "../../../models/inputs/updateLogin
 class UserRepository extends BaseRepository implements IUserRepository {
   public hasActivatedUser = ({
     email,
+    blocked,
   }: hasActivatedUserInput): PrismaPromise<UserModel | null> =>
     this.prisma.user.findFirst({
-      where: { email, blocked: false },
+      where: {
+        email,
+        AND: [blocked === undefined ? undefined : { blocked }] as any,
+      },
       select: {
         id: true,
         name: true,
