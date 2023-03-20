@@ -48,6 +48,34 @@ class UserRepository extends BaseRepository implements IUserRepository {
         loginAttempts: true,
       },
     });
+
+  public save = ({
+    id,
+    name,
+    email,
+    password,
+  }: UserModel): PrismaPromise<UserModel> =>
+    this.prisma.user.upsert({
+      where: { id },
+      create: {
+        id,
+        name,
+        email,
+        password,
+      },
+      update: {
+        name,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        loginAttempts: true,
+        lastFailedLoginDate: true,
+        blocked: true,
+        password: true,
+      },
+    }) as PrismaPromise<UserModel>;
 }
 
 export { UserRepository };

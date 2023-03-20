@@ -10,6 +10,8 @@ interface IUserRepository {
   updateLoginControlProps(
     _: updateLoginControlPropsInput
   ): PrismaPromise<{ blocked: boolean; loginAttempts: number }>;
+
+  save(_: UserModel): PrismaPromise<UserModel>;
 }
 
 export { IUserRepository };
