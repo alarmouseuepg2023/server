@@ -3,19 +3,15 @@ import { UserModel } from "@models/UserModel";
 import { PrismaPromise } from "@prisma/client";
 import { IUserRepository } from "@repositories/user/models/IUserRepository";
 
-import { hasActivatedUserInput } from "../../../models/inputs/hasActivatedUserInput";
+import { hasEmailInput } from "../../../models/inputs/hasEmailInput";
 import { updateLoginControlPropsInput } from "../../../models/inputs/updateLoginControlPropsInput";
 
 class UserRepository extends BaseRepository implements IUserRepository {
-  public hasActivatedUser = ({
+  public hasEmail = ({
     email,
-    blocked,
-  }: hasActivatedUserInput): PrismaPromise<UserModel | null> =>
+  }: hasEmailInput): PrismaPromise<UserModel | null> =>
     this.prisma.user.findFirst({
-      where: {
-        email,
-        AND: [blocked === undefined ? undefined : { blocked }] as any,
-      },
+      where: { email },
       select: {
         id: true,
         name: true,

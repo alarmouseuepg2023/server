@@ -1,11 +1,11 @@
 import { UserModel } from "@models/UserModel";
 import { PrismaPromise } from "@prisma/client";
 
-import { hasActivatedUserInput } from "./inputs/hasActivatedUserInput";
+import { hasEmailInput } from "./inputs/hasEmailInput";
 import { updateLoginControlPropsInput } from "./inputs/updateLoginControlPropsInput";
 
 interface IUserRepository {
-  hasActivatedUser(_: hasActivatedUserInput): PrismaPromise<UserModel | null>;
+  hasEmail(_: hasEmailInput): PrismaPromise<UserModel | null>;
 
   updateLoginControlProps(
     _: updateLoginControlPropsInput

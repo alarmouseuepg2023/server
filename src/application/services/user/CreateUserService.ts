@@ -80,7 +80,7 @@ class CreateUserService {
       );
 
     const [hasEmail] = await transaction([
-      this.userRepository.hasActivatedUser({ email, blocked: undefined }),
+      this.userRepository.hasEmail({ email }),
     ]);
 
     if (hasEmail)
