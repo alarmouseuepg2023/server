@@ -3,6 +3,7 @@ import { UserModel } from "@models/UserModel";
 import { PrismaPromise } from "@prisma/client";
 import { IUserRepository } from "@repositories/user/models/IUserRepository";
 
+import { getById } from "../../../models/inputs/getById";
 import { hasEmailInput } from "../../../models/inputs/hasEmailInput";
 import { updateLoginControlPropsInput } from "../../../models/inputs/updateLoginControlPropsInput";
 
@@ -72,6 +73,20 @@ class UserRepository extends BaseRepository implements IUserRepository {
         password: true,
       },
     }) as PrismaPromise<UserModel>;
+
+  public getById = ({ id }: getById): PrismaPromise<UserModel | null> =>
+    this.prisma.user.findFirst({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        loginAttempts: true,
+        lastFailedLoginDate: true,
+        blocked: true,
+        password: true,
+      },
+    }) as PrismaPromise<UserModel | null>;
 }
 
 export { UserRepository };
