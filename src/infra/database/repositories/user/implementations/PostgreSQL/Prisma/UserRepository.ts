@@ -1,4 +1,5 @@
 import { BaseRepository } from "@infra/database/repositories/BaseRepository";
+import { RoleModel } from "@models/RoleModel";
 import { UserModel } from "@models/UserModel";
 import { PrismaPromise } from "@prisma/client";
 import { IUserRepository } from "@repositories/user/models/IUserRepository";
@@ -6,6 +7,7 @@ import { IUserRepository } from "@repositories/user/models/IUserRepository";
 import { getById } from "../../../models/inputs/getById";
 import { hasEmailInput } from "../../../models/inputs/hasEmailInput";
 import { updateLoginControlPropsInput } from "../../../models/inputs/updateLoginControlPropsInput";
+import { verifyRole } from "../../../models/inputs/verifyRole";
 
 class UserRepository extends BaseRepository implements IUserRepository {
   public hasEmail = ({
@@ -87,6 +89,19 @@ class UserRepository extends BaseRepository implements IUserRepository {
         password: true,
       },
     }) as PrismaPromise<UserModel | null>;
+
+  public verifyRole = ({
+    deviceId,
+    userId,
+    role,
+  }: verifyRole): PrismaPromise<RoleModel | null> =>
+    this.prisma.role.findFirst({
+      where: {
+        userId,
+        deviceId,
+        AND: [(role ? { name: role } : undefined) as any],
+      },
+    });
 }
 
 export { UserRepository };
