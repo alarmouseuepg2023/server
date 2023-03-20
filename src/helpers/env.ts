@@ -9,7 +9,13 @@ type keys =
   | "SUPPORT_ID"
   | "LIST_ALLOWED_ORIGINS"
   | "JWT_SECRET_KEY"
-  | "JWT_SECRET_KEY_REFRESH";
+  | "JWT_SECRET_KEY_REFRESH"
+  | "MQTT_PORT"
+  | "MQTT_HOST"
+  | "MQTT_PASSWORD"
+  | "MQTT_USERNAME"
+  | "MQTT_PUBLIC_TOPICS_HASH"
+  | "MQTT_PRIVATE_TOPICS_HASH";
 
 const env = (key: keys, errorMessage = "ErrorEnvVarNotFound"): string => {
   const _env = process.env[key];
