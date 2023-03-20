@@ -6,3 +6,99 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id              String    @id @db.Uuid()
+  password        String    @db.VarChar(100)
+  name            String
+  email           String    @unique
+  loginAttempts   Int       @default(0) @map("login_attempts")
+  lastFailedLogin DateTime? @map("last_failed_login") @db.Timestamp()
+
+  role        Role[]
+  guests      Guest[]
+  devices     Device[]
+  inviter     Invite[]      @relation(name: "inviter")
+  invitee     Invite[]      @relation(name: "invitee")
+  alarmEvents AlarmEvents[]
+
+  @@map("user")
+}
+
+model Device {
+  id            String @id @db.Uuid()
+  macAddress    String @unique @map("mac_address") @db.VarChar(12)
+  ownerPassword String @map("owner_password") @db.VarChar(100)
+  nickname      String @db.VarChar(32)
+  wifiSsid      String @map("wifi_ssid") @db.VarChar(32)
+  wifiPassword  String @map("wifi_password") @db.VarChar(100)
+  status        Int    @db.SmallInt
+
+  ownerId String @map("owner_id") @db.Uuid()
+  owner   User   @relation(fields: [ownerId], references: [id])
+
+  guests      Guest[]
+  alarmEvents AlarmEvents[]
+  role        Role[]
+
+  @@map("device")
+}
+
+model Guest {
+  unlockAttempts   Int       @default(0) @map("unlock_attempts")
+  password         String    @db.VarChar(100)
+  lastFailedUnlock DateTime? @map("last_failed_unlock") @db.Timestamp()
+
+  userId String @db.Uuid()
+  user   User   @relation(fields: [userId], references: [id])
+
+  deviceId String @db.Uuid()
+  device   Device @relation(fields: [deviceId], references: [id])
+
+  @@id([userId, deviceId])
+  @@map("guest")
+}
+
+model AlarmEvents {
+  id        String   @id @db.Uuid()
+  message   String   @db.Text()
+  createdAt DateTime @db.Timestamp()
+
+  deviceId String @db.Uuid()
+  device   Device @relation(fields: [deviceId], references: [id])
+
+  userId String @db.Uuid()
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@map("alarm_events")
+}
+
+model Invite {
+  id         String    @id @db.Uuid()
+  status     Int       @db.SmallInt()
+  token      String    @db.VarChar(40)
+  invitedAt  DateTime  @map("invited_at") @db.Timestamp()
+  answeredAt DateTime? @map("answered_at") @db.Timestamp()
+
+  inviteeId String @db.Uuid()
+  invitee   User   @relation(name: "invitee", fields: [inviteeId], references: [id])
+
+  inviterId String @db.Uuid()
+  inviter   User   @relation(name: "inviter", fields: [inviterId], references: [id])
+
+  @@unique([inviteeId, inviterId])
+  @@map("invite")
+}
+
+model Role {
+  name String @db.VarChar(32)
+
+  userId String @db.Uuid()
+  user   User   @relation(fields: [userId], references: [id])
+
+  deviceId String @db.Uuid()
+  device   Device @relation(fields: [deviceId], references: [id])
+
+  @@id([name, userId, deviceId])
+  @@map("role")
+}
