@@ -1,3 +1,4 @@
 import { LoginService } from "./LoginService";
+import { RefreshTokenService } from "./RefreshTokenService";
 
-export { LoginService };
+export { RefreshTokenService, LoginService };
