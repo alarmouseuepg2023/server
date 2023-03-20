@@ -1,4 +1,6 @@
 {
+  "ErrorAuthTokenExpired": "As credenciais de autenticação expiraram. Por favor, realize a autenticação novamente.",
+  "ErrorAuthTokenInvalid": "As credenciais de autenticação são inválidas. Por favor, tente realizar a autenticação antes de acessar a este conteúdo.",
   "ErrorConfirmPasswordRequired": "É necessário informar a confirmação da senha.",
   "ErrorEmailAlreadyExists": "O e-mail informado já existe.",
   "ErrorEmailInvalid": "O e-mail informado é inválido.",
