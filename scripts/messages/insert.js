@@ -4,7 +4,15 @@ const path = require("path");
 
 const [ _, __, key, locale, message ] = process.argv;
 
-if ((!key || !key.startsWith("Error") && !key.startsWith("Success") && !key.startsWith("Mail") && !key.startsWith("Domain")) || !locale || !message) {
+if (
+  (!key || 
+    !key.startsWith("Error") && 
+    !key.startsWith("Success") && 
+    !key.startsWith("Mail") && 
+    !key.startsWith("Domain_") &&
+    !key.startsWith("RandomWord_")
+  ) || !locale || !message
+) {
   console.log("ERROR: mal formatted");
   process.exit(0);
 }
