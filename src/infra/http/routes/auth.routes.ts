@@ -17,5 +17,11 @@ routes.post(
   controller.login,
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
+routes.post(
+  "/refresh",
+  logMiddleware.routeStart,
+  controller.refreshToken,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
 
 export { routes };

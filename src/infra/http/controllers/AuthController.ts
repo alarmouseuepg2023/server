@@ -5,7 +5,7 @@ import { container } from "tsyringe";
 import { LoginResponseModel } from "@http/dtos/auth/";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
-import { LoginService } from "@services/auth";
+import { LoginService, RefreshTokenService } from "@services/auth";
 
 class AuthController {
   public async login(
@@ -18,6 +18,26 @@ class AuthController {
     const service = container.resolve(LoginService);
 
     const result = await service.execute({ email, password });
+
+    res.status(HttpStatus.OK).json({
+      success: true,
+      content: result,
+      message: i18n.__("SuccessGeneric"),
+    });
+
+    return next();
+  }
+
+  public async refreshToken(
+    req: Request,
+    res: Response<IResponseMessage<LoginResponseModel>>,
+    next: NextFunction
+  ): Promise<void> {
+    const { refreshToken } = req.body;
+
+    const service = container.resolve(RefreshTokenService);
+
+    const result = await service.execute(refreshToken);
 
     res.status(HttpStatus.OK).json({
       success: true,
