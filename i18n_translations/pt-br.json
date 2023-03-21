@@ -1,4 +1,12 @@
 {
+  "DomainDeviceStatus_LOCKED": "Bloqueado",
+  "DomainDeviceStatus_TRIGGERED": "Disparado",
+  "DomainDeviceStatus_UNCONFIGURED": "Desconfigurado",
+  "DomainDeviceStatus_UNLOCKED": "Desbloqueado",
+  "DomainInviteStatus_ACCEPTED": "Aceitado",
+  "DomainInviteStatus_CREATED": "Criado",
+  "DomainInviteStatus_REJECTED": "Rejeitado",
+  "DomainInviteStatus_SENT": "Enviado",
   "ErrorAuthTokenExpired": "As credenciais de autenticação expiraram. Por favor, realize a autenticação novamente.",
   "ErrorAuthTokenInvalid": "As credenciais de autenticação são inválidas. Por favor, tente realizar a autenticação antes de acessar este conteúdo.",
   "ErrorConfirmPasswordRequired": "É necessário informar a confirmação da senha.",
