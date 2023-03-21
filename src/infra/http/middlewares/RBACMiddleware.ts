@@ -4,13 +4,13 @@ import { inject, injectable } from "tsyringe";
 import { IMiddleware } from "@http/models/IMiddleware";
 import { HttpStatus } from "@http/utils/HttpStatus";
 import { transaction } from "@infra/database/transaction";
-import { IUserRepository } from "@repositories/user";
+import { IRoleRepository } from "@repositories/role";
 
 @injectable()
 class RBACMiddleware {
   constructor(
-    @inject("UserRepository")
-    private userRepository: IUserRepository
+    @inject("RoleRepository")
+    private roleRepository: IRoleRepository
   ) {}
 
   public is =
@@ -20,7 +20,7 @@ class RBACMiddleware {
       const { [`${deviceIdParamName}`]: deviceId } = req.params;
 
       const [hasRole] = await transaction([
-        this.userRepository.verifyRole({
+        this.roleRepository.verify({
           role,
           userId: id,
           deviceId,
