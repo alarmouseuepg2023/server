@@ -3,6 +3,7 @@ import { container } from "tsyringe";
 import { AuthTokenProvider, IAuthTokenProvider } from "@providers/authToken";
 import { DateProvider, IDateProvider } from "@providers/date";
 import { HashProvider, IHashProvider } from "@providers/hash";
+import { IPasswordProvider, PasswordProvider } from "@providers/password";
 import {
   IUniqueIdentifierProvider,
   UniqueIdentifierProvider,
@@ -26,4 +27,9 @@ container.registerSingleton<IValidatorsProvider>(
 container.registerSingleton<IUniqueIdentifierProvider>(
   "UniqueIdentifierProvider",
   UniqueIdentifierProvider
+);
+
+container.registerSingleton<IPasswordProvider>(
+  "PasswordProvider",
+  PasswordProvider
 );
