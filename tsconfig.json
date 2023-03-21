@@ -38,7 +38,8 @@
       "@services/*": ["./src/application/services/*"],
       "@providers/*": ["./src/providers/*"],
       "@repositories/*": ["./src/infra/database/repositories/*"],
-      "@mqtt/*": ["./src/infra/mqtt/*"]
+      "@mqtt/*": ["./src/infra/mqtt/*"],
+      "@domains/*": ["./src/application/domains/*"]
     }
   }
 }

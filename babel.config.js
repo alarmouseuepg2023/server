@@ -23,6 +23,7 @@ module.exports = {
         "@providers": "./src/providers",
         "@repositories": "./src/infra/database/repositories",
         "@mqtt": "./src/infra/mqtt",
+        "@domains": "./src/application/domains",
       }}
     ],
   ],
