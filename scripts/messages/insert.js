@@ -9,7 +9,7 @@ if (
     !key.startsWith("Error") && 
     !key.startsWith("Success") && 
     !key.startsWith("Mail") && 
-    !key.startsWith("Domain_") &&
+    !key.startsWith("Domain") &&
     !key.startsWith("RandomWord_")
   ) || !locale || !message
 ) {
