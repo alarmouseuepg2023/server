@@ -13,6 +13,7 @@ import { transaction } from "@infra/database/transaction";
 import { UserModel } from "@models/UserModel";
 import { IAuthTokenPayload, IAuthTokenProvider } from "@providers/authToken";
 import { IHashProvider } from "@providers/hash";
+import { IPasswordProvider } from "@providers/password";
 import { IUniqueIdentifierProvider } from "@providers/uniqueIdentifier";
 import { IValidatorsProvider } from "@providers/validators";
 
@@ -28,7 +29,9 @@ class CreateUserService {
     @inject("UniqueIdentifierProvider")
     private uniqueIdentifierProvider: IUniqueIdentifierProvider,
     @inject("HashProvider")
-    private hashProvider: IHashProvider
+    private hashProvider: IHashProvider,
+    @inject("PasswordProvider")
+    private passwordProvider: IPasswordProvider
   ) {}
 
   public async execute({
@@ -66,6 +69,18 @@ class CreateUserService {
 
     if (stringIsNullOrEmpty(password))
       throw new AppError("BAD_REQUEST", i18n.__("ErrorPasswordRequired"));
+
+    if (this.passwordProvider.outOfBounds(password))
+      throw new AppError(
+        "BAD_REQUEST",
+        i18n.__mf("ErrorPasswordOutOfBounds", [
+          this.passwordProvider.MIN_LENGTH,
+          this.passwordProvider.MAX_LENGTH,
+        ])
+      );
+
+    if (!this.passwordProvider.hasStrength(password))
+      throw new AppError("BAD_REQUEST", i18n.__("ErrorPasswordToWeak"));
 
     if (stringIsNullOrEmpty(confirmPassword))
       throw new AppError(
