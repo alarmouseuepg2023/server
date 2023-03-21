@@ -15,7 +15,12 @@ type keys =
   | "MQTT_PASSWORD"
   | "MQTT_USERNAME"
   | "MQTT_PUBLIC_TOPICS_HASH"
-  | "MQTT_PRIVATE_TOPICS_HASH";
+  | "MQTT_PRIVATE_TOPICS_HASH"
+  | "MAIL_PORT"
+  | "MAIL_HOST"
+  | "MAIL_AUTH_USERNAME"
+  | "MAIL_AUTH_PASSWORD"
+  | "MAIL_FROM";
 
 const env = (key: keys, errorMessage = "ErrorEnvVarNotFound"): string => {
   const _env = process.env[key];
