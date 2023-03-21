@@ -9,6 +9,8 @@ class ValidatorsProvider implements IValidatorsProvider {
 
   macAddress = (macAddress: string): boolean =>
     /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/.test(macAddress);
+
+  devicePassword = (password: string): boolean => /^\d{6}$/.test(password);
 }
 
 export { ValidatorsProvider };

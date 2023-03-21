@@ -2,6 +2,7 @@
   "ErrorAuthTokenExpired": "As credenciais de autenticação expiraram. Por favor, realize a autenticação novamente.",
   "ErrorAuthTokenInvalid": "As credenciais de autenticação são inválidas. Por favor, tente realizar a autenticação antes de acessar este conteúdo.",
   "ErrorConfirmPasswordRequired": "É necessário informar a confirmação da senha.",
+  "ErrorDevicePasswordInvalid": "A senha do dispositivo é inválida. Informe 6 dígitos numéricos obrigatoriamente.",
   "ErrorEmailAlreadyExists": "O e-mail informado já existe.",
   "ErrorEmailInvalid": "O e-mail informado é inválido.",
   "ErrorEmailRequired": "É necessário informar o e-mail.",

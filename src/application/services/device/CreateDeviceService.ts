@@ -68,6 +68,9 @@ class CreateDeviceService {
     if (stringIsNullOrEmpty(ownerPassword))
       throw new AppError("BAD_REQUEST", i18n.__("ErrorOwnerPasswordRequired"));
 
+    if (!this.validatorsProvider.devicePassword(ownerPassword))
+      throw new AppError("BAD_REQUEST", i18n.__("ErrorDevicePasswordInvalid"));
+
     return {} as any;
   }
 }
