@@ -18,6 +18,7 @@
   "ErrorRefreshTokenInvalid": "As credencias de atualização são inválidas. Por favor, realize a autenticação novamente.",
   "ErrorRefreshTokenRequired": "É necessário informar as credenciais de atualização para realizar esta operação.",
   "ErrorRouteNotFound": "Não foi possível encontrar o recurso solicitado.",
+  "ErrorUnauthorizedUserForThisResource": "O usuário não possui autorização para acessar este recurso.",
   "ErrorUserIsBlocked": "O usuário está bloqueado e não será possível realizar sua autenticação.",
   "ErrorVarCharMaxLengthExceeded": "O atributo {0} não pode ter mais do que {1} caracteres.",
   "ErrorWithoutHandling": "Ocorreu um erro. Por favor, entre em contato com um administrador.",
