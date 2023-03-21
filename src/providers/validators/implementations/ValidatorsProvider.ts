@@ -6,6 +6,9 @@ class ValidatorsProvider implements IValidatorsProvider {
   email = (email: string): boolean => validate(email);
 
   length = (str: string, length: number): boolean => str.length <= length;
+
+  macAddress = (macAddress: string): boolean =>
+    /^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/.test(macAddress);
 }
 
 export { ValidatorsProvider };
