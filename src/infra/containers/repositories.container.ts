@@ -8,6 +8,10 @@ import {
   DeviceAccessControlRepository,
   IDeviceAccessControlRepository,
 } from "@infra/database/repositories/deviceAccessControl";
+import {
+  IInviteRepository,
+  InviteRepository,
+} from "@infra/database/repositories/invite";
 import { IUserRepository, UserRepository } from "@repositories/user";
 
 container.registerSingleton<IUserRepository>("UserRepository", UserRepository);
@@ -20,4 +24,9 @@ container.registerSingleton<IDeviceAccessControlRepository>(
 container.registerSingleton<IDeviceRepository>(
   "DeviceRepository",
   DeviceRepository
+);
+
+container.registerSingleton<IInviteRepository>(
+  "InviteRepository",
+  InviteRepository
 );
