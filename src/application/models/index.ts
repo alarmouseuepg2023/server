@@ -1,7 +1,6 @@
 import { AlarmEventsModel } from "./AlarmEventsModel";
 import { DeviceAccessControlModel } from "./DeviceAccessControlModel";
 import { DeviceModel } from "./DeviceModel";
-import { GuestModel } from "./GuestModel";
 import { InviteModel } from "./InviteModel";
 import { UserModel } from "./UserModel";
 
@@ -10,6 +9,5 @@ export {
   DeviceModel,
   InviteModel,
   DeviceAccessControlModel,
-  GuestModel,
   UserModel,
 };
