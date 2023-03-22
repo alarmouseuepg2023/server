@@ -20,7 +20,7 @@ const ensureAuthenticated = container.resolve(
 );
 
 routes.post(
-  "/:guest_id",
+  "/",
   logMiddleware.routeStart,
   ensureAuthenticated.execute,
   RBAC.is(RolesKeys.OWNER),

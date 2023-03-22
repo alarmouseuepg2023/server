@@ -3,7 +3,7 @@ type InviteModel = {
   status: number;
   invitedAt: Date;
   token: string;
-  answeredAt?: Date;
+  answeredAt: Date | null;
 };
 
 export { InviteModel };
