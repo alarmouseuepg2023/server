@@ -1,8 +1,8 @@
-type save = {
+type saveInput = {
   userId: string;
   deviceId: string;
   role: string;
   password: string;
 };
 
-export { save };
+export { saveInput };

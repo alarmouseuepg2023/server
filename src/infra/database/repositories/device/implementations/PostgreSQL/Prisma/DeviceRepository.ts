@@ -3,7 +3,7 @@ import { DeviceModel } from "@models/DeviceModel";
 import { PrismaPromise } from "@prisma/client";
 
 import { IDeviceRepository } from "../../../models/IDeviceRepository";
-import { hasMacAddressInput } from "../../../models/input/hasMacAddressInput";
+import { hasMacAddressInput } from "../../../models/inputs/hasMacAddressInput";
 
 class DeviceRepository extends BaseRepository implements IDeviceRepository {
   public hasMacAddress = ({

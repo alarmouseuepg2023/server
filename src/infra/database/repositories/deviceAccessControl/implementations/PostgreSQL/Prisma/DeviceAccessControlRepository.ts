@@ -3,8 +3,8 @@ import { DeviceAccessControlModel } from "@models/DeviceAccessControlModel";
 import { PrismaPromise } from "@prisma/client";
 
 import { IDeviceAccessControlRepository } from "../../../models/IDeviceAccessControlRepository";
-import { save } from "../../../models/inputs/save";
-import { verifyRole } from "../../../models/inputs/verifyRole";
+import { saveInput } from "../../../models/inputs/saveInput";
+import { verifyRoleInput } from "../../../models/inputs/verifyRoleInput";
 
 class DeviceAccessControlRepository
   extends BaseRepository
@@ -14,7 +14,7 @@ class DeviceAccessControlRepository
     deviceId,
     userId,
     role,
-  }: verifyRole): PrismaPromise<DeviceAccessControlModel | null> =>
+  }: verifyRoleInput): PrismaPromise<DeviceAccessControlModel | null> =>
     this.prisma.deviceAccessControl.findFirst({
       where: {
         userId,
@@ -28,7 +28,7 @@ class DeviceAccessControlRepository
     password,
     role,
     userId,
-  }: save): PrismaPromise<{ role: string }> =>
+  }: saveInput): PrismaPromise<{ role: string }> =>
     this.prisma.deviceAccessControl.create({
       data: {
         role,

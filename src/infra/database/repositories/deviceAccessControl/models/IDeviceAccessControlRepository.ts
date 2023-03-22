@@ -1,13 +1,15 @@
 import { DeviceAccessControlModel } from "@models/DeviceAccessControlModel";
 import { PrismaPromise } from "@prisma/client";
 
-import { save } from "./inputs/save";
-import { verifyRole } from "./inputs/verifyRole";
+import { saveInput } from "./inputs/saveInput";
+import { verifyRoleInput } from "./inputs/verifyRoleInput";
 
 interface IDeviceAccessControlRepository {
-  verifyRole(_: verifyRole): PrismaPromise<DeviceAccessControlModel | null>;
+  verifyRole(
+    _: verifyRoleInput
+  ): PrismaPromise<DeviceAccessControlModel | null>;
 
-  save(_: save): PrismaPromise<{ role: string }>;
+  save(_: saveInput): PrismaPromise<{ role: string }>;
 }
 
 export { IDeviceAccessControlRepository };

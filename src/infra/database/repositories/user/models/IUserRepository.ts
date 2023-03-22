@@ -1,7 +1,7 @@
 import { UserModel } from "@models/UserModel";
 import { PrismaPromise } from "@prisma/client";
 
-import { getById } from "./inputs/getById";
+import { getByIdInput } from "./inputs/getByIdInput";
 import { hasEmailInput } from "./inputs/hasEmailInput";
 import { updateLoginControlPropsInput } from "./inputs/updateLoginControlPropsInput";
 
@@ -14,7 +14,7 @@ interface IUserRepository {
 
   save(_: UserModel): PrismaPromise<UserModel>;
 
-  getById(_: getById): PrismaPromise<UserModel | null>;
+  getById(_: getByIdInput): PrismaPromise<UserModel | null>;
 }
 
 export { IUserRepository };

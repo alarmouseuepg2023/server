@@ -1,7 +1,7 @@
-type verifyRole = {
+type verifyRoleInput = {
   userId: string;
   deviceId: string;
   role: string | undefined;
 };
 
-export { verifyRole };
+export { verifyRoleInput };
