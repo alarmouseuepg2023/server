@@ -103,6 +103,7 @@ class LoginService {
     const accessToken = this.authTokenProvider.generate({
       id: hasUser.id,
       name: hasUser.name,
+      email: hasUser.email,
       type: "accessToken",
     } as IAuthTokenPayload);
 
