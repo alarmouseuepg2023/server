@@ -6,6 +6,8 @@ class RoutesPrefix {
   public static readonly USER: string = "/user";
 
   public static readonly DEVICE: string = "/device";
+
+  public static readonly INVITE: string = "/invite";
 }
 
 export { RoutesPrefix };
