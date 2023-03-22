@@ -16,6 +16,8 @@ class DeviceController {
     const { macAddress, ownerPassword, nickname, wifiSsid, wifiPassword } =
       req.body;
 
+    const { id: userId } = req.user;
+
     const service = container.resolve(CreateDeviceService);
 
     const result = await service.execute({
@@ -24,6 +26,7 @@ class DeviceController {
       ownerPassword,
       wifiPassword,
       wifiSsid,
+      userId,
     });
 
     res.status(HttpStatus.OK).json({

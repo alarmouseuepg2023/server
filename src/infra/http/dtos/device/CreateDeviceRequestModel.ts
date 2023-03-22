@@ -4,6 +4,7 @@ type CreateDeviceRequestModel = {
   nickname: string;
   wifiSsid: string;
   wifiPassword: string;
+  userId: string;
 };
 
 export { CreateDeviceRequestModel };

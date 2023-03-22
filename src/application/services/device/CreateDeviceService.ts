@@ -1,13 +1,22 @@
 import i18n from "i18n";
 import { inject, injectable } from "tsyringe";
 
+import { RolesKeys } from "@commons/RolesKey";
 import { VarcharMaxLength } from "@commons/VarcharMaxLength";
+import { DeviceStatusDomain } from "@domains/DeviceStatusDomain";
 import { AppError } from "@handlers/error/AppError";
+import { env } from "@helpers/env";
+import { getEnumDescription } from "@helpers/getEnumDescription";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
+import { toNumber } from "@helpers/toNumber";
 import { CreateDeviceRequestModel } from "@http/dtos/device/CreateDeviceRequestModel";
 import { CreateDeviceResponseModel } from "@http/dtos/device/CreateDeviceResponseModel";
 import { IDeviceRepository } from "@infra/database/repositories/device";
+import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
 import { transaction } from "@infra/database/transaction";
+import { IHashProvider } from "@providers/hash";
+import { IMaskProvider } from "@providers/mask";
+import { IUniqueIdentifierProvider } from "@providers/uniqueIdentifier";
 import { IValidatorsProvider } from "@providers/validators";
 
 @injectable()
@@ -16,7 +25,15 @@ class CreateDeviceService {
     @inject("ValidatorsProvider")
     private validatorsProvider: IValidatorsProvider,
     @inject("DeviceRepository")
-    private deviceRepository: IDeviceRepository
+    private deviceRepository: IDeviceRepository,
+    @inject("UniqueIdentifierProvider")
+    private uniqueIdentifierProvider: IUniqueIdentifierProvider,
+    @inject("HashProvider")
+    private hashProvider: IHashProvider,
+    @inject("DeviceAccessControlRepository")
+    private deviceAccessControlRepository: IDeviceAccessControlRepository,
+    @inject("MaskProvider")
+    private maskProvider: IMaskProvider
   ) {}
 
   public async execute({
@@ -25,6 +42,7 @@ class CreateDeviceService {
     ownerPassword,
     wifiPassword,
     wifiSsid,
+    userId,
   }: CreateDeviceRequestModel): Promise<CreateDeviceResponseModel> {
     if (stringIsNullOrEmpty(nickname))
       throw new AppError("BAD_REQUEST", i18n.__("ErrorNicknameRequired"));
@@ -75,8 +93,10 @@ class CreateDeviceService {
     if (!this.validatorsProvider.devicePassword(ownerPassword))
       throw new AppError("BAD_REQUEST", i18n.__("ErrorDevicePasswordInvalid"));
 
+    const macAddressFormatted = this.maskProvider.removeMacAddress(macAddress);
+
     const [hasMacAddress] = await transaction([
-      this.deviceRepository.hasMacAddress({ macAddress }),
+      this.deviceRepository.hasMacAddress({ macAddress: macAddressFormatted }),
     ]);
 
     if (hasMacAddress)
@@ -85,7 +105,40 @@ class CreateDeviceService {
         i18n.__("ErrorMacAddressAlreadyExists")
       );
 
-    return {} as any;
+    const hashSalt = toNumber({
+      value: env("PASSWORD_HASH_SALT"),
+      error: i18n.__("ErrorEnvVarNotFound"),
+    });
+
+    const id = this.uniqueIdentifierProvider.generate();
+
+    const [deviceCreated, _] = await transaction([
+      this.deviceRepository.save({
+        macAddress: macAddressFormatted,
+        nickname,
+        wifiPassword: await this.hashProvider.hash(wifiPassword, hashSalt),
+        wifiSsid,
+        userId,
+        status: DeviceStatusDomain.UNCONFIGURED,
+        id,
+      }),
+      this.deviceAccessControlRepository.save({
+        deviceId: id,
+        userId,
+        password: await this.hashProvider.hash(ownerPassword, hashSalt),
+        role: RolesKeys.OWNER,
+      }),
+    ]);
+
+    return {
+      id: deviceCreated.id,
+      macAddress: this.maskProvider.macAddress(deviceCreated.macAddress),
+      nickname: deviceCreated.nickname,
+      status: getEnumDescription(
+        "DEVICE_STATUS",
+        DeviceStatusDomain[deviceCreated.status]
+      ),
+    };
   }
 }
 

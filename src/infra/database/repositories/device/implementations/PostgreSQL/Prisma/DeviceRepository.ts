@@ -14,11 +14,38 @@ class DeviceRepository extends BaseRepository implements IDeviceRepository {
       select: {
         id: true,
         macAddress: true,
-        ownerPassword: true,
         nickname: true,
         wifiSsid: true,
         wifiPassword: true,
         status: true,
+      },
+    });
+
+  public save = ({
+    id,
+    macAddress,
+    nickname,
+    status,
+    wifiPassword,
+    wifiSsid,
+    userId,
+  }: DeviceModel & { userId: string }): PrismaPromise<DeviceModel> =>
+    this.prisma.device.upsert({
+      where: { id },
+      create: {
+        id,
+        macAddress,
+        nickname,
+        status,
+        wifiPassword,
+        wifiSsid,
+        ownerId: userId,
+      },
+      update: {
+        nickname,
+        wifiPassword,
+        wifiSsid,
+        status,
       },
     });
 }
