@@ -16,38 +16,36 @@ model User {
   blocked             Boolean   @default(false)
   lastFailedLoginDate DateTime? @map("last_failed_login_date") @db.Timestamp()
 
-  role        Role[]
-  guests      Guest[]
-  devices     Device[]
-  inviter     Invite[]      @relation(name: "inviter")
-  invitee     Invite[]      @relation(name: "invitee")
-  alarmEvents AlarmEvents[]
+  guests              Guest[]
+  devices             Device[]
+  inviter             Invite[]              @relation(name: "inviter")
+  invitee             Invite[]              @relation(name: "invitee")
+  alarmEvents         AlarmEvents[]
+  deviceAccessControl DeviceAccessControl[]
 
   @@map("user")
 }
 
 model Device {
-  id            String @id @db.Uuid()
-  macAddress    String @unique @map("mac_address") @db.VarChar(12)
-  ownerPassword String @map("owner_password") @db.VarChar(100)
-  nickname      String @db.VarChar(32)
-  wifiSsid      String @map("wifi_ssid") @db.VarChar(32)
-  wifiPassword  String @map("wifi_password") @db.VarChar(100)
-  status        Int    @db.SmallInt
+  id           String @id @db.Uuid()
+  macAddress   String @unique @map("mac_address") @db.VarChar(12)
+  nickname     String @db.VarChar(32)
+  wifiSsid     String @map("wifi_ssid") @db.VarChar(32)
+  wifiPassword String @map("wifi_password") @db.VarChar(100)
+  status       Int    @db.SmallInt
 
   ownerId String @map("owner_id") @db.Uuid()
   owner   User   @relation(fields: [ownerId], references: [id])
 
-  guests      Guest[]
-  alarmEvents AlarmEvents[]
-  role        Role[]
+  guests              Guest[]
+  alarmEvents         AlarmEvents[]
+  DeviceAccessControl DeviceAccessControl[]
 
   @@map("device")
 }
 
 model Guest {
   unlockAttempts   Int       @default(0) @map("unlock_attempts")
-  password         String    @db.VarChar(100)
   lastFailedUnlock DateTime? @map("last_failed_unlock") @db.Timestamp()
 
   userId String @db.Uuid()
@@ -91,8 +89,9 @@ model Invite {
   @@map("invite")
 }
 
-model Role {
-  name String @db.VarChar(32)
+model DeviceAccessControl {
+  role     String @db.VarChar(32)
+  password String @db.VarChar(100)
 
   userId String @db.Uuid()
   user   User   @relation(fields: [userId], references: [id])
@@ -100,6 +99,6 @@ model Role {
   deviceId String @db.Uuid()
   device   Device @relation(fields: [deviceId], references: [id])
 
-  @@id([name, userId, deviceId])
-  @@map("role")
+  @@id([role, userId, deviceId])
+  @@map("device_access_control")
 }
