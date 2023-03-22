@@ -1,6 +1,7 @@
 import i18n from "i18n";
 import { inject, injectable } from "tsyringe";
 
+import { TopicsMQTT } from "@commons/TopicsMQTT";
 import { InviteStatusDomain } from "@domains/InviteStatusDomain";
 import { AppError } from "@handlers/error/AppError";
 import { env } from "@helpers/env";
@@ -14,6 +15,7 @@ import { IInviteRepository } from "@infra/database/repositories/invite";
 import { IUserRepository } from "@infra/database/repositories/user";
 import { transaction } from "@infra/database/transaction";
 import { mailTransporter } from "@infra/mail";
+import { mqttClient } from "@infra/mqtt/client";
 import { IDateProvider } from "@providers/date";
 import { IHashProvider } from "@providers/hash";
 import { IMaskProvider } from "@providers/mask";
@@ -120,6 +122,11 @@ class CreateInviteService {
         token,
       ]),
     });
+
+    mqttClient.publish(
+      TopicsMQTT.MOBILE_NOTIFICATION_INVITE(hasGuest.id),
+      Buffer.from("new invite")
+    );
 
     return {
       id: inviteCreated.id,
