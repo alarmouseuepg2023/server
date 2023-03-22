@@ -16,14 +16,27 @@ model User {
   blocked             Boolean   @default(false)
   lastFailedLoginDate DateTime? @map("last_failed_login_date") @db.Timestamp()
 
-  guests              Guest[]
-  devices             Device[]
-  inviter             Invite[]              @relation(name: "inviter")
-  invitee             Invite[]              @relation(name: "invitee")
-  alarmEvents         AlarmEvents[]
-  deviceAccessControl DeviceAccessControl[]
+  guests                    Guest[]
+  devices                   Device[]
+  inviter                   Invite[]                    @relation(name: "inviter")
+  invitee                   Invite[]                    @relation(name: "invitee")
+  alarmEvents               AlarmEvents[]
+  deviceAccessControl       DeviceAccessControl[]
+  waitingEmailConfirmations WaitingEmailConfirmations[]
 
   @@map("user")
+}
+
+model WaitingEmailConfirmations {
+  pin       String   @db.VarChar(100)
+  expiresIn DateTime @map("expires_in") @db.Timestamp()
+  operation Int      @db.SmallInt
+
+  userId String @db.Uuid()
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@id([userId, operation])
+  @@map("waiting_email_confirmations")
 }
 
 model Device {
