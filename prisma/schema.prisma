@@ -86,7 +86,7 @@ model AlarmEvents {
 model Invite {
   id         String    @id @db.Uuid()
   status     Int       @db.SmallInt()
-  token      String    @db.VarChar(40)
+  token      String    @db.VarChar(100)
   invitedAt  DateTime  @map("invited_at") @db.Timestamp()
   answeredAt DateTime? @map("answered_at") @db.Timestamp()
 

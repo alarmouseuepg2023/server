@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "invite" ALTER COLUMN "token" SET DATA TYPE VARCHAR(100);
