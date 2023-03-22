@@ -32,7 +32,7 @@ model WaitingEmailConfirmations {
   expiresIn DateTime @map("expires_in") @db.Timestamp()
   operation Int      @db.SmallInt
 
-  userId String @db.Uuid()
+  userId String @map("user_id") @db.Uuid()
   user   User   @relation(fields: [userId], references: [id])
 
   @@id([userId, operation])
@@ -59,10 +59,10 @@ model Device {
 }
 
 model Guest {
-  userId String @db.Uuid()
+  userId String @map("user_id") @db.Uuid()
   user   User   @relation(fields: [userId], references: [id])
 
-  deviceId String @db.Uuid()
+  deviceId String @map("device_id") @db.Uuid()
   device   Device @relation(fields: [deviceId], references: [id])
 
   @@id([userId, deviceId])
@@ -74,10 +74,10 @@ model AlarmEvents {
   message   String   @db.Text()
   createdAt DateTime @db.Timestamp()
 
-  deviceId String @db.Uuid()
+  deviceId String @map("device_id") @db.Uuid()
   device   Device @relation(fields: [deviceId], references: [id])
 
-  userId String @db.Uuid()
+  userId String @map("user_id") @db.Uuid()
   user   User   @relation(fields: [userId], references: [id])
 
   @@map("alarm_events")
@@ -90,13 +90,13 @@ model Invite {
   invitedAt  DateTime  @map("invited_at") @db.Timestamp()
   answeredAt DateTime? @map("answered_at") @db.Timestamp()
 
-  inviteeId String @db.Uuid()
+  inviteeId String @map("invitee_id") @db.Uuid()
   invitee   User   @relation(name: "invitee", fields: [inviteeId], references: [id])
 
-  inviterId String @db.Uuid()
+  inviterId String @map("inviter_id") @db.Uuid()
   inviter   User   @relation(name: "inviter", fields: [inviterId], references: [id])
 
-  deviceId String @db.Uuid()
+  deviceId String @map("device_id") @db.Uuid()
   device   Device @relation(fields: [deviceId], references: [id])
 
   @@unique([inviteeId, inviterId])
@@ -109,10 +109,10 @@ model DeviceAccessControl {
   unlockAttempts   Int       @default(0) @map("unlock_attempts")
   lastFailedUnlock DateTime? @map("last_failed_unlock") @db.Timestamp()
 
-  userId String @db.Uuid()
+  userId String @map("user_id") @db.Uuid()
   user   User   @relation(fields: [userId], references: [id])
 
-  deviceId String @db.Uuid()
+  deviceId String @map("device_id") @db.Uuid()
   device   Device @relation(fields: [deviceId], references: [id])
 
   @@id([userId, deviceId])
