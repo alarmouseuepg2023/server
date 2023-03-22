@@ -99,6 +99,6 @@ model DeviceAccessControl {
   deviceId String @db.Uuid()
   device   Device @relation(fields: [deviceId], references: [id])
 
-  @@id([role, userId, deviceId])
+  @@id([userId, deviceId])
   @@map("device_access_control")
 }
