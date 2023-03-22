@@ -1,3 +1,4 @@
 import { CreateDeviceService } from "./CreateDeviceService";
+import { ListDevicesService } from "./ListDevicesService";
 
-export { CreateDeviceService };
+export { ListDevicesService, CreateDeviceService };

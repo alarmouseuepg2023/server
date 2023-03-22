@@ -3,9 +3,11 @@ import i18n from "i18n";
 import { container } from "tsyringe";
 
 import { CreateDeviceResponseModel } from "@http/dtos/device/CreateDeviceResponseModel";
+import { ListDevicesResponseModel } from "@http/dtos/device/ListDevicesResponseModel";
+import { IPaginationResponse } from "@http/models/IPaginationResponse";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
-import { CreateDeviceService } from "@services/device";
+import { CreateDeviceService, ListDevicesService } from "@services/device";
 
 class DeviceController {
   public async save(
@@ -27,6 +29,33 @@ class DeviceController {
       wifiPassword,
       wifiSsid,
       userId,
+    });
+
+    res.status(HttpStatus.OK).json({
+      success: true,
+      content: result,
+      message: i18n.__("SuccessGeneric"),
+    });
+
+    return next();
+  }
+
+  public async list(
+    req: Request,
+    res: Response<
+      IResponseMessage<IPaginationResponse<ListDevicesResponseModel>>
+    >,
+    next: NextFunction
+  ): Promise<void> {
+    const { id: userId } = req.user;
+    const { size, page } = req.query;
+
+    const service = container.resolve(ListDevicesService);
+
+    const result = await service.execute({
+      userId,
+      size,
+      page,
     });
 
     res.status(HttpStatus.OK).json({

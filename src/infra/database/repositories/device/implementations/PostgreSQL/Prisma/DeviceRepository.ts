@@ -1,8 +1,10 @@
 import { BaseRepository } from "@infra/database/repositories/BaseRepository";
+import { DeviceAccessControlModel } from "@models/DeviceAccessControlModel";
 import { DeviceModel } from "@models/DeviceModel";
 import { PrismaPromise } from "@prisma/client";
 
 import { IDeviceRepository } from "../../../models/IDeviceRepository";
+import { getInput } from "../../../models/inputs/getInput";
 import { hasMacAddressInput } from "../../../models/inputs/hasMacAddressInput";
 
 class DeviceRepository extends BaseRepository implements IDeviceRepository {
@@ -48,6 +50,58 @@ class DeviceRepository extends BaseRepository implements IDeviceRepository {
         status,
       },
     });
+
+  public count = ({ userId }: getInput): PrismaPromise<number> =>
+    this.prisma.device.count({
+      where: {
+        DeviceAccessControl: {
+          some: {
+            userId,
+          },
+        },
+      },
+    });
+
+  public get = (
+    { userId }: getInput,
+    [take, skip]: [number, number]
+  ): PrismaPromise<
+    (Exclude<DeviceModel, "wifiPassword"> & {
+      DeviceAccessControl: Exclude<DeviceAccessControlModel, "password">[];
+    })[]
+  > =>
+    this.prisma.device.findMany({
+      where: {
+        DeviceAccessControl: {
+          some: {
+            userId,
+          },
+        },
+      },
+      select: {
+        id: true,
+        macAddress: true,
+        nickname: true,
+        wifiSsid: true,
+        status: true,
+        DeviceAccessControl: {
+          where: { userId },
+          take: 1,
+          select: {
+            role: true,
+          },
+        },
+      },
+      orderBy: {
+        nickname: "asc",
+      },
+      take,
+      skip,
+    }) as PrismaPromise<
+      (Exclude<DeviceModel, "wifiPassword"> & {
+        DeviceAccessControl: Exclude<DeviceAccessControlModel, "password">[];
+      })[]
+    >;
 }
 
 export { DeviceRepository };
