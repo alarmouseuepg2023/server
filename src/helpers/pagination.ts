@@ -1,6 +1,5 @@
 import { ConstantsKeys } from "@commons/ConstantsKeys";
 import { i18n } from "@config/i18n";
-import { AppError } from "@handlers/error/AppError";
 import { IPaginationOptions } from "@http/models/IPaginationOptions";
 
 import { toNumber } from "./toNumber";
@@ -14,7 +13,7 @@ const pagination = ({
       const converted = Math.abs(
         toNumber({
           value: size,
-          error: new AppError("BAD_REQUEST", i18n.__("ErrorQueryTypecasting")),
+          error: i18n.__("ErrorQueryTypecasting"),
         })
       );
 
@@ -30,7 +29,7 @@ const pagination = ({
     if (page) {
       const converted = toNumber({
         value: page,
-        error: new AppError("BAD_REQUEST", i18n.__("ErrorQueryTypecasting")),
+        error: i18n.__("ErrorQueryTypecasting"),
       });
 
       return Math.abs(converted) * take;
