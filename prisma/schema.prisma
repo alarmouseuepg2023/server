@@ -58,9 +58,6 @@ model Device {
 }
 
 model Guest {
-  unlockAttempts   Int       @default(0) @map("unlock_attempts")
-  lastFailedUnlock DateTime? @map("last_failed_unlock") @db.Timestamp()
-
   userId String @db.Uuid()
   user   User   @relation(fields: [userId], references: [id])
 
@@ -103,8 +100,10 @@ model Invite {
 }
 
 model DeviceAccessControl {
-  role     String @db.VarChar(32)
-  password String @db.VarChar(100)
+  role             String    @db.VarChar(32)
+  password         String    @db.VarChar(100)
+  unlockAttempts   Int       @default(0) @map("unlock_attempts")
+  lastFailedUnlock DateTime? @map("last_failed_unlock") @db.Timestamp()
 
   userId String @db.Uuid()
   user   User   @relation(fields: [userId], references: [id])
