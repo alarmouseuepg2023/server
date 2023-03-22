@@ -4,6 +4,7 @@ import { DeviceModel } from "@models/DeviceModel";
 import { PrismaPromise } from "@prisma/client";
 
 import { IDeviceRepository } from "../../../models/IDeviceRepository";
+import { getByIdInput } from "../../../models/inputs/getByIdInput";
 import { getInput } from "../../../models/inputs/getInput";
 import { hasMacAddressInput } from "../../../models/inputs/hasMacAddressInput";
 
@@ -102,6 +103,17 @@ class DeviceRepository extends BaseRepository implements IDeviceRepository {
         DeviceAccessControl: Exclude<DeviceAccessControlModel, "password">[];
       })[]
     >;
+
+  public getById = ({
+    deviceId,
+  }: getByIdInput): PrismaPromise<Partial<DeviceModel> | null> =>
+    this.prisma.device.findFirst({
+      where: { id: deviceId },
+      select: {
+        id: true,
+        nickname: true,
+      },
+    });
 }
 
 export { DeviceRepository };

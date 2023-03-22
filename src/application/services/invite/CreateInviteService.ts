@@ -9,9 +9,11 @@ import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { toNumber } from "@helpers/toNumber";
 import { CreateInviteRequestModel } from "@http/dtos/invite/CreateInviteRequestModel";
 import { CreateInviteResponseModel } from "@http/dtos/invite/CreateInviteResponseModel";
+import { IDeviceRepository } from "@infra/database/repositories/device";
 import { IInviteRepository } from "@infra/database/repositories/invite";
 import { IUserRepository } from "@infra/database/repositories/user";
 import { transaction } from "@infra/database/transaction";
+import { mailTransporter } from "@infra/mail";
 import { IDateProvider } from "@providers/date";
 import { IHashProvider } from "@providers/hash";
 import { IMaskProvider } from "@providers/mask";
@@ -34,7 +36,9 @@ class CreateInviteService {
     @inject("DateProvider")
     private dateProvider: IDateProvider,
     @inject("MaskProvider")
-    private maskProvider: IMaskProvider
+    private maskProvider: IMaskProvider,
+    @inject("DeviceRepository")
+    private deviceRepository: IDeviceRepository
   ) {}
 
   public async execute({
@@ -78,6 +82,15 @@ class CreateInviteService {
         i18n.__mf("ErrorUserNotFound", [i18n.__("RandomWord_Guest")])
       );
 
+    const [hasDevice] = await transaction([
+      this.deviceRepository.getById({
+        deviceId,
+      }),
+    ]);
+
+    if (!hasDevice)
+      throw new AppError("NOT_FOUND", i18n.__("ErrorDeviceNotFound"));
+
     const token = this.passwordProvider.generatePin();
 
     const hashSalt = toNumber({
@@ -96,6 +109,17 @@ class CreateInviteService {
         status: InviteStatusDomain.SENT,
       }),
     ]);
+
+    mailTransporter.sendMail({
+      subject: i18n.__("MailSentInviteSubject"),
+      to: hasGuest.email,
+      html: i18n.__mf("MailSentInviteHtml", [
+        hasGuest.name,
+        hasDevice.nickname,
+        hasOwner.name,
+        token,
+      ]),
+    });
 
     return {
       id: inviteCreated.id,
