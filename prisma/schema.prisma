@@ -99,7 +99,7 @@ model Invite {
   deviceId String @map("device_id") @db.Uuid()
   device   Device @relation(fields: [deviceId], references: [id])
 
-  @@unique([inviteeId, inviterId])
+  @@unique([inviteeId, inviterId, deviceId])
   @@map("invite")
 }
 
