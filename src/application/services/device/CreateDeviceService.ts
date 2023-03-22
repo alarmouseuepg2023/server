@@ -6,13 +6,17 @@ import { AppError } from "@handlers/error/AppError";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { CreateDeviceRequestModel } from "@http/dtos/device/CreateDeviceRequestModel";
 import { CreateDeviceResponseModel } from "@http/dtos/device/CreateDeviceResponseModel";
+import { IDeviceRepository } from "@infra/database/repositories/device";
+import { transaction } from "@infra/database/transaction";
 import { IValidatorsProvider } from "@providers/validators";
 
 @injectable()
 class CreateDeviceService {
   constructor(
     @inject("ValidatorsProvider")
-    private validatorsProvider: IValidatorsProvider
+    private validatorsProvider: IValidatorsProvider,
+    @inject("DeviceRepository")
+    private deviceRepository: IDeviceRepository
   ) {}
 
   public async execute({
@@ -70,6 +74,16 @@ class CreateDeviceService {
 
     if (!this.validatorsProvider.devicePassword(ownerPassword))
       throw new AppError("BAD_REQUEST", i18n.__("ErrorDevicePasswordInvalid"));
+
+    const [hasMacAddress] = await transaction([
+      this.deviceRepository.hasMacAddress({ macAddress }),
+    ]);
+
+    if (hasMacAddress)
+      throw new AppError(
+        "BAD_REQUEST",
+        i18n.__("ErrorMacAddressAlreadyExists")
+      );
 
     return {} as any;
   }

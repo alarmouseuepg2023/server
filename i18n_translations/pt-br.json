@@ -19,6 +19,7 @@
   "ErrorLoginUserUnauthorized": "Não foi possível realizar a autenticação do usuário.",
   "ErrorLoginUserUnauthorizedAndWillBeBlockedInFewAttempts": "Não foi possível autenticar o usuário com as credencias informadas. Sua conta será bloqueada em: {0} tentativa(s).",
   "ErrorLoginUserWillBeBlocked": "Não foi possível realizar o login. Devido à excessivas tentativas, sua conta será bloqueada. Para recuperá-la, entre em contato com um administrador.",
+  "ErrorMacAddressAlreadyExists": "O Mac Address informado já existe.",
   "ErrorMacAddressInvalid": "O Mac Address não é válido.",
   "ErrorMacAddressRequired": "É necessário informar o Mac Address do dispositivo.",
   "ErrorNameRequired": "É necessário informar o nome.",
