@@ -53,6 +53,7 @@ model Device {
   guests              Guest[]
   alarmEvents         AlarmEvents[]
   DeviceAccessControl DeviceAccessControl[]
+  invites             Invite[]
 
   @@map("device")
 }
@@ -94,6 +95,9 @@ model Invite {
 
   inviterId String @db.Uuid()
   inviter   User   @relation(name: "inviter", fields: [inviterId], references: [id])
+
+  deviceId String @db.Uuid()
+  device   Device @relation(fields: [deviceId], references: [id])
 
   @@unique([inviteeId, inviterId])
   @@map("invite")
