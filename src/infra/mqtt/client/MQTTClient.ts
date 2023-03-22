@@ -38,6 +38,15 @@ class MQTTClient {
     this.client.subscribe(topics);
   };
 
+  public publish(topic: string, payload: string | Buffer): void {
+    logger.info(`MQTT Publish at topic: ${topic}`);
+
+    this.client.publish(topic, payload, (err) => {
+      if (err)
+        logger.error(`Error at MQTT publish at topic ${topic}: ${err.message}`);
+    });
+  }
+
   private onConnectCb = () => {
     logger.info(
       `MQTT Client connected -> Host: ${this.options.host} / Port: ${this.options.port}`
