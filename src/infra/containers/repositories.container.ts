@@ -4,12 +4,18 @@ import {
   DeviceRepository,
   IDeviceRepository,
 } from "@infra/database/repositories/device";
-import { IRoleRepository, RoleRepository } from "@repositories/role";
+import {
+  DeviceAccessControlRepository,
+  IDeviceAccessControlRepository,
+} from "@infra/database/repositories/deviceAccessControl";
 import { IUserRepository, UserRepository } from "@repositories/user";
 
 container.registerSingleton<IUserRepository>("UserRepository", UserRepository);
 
-container.registerSingleton<IRoleRepository>("RoleRepository", RoleRepository);
+container.registerSingleton<IDeviceAccessControlRepository>(
+  "DeviceAccessControlRepository",
+  DeviceAccessControlRepository
+);
 
 container.registerSingleton<IDeviceRepository>(
   "DeviceRepository",
