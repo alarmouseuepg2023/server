@@ -10,7 +10,8 @@ if (
     !key.startsWith("Success") && 
     !key.startsWith("Mail") && 
     !key.startsWith("Domain") &&
-    !key.startsWith("RandomWord_")
+    !key.startsWith("RandomWord_") &&
+    !key.startsWith("AlarmEvents_")
   ) || !locale || !message
 ) {
   console.log("ERROR: mal formatted");
