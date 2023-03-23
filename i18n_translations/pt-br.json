@@ -49,6 +49,7 @@
   "ErrorRouteNotFound": "Não foi possível encontrar o recurso solicitado.",
   "ErrorUUIDInvalid": "O identificador informado é inválido.",
   "ErrorUnauthorizedUserForThisResource": "O usuário não possui autorização para acessar este recurso.",
+  "ErrorUserAlreadyGuestToDevice": "O usuário informado já possui autorização de convidado para este dispositivo.",
   "ErrorUserIdRequired": "É necessário informar o identificador do usuário.",
   "ErrorUserIsBlocked": "O usuário está bloqueado e não será possível realizar sua autenticação.",
   "ErrorUserNotFound": "Não foi possível encontrar o {0} informado.",

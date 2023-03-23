@@ -1,6 +1,7 @@
 import i18n from "i18n";
 import { inject, injectable } from "tsyringe";
 
+import { RolesKeys } from "@commons/RolesKey";
 import { TopicsMQTT } from "@commons/TopicsMQTT";
 import { InviteStatusDomain } from "@domains/InviteStatusDomain";
 import { AppError } from "@handlers/error/AppError";
@@ -11,6 +12,7 @@ import { toNumber } from "@helpers/toNumber";
 import { CreateInviteRequestModel } from "@http/dtos/invite/CreateInviteRequestModel";
 import { CreateInviteResponseModel } from "@http/dtos/invite/CreateInviteResponseModel";
 import { IDeviceRepository } from "@infra/database/repositories/device";
+import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
 import { IInviteRepository } from "@infra/database/repositories/invite";
 import { IUserRepository } from "@infra/database/repositories/user";
 import { transaction } from "@infra/database/transaction";
@@ -40,7 +42,9 @@ class CreateInviteService {
     @inject("MaskProvider")
     private maskProvider: IMaskProvider,
     @inject("DeviceRepository")
-    private deviceRepository: IDeviceRepository
+    private deviceRepository: IDeviceRepository,
+    @inject("DeviceAccessControlRepository")
+    private deviceAccessControlRepository: IDeviceAccessControlRepository
   ) {}
 
   public async execute({
@@ -92,6 +96,21 @@ class CreateInviteService {
 
     if (!hasDevice)
       throw new AppError("NOT_FOUND", i18n.__("ErrorDeviceNotFound"));
+
+    // ja é guest
+    const [hasRole] = await transaction([
+      this.deviceAccessControlRepository.verifyRole({
+        role: RolesKeys.GUEST,
+        userId: guestId,
+        deviceId,
+      }),
+    ]);
+
+    if (hasRole)
+      throw new AppError(
+        "BAD_REQUEST",
+        i18n.__("ErrorUserAlreadyGuestToDevice")
+      );
 
     const token = this.passwordProvider.generatePin();
 
