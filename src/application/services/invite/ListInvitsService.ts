@@ -35,8 +35,6 @@ class ListInvitsService {
       getOperation,
     ]);
 
-    console.log(items[0]);
-
     return {
       items: items.map(
         ({ id, invitedAt, device, inviter }): ListInvitsResponseModel => ({
