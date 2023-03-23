@@ -34,5 +34,12 @@ routes.post(
   controller.accept,
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
+routes.get(
+  "/",
+  logMiddleware.routeStart,
+  ensureAuthenticated.execute,
+  controller.list,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
 
 export { routes };

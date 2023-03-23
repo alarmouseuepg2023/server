@@ -4,9 +4,15 @@ import { container } from "tsyringe";
 
 import { AnswerInviteResponseModel } from "@http/dtos/invite/AnswerInviteResponseModel";
 import { CreateInviteResponseModel } from "@http/dtos/invite/CreateInviteResponseModel";
+import { ListInvitsResponseModel } from "@http/dtos/invite/ListInvitsResponseModel";
+import { IPaginationResponse } from "@http/models/IPaginationResponse";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
-import { AnswerInviteService, CreateInviteService } from "@services/invite";
+import {
+  AnswerInviteService,
+  CreateInviteService,
+  ListInvitsService,
+} from "@services/invite";
 
 class InviteController {
   public async create(
@@ -47,6 +53,33 @@ class InviteController {
       confirmPassword,
       password,
       answer: "accept",
+    });
+
+    res.status(HttpStatus.OK).json({
+      success: true,
+      content: result,
+      message: i18n.__("SuccessGeneric"),
+    });
+
+    return next();
+  }
+
+  public async list(
+    req: Request,
+    res: Response<
+      IResponseMessage<IPaginationResponse<ListInvitsResponseModel>>
+    >,
+    next: NextFunction
+  ): Promise<void> {
+    const { id: userId } = req.user;
+    const { size, page } = req.query;
+
+    const service = container.resolve(ListInvitsService);
+
+    const result = await service.execute({
+      userId,
+      size,
+      page,
     });
 
     res.status(HttpStatus.OK).json({
