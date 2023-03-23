@@ -1,6 +1,10 @@
 import { container } from "tsyringe";
 
 import {
+  AlarmEventsRepository,
+  IAlarmEventsRepository,
+} from "@infra/database/repositories/alarmEvents";
+import {
   DeviceRepository,
   IDeviceRepository,
 } from "@infra/database/repositories/device";
@@ -29,4 +33,9 @@ container.registerSingleton<IDeviceRepository>(
 container.registerSingleton<IInviteRepository>(
   "InviteRepository",
   InviteRepository
+);
+
+container.registerSingleton<IAlarmEventsRepository>(
+  "AlarmEventsRepository",
+  AlarmEventsRepository
 );
