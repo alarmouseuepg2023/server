@@ -6,6 +6,7 @@ import { IUserRepository } from "@repositories/user/models/IUserRepository";
 import { getByIdInput } from "../../../models/inputs/getByIdInput";
 import { hasEmailInput } from "../../../models/inputs/hasEmailInput";
 import { updateLoginControlPropsInput } from "../../../models/inputs/updateLoginControlPropsInput";
+import { updatePasswordInput } from "../../../models/inputs/updatePasswordInput";
 
 class UserRepository extends BaseRepository implements IUserRepository {
   public hasEmail = ({
@@ -87,6 +88,17 @@ class UserRepository extends BaseRepository implements IUserRepository {
         password: true,
       },
     }) as PrismaPromise<UserModel | null>;
+
+  public updatePassword = ({
+    password,
+    userId,
+  }: updatePasswordInput): PrismaPromise<UserModel> =>
+    this.prisma.user.update({
+      where: { id: userId },
+      data: {
+        password,
+      },
+    });
 }
 
 export { UserRepository };

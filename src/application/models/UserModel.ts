@@ -3,7 +3,7 @@ type UserModel = {
   name: string;
   email: string;
   loginAttempts: number;
-  lastFailedLoginDate?: Date;
+  lastFailedLoginDate: Date | null;
   password: string;
   blocked: boolean;
 };
