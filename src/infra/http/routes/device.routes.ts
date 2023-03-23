@@ -6,11 +6,13 @@ import { EnsureUserAuthenticatedMiddleware } from "@middlewares/EnsureUserAuthen
 import {
   HandleUrlPatternMatchMiddleware,
   LogMiddleware,
+  RBACMiddleware,
 } from "@middlewares/index";
 
 const routes = Router();
 const controller = new DeviceController();
 const logMiddleware = new LogMiddleware();
+const RBAC = container.resolve(RBACMiddleware);
 const ensureAuthenticated = container.resolve(
   EnsureUserAuthenticatedMiddleware
 );
@@ -28,6 +30,14 @@ routes.get(
   logMiddleware.routeStart,
   ensureAuthenticated.execute,
   controller.list,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
+routes.post(
+  "/resetPassword/:device_id",
+  logMiddleware.routeStart,
+  ensureAuthenticated.execute,
+  RBAC.has(),
+  controller.resetPassword,
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
 

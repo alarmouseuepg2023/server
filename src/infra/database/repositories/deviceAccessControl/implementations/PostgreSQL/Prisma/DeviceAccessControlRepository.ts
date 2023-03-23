@@ -3,7 +3,9 @@ import { DeviceAccessControlModel } from "@models/DeviceAccessControlModel";
 import { PrismaPromise } from "@prisma/client";
 
 import { IDeviceAccessControlRepository } from "../../../models/IDeviceAccessControlRepository";
+import { getByIdInput } from "../../../models/inputs/getByIdInput";
 import { saveInput } from "../../../models/inputs/saveInput";
+import { updatePasswordInput } from "../../../models/inputs/updatePasswordInput";
 import { verifyRoleInput } from "../../../models/inputs/verifyRoleInput";
 
 class DeviceAccessControlRepository
@@ -38,6 +40,32 @@ class DeviceAccessControlRepository
       },
       select: {
         role: true,
+      },
+    });
+
+  public updatePassword = ({
+    deviceId,
+    userId,
+    password,
+  }: updatePasswordInput): PrismaPromise<DeviceAccessControlModel> =>
+    this.prisma.deviceAccessControl.update({
+      where: {
+        userId_deviceId: {
+          deviceId,
+          userId,
+        },
+      },
+      data: { password },
+    });
+
+  public getById = ({
+    deviceId,
+    userId,
+  }: getByIdInput): PrismaPromise<DeviceAccessControlModel | null> =>
+    this.prisma.deviceAccessControl.findFirst({
+      where: {
+        deviceId,
+        userId,
       },
     });
 }

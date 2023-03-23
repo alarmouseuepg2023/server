@@ -7,7 +7,11 @@ import { ListDevicesResponseModel } from "@http/dtos/device/ListDevicesResponseM
 import { IPaginationResponse } from "@http/models/IPaginationResponse";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
-import { CreateDeviceService, ListDevicesService } from "@services/device";
+import {
+  CreateDeviceService,
+  ListDevicesService,
+  ResetDevicePasswordService,
+} from "@services/device";
 
 class DeviceController {
   public async save(
@@ -61,6 +65,33 @@ class DeviceController {
     res.status(HttpStatus.OK).json({
       success: true,
       content: result,
+      message: i18n.__("SuccessGeneric"),
+    });
+
+    return next();
+  }
+
+  public async resetPassword(
+    req: Request,
+    res: Response<IResponseMessage>,
+    next: NextFunction
+  ): Promise<void> {
+    const { id: userId } = req.user;
+    const { device_id: deviceId } = req.params;
+    const { password, confirmPassword, oldPassword } = req.body;
+
+    const service = container.resolve(ResetDevicePasswordService);
+
+    await service.execute({
+      confirmPassword,
+      userId,
+      password,
+      oldPassword,
+      deviceId,
+    });
+
+    res.status(HttpStatus.OK).json({
+      success: true,
       message: i18n.__("SuccessGeneric"),
     });
 
