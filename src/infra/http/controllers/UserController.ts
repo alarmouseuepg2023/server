@@ -5,7 +5,7 @@ import { container } from "tsyringe";
 import { CreateUserResponseModel } from "@http/dtos/user/CreateUserResponseModel";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
-import { CreateUserService } from "@services/user";
+import { CreateUserService, ResetPasswordService } from "@services/user";
 
 class UserController {
   public async create(
@@ -27,6 +27,31 @@ class UserController {
     res.status(HttpStatus.OK).json({
       success: true,
       content: result,
+      message: i18n.__("SuccessGeneric"),
+    });
+
+    return next();
+  }
+
+  public async resetPassword(
+    req: Request,
+    res: Response<IResponseMessage>,
+    next: NextFunction
+  ): Promise<void> {
+    const { id: userId } = req.user;
+    const { password, confirmPassword, oldPassword } = req.body;
+
+    const service = container.resolve(ResetPasswordService);
+
+    await service.execute({
+      confirmPassword,
+      userId,
+      password,
+      oldPassword,
+    });
+
+    res.status(HttpStatus.OK).json({
+      success: true,
       message: i18n.__("SuccessGeneric"),
     });
 

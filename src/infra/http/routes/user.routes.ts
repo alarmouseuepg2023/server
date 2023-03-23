@@ -1,6 +1,8 @@
 import { Router } from "express";
+import { container } from "tsyringe";
 
 import { UserController } from "@http/controllers/UserController";
+import { EnsureUserAuthenticatedMiddleware } from "@middlewares/EnsureUserAuthenticatedMiddleware";
 import {
   HandleUrlPatternMatchMiddleware,
   LogMiddleware,
@@ -10,11 +12,21 @@ const routes = Router();
 const controller = new UserController();
 const logMiddleware = new LogMiddleware();
 const handleUrlPatternMatchMiddleware = new HandleUrlPatternMatchMiddleware();
+const ensureAuthenticated = container.resolve(
+  EnsureUserAuthenticatedMiddleware
+);
 
 routes.post(
   "/",
   logMiddleware.routeStart,
   controller.create,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
+routes.post(
+  "/resetPassword",
+  logMiddleware.routeStart,
+  ensureAuthenticated.execute,
+  controller.resetPassword,
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
 

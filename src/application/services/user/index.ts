@@ -1,3 +1,4 @@
 import { CreateUserService } from "./CreateUserService";
+import { ResetPasswordService } from "./ResetPasswordService";
 
-export { CreateUserService };
+export { ResetPasswordService, CreateUserService };
