@@ -1,6 +1,6 @@
 type CreateInviteRequestModel = {
   ownerId: string;
-  guestId: string;
+  email: string;
   deviceId: string;
 };
 

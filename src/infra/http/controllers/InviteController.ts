@@ -15,11 +15,11 @@ class InviteController {
     next: NextFunction
   ): Promise<void> {
     const { id: ownerId } = req.user;
-    const { guestId, deviceId } = req.body;
+    const { email, deviceId } = req.body;
 
     const service = container.resolve(CreateInviteService);
 
-    const result = await service.execute({ guestId, ownerId, deviceId });
+    const result = await service.execute({ email, ownerId, deviceId });
 
     res.status(HttpStatus.OK).json({
       success: true,

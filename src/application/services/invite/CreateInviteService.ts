@@ -48,12 +48,12 @@ class CreateInviteService {
   ) {}
 
   public async execute({
-    guestId,
+    email,
     ownerId,
     deviceId,
   }: CreateInviteRequestModel): Promise<CreateInviteResponseModel> {
-    if (stringIsNullOrEmpty(guestId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorGuestIdRequired"));
+    if (stringIsNullOrEmpty(email))
+      throw new AppError("BAD_REQUEST", i18n.__("ErrorEmailRequired"));
 
     if (stringIsNullOrEmpty(ownerId))
       throw new AppError("BAD_REQUEST", i18n.__("ErrorOwnerIdRequired"));
@@ -61,11 +61,7 @@ class CreateInviteService {
     if (stringIsNullOrEmpty(deviceId))
       throw new AppError("BAD_REQUEST", i18n.__("ErrorDeviceIdRequired"));
 
-    if (ownerId === guestId)
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorInviteToSameUser"));
-
     if (
-      !this.uniqueIdentifierProvider.isValid(guestId) ||
       !this.uniqueIdentifierProvider.isValid(ownerId) ||
       !this.uniqueIdentifierProvider.isValid(deviceId)
     )
@@ -73,7 +69,7 @@ class CreateInviteService {
 
     const [hasOwner, hasGuest] = await transaction([
       this.userRepository.getById({ id: ownerId }),
-      this.userRepository.getById({ id: guestId }),
+      this.userRepository.hasEmail({ email }),
     ]);
 
     if (!hasOwner)
@@ -88,6 +84,9 @@ class CreateInviteService {
         i18n.__mf("ErrorUserNotFound", [i18n.__("RandomWord_Guest")])
       );
 
+    if (ownerId === hasGuest.id)
+      throw new AppError("BAD_REQUEST", i18n.__("ErrorInviteToSameUser"));
+
     const [hasDevice] = await transaction([
       this.deviceRepository.getById({
         deviceId,
@@ -97,11 +96,10 @@ class CreateInviteService {
     if (!hasDevice)
       throw new AppError("NOT_FOUND", i18n.__("ErrorDeviceNotFound"));
 
-    // ja é guest
     const [hasRole] = await transaction([
       this.deviceAccessControlRepository.verifyRole({
         role: RolesKeys.GUEST,
-        userId: guestId,
+        userId: hasGuest.id,
         deviceId,
       }),
     ]);
@@ -125,7 +123,7 @@ class CreateInviteService {
         deviceId,
         invitedAt: this.dateProvider.now(),
         inviterId: ownerId,
-        inviteeId: guestId,
+        inviteeId: hasGuest.id,
         token: await this.hashProvider.hash(token, hashSalt),
         status: InviteStatusDomain.SENT,
       }),
