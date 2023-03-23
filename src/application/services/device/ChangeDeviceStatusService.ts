@@ -8,8 +8,11 @@ import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { toNumber } from "@helpers/toNumber";
 import { ChangeDeviceStatusRequestModel } from "@http/dtos/device/ChangeDeviceStatusRequestModel";
 import { ChangeDeviceStatusResponseModel } from "@http/dtos/device/ChangeDeviceStatusResponseModel";
+import { IAlarmEventsRepository } from "@infra/database/repositories/alarmEvents";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { transaction } from "@infra/database/transaction";
+import { IDateProvider } from "@providers/date";
+import { IMaskProvider } from "@providers/mask";
 import { IUniqueIdentifierProvider } from "@providers/uniqueIdentifier";
 
 @injectable()
@@ -18,7 +21,13 @@ class ChangeDeviceStatusService {
     @inject("UniqueIdentifierProvider")
     private uniqueIdentifierProvider: IUniqueIdentifierProvider,
     @inject("DeviceRepository")
-    private deviceRepository: IDeviceRepository
+    private deviceRepository: IDeviceRepository,
+    @inject("AlarmEventsRepository")
+    private alarmEventsRepository: IAlarmEventsRepository,
+    @inject("DateProvider")
+    private dateProvider: IDateProvider,
+    @inject("MaskProvider")
+    private maskProvider: IMaskProvider
   ) {}
 
   protected canChangeToAnyStatus = (): boolean => false;
@@ -77,8 +86,24 @@ class ChangeDeviceStatusService {
         ])
       );
 
-    const [updated] = await transaction([
+    const [updated, alarmEventCreated] = await transaction([
       this.deviceRepository.updateStatus({ deviceId, status: statusConverted }),
+      this.alarmEventsRepository.save({
+        deviceId,
+        userId,
+        message: i18n.__mf("AlarmEvents_ChangeStatus", [
+          getEnumDescription(
+            "DEVICE_STATUS",
+            DeviceStatusDomain[hasDevice.status as number]
+          ),
+          getEnumDescription(
+            "DEVICE_STATUS",
+            DeviceStatusDomain[statusConverted]
+          ),
+        ]),
+        createdAt: this.dateProvider.now(),
+        id: this.uniqueIdentifierProvider.generate(),
+      }),
     ]);
 
     return {
@@ -88,6 +113,10 @@ class ChangeDeviceStatusService {
         "DEVICE_STATUS",
         DeviceStatusDomain[updated.status]
       ),
+      alarmEvent: {
+        message: alarmEventCreated.message,
+        createdAt: this.maskProvider.timestamp(alarmEventCreated.createdAt),
+      },
     };
   }
 }

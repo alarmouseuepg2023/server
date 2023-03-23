@@ -1,4 +1,5 @@
 {
+  "AlarmEvents_ChangeStatus": "Alteração do estado do dispositivo de {0} para {1}.",
   "DomainDeviceStatus_LOCKED": "Bloqueado",
   "DomainDeviceStatus_TRIGGERED": "Disparado",
   "DomainDeviceStatus_UNCONFIGURED": "Desconfigurado",

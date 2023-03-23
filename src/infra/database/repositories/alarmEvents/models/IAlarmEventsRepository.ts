@@ -1,4 +1,9 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
-interface IAlarmEventsRepository {}
+import { AlarmEvents, PrismaPromise } from "@prisma/client";
+
+import { saveInput } from "./inputs/saveInput";
+
+interface IAlarmEventsRepository {
+  save(_: saveInput): PrismaPromise<AlarmEvents>;
+}
 
 export { IAlarmEventsRepository };
