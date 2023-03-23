@@ -5,7 +5,7 @@ import { container } from "tsyringe";
 import { CreateInviteResponseModel } from "@http/dtos/invite/CreateInviteResponseModel";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
-import { CreateInviteService } from "@services/invite";
+import { AnswerInviteService, CreateInviteService } from "@services/invite";
 
 class InviteController {
   public async create(
@@ -23,6 +23,30 @@ class InviteController {
     res.status(HttpStatus.OK).json({
       success: true,
       content: result,
+      message: i18n.__("SuccessGeneric"),
+    });
+
+    return next();
+  }
+
+  public async accept(
+    req: Request,
+    res: Response<IResponseMessage>,
+    next: NextFunction
+  ): Promise<void> {
+    const { id: userId } = req.user;
+    const { token } = req.body;
+
+    const service = container.resolve(AnswerInviteService);
+
+    await service.execute({
+      token,
+      userId,
+      answer: "accept",
+    });
+
+    res.status(HttpStatus.OK).json({
+      success: true,
       message: i18n.__("SuccessGeneric"),
     });
 
