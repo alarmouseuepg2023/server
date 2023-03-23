@@ -1,16 +1,20 @@
 import i18n from "i18n";
 import { inject, injectable } from "tsyringe";
 
+import { AppError } from "@handlers/error/AppError";
 import { IMiddleware } from "@http/models/IMiddleware";
 import { HttpStatus } from "@http/utils/HttpStatus";
 import { transaction } from "@infra/database/transaction";
+import { IUniqueIdentifierProvider } from "@providers/uniqueIdentifier";
 import { IDeviceAccessControlRepository } from "@repositories/deviceAccessControl";
 
 @injectable()
 class RBACMiddleware {
   constructor(
     @inject("DeviceAccessControlRepository")
-    private deviceAccessControlRepository: IDeviceAccessControlRepository
+    private deviceAccessControlRepository: IDeviceAccessControlRepository,
+    @inject("UniqueIdentifierProvider")
+    private uniqueIdentifierProvider: IUniqueIdentifierProvider
   ) {}
 
   public is =
@@ -18,6 +22,9 @@ class RBACMiddleware {
     async (req, res, next) => {
       const { id } = req.user;
       const { [`${deviceIdParamName}`]: deviceId } = req.params;
+
+      if (!this.uniqueIdentifierProvider.isValid(deviceId))
+        throw new AppError("BAD_REQUEST", i18n.__("ErrorUUIDInvalid"));
 
       const [hasRole] = await transaction([
         this.deviceAccessControlRepository.verifyRole({

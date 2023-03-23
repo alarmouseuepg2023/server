@@ -20,8 +20,9 @@ class InviteController {
     res: Response<IResponseMessage<CreateInviteResponseModel>>,
     next: NextFunction
   ): Promise<void> {
+    const { email } = req.body;
+    const { device_id: deviceId } = req.params;
     const { id: ownerId } = req.user;
-    const { email, deviceId } = req.body;
 
     const service = container.resolve(CreateInviteService);
 

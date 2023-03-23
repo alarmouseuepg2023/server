@@ -20,18 +20,18 @@ const ensureAuthenticated = container.resolve(
 );
 
 routes.post(
-  "/",
-  logMiddleware.routeStart,
-  ensureAuthenticated.execute,
-  RBAC.is(RolesKeys.OWNER),
-  controller.create,
-  handleUrlPatternMatchMiddleware.setHasUrlMatched()
-);
-routes.post(
   "/accept",
   logMiddleware.routeStart,
   ensureAuthenticated.execute,
   controller.accept,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
+routes.post(
+  "/:device_id",
+  logMiddleware.routeStart,
+  ensureAuthenticated.execute,
+  RBAC.is(RolesKeys.OWNER),
+  controller.create,
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
 routes.get(
