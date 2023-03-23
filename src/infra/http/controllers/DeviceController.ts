@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import i18n from "i18n";
 import { container } from "tsyringe";
 
+import { ChangeDeviceStatusResponseModel } from "@http/dtos/device/ChangeDeviceStatusResponseModel";
 import { CreateDeviceResponseModel } from "@http/dtos/device/CreateDeviceResponseModel";
 import { ListDevicesResponseModel } from "@http/dtos/device/ListDevicesResponseModel";
 import { IPaginationResponse } from "@http/models/IPaginationResponse";
@@ -101,7 +102,7 @@ class DeviceController {
 
   public async changeStatus(
     req: Request,
-    res: Response<IResponseMessage>,
+    res: Response<IResponseMessage<ChangeDeviceStatusResponseModel>>,
     next: NextFunction
   ): Promise<void> {
     const { id: userId } = req.user;
@@ -110,7 +111,7 @@ class DeviceController {
 
     const service = container.resolve(ChangeDeviceStatusService);
 
-    await service.execute({
+    const result = await service.execute({
       userId,
       deviceId,
       status,
@@ -118,6 +119,7 @@ class DeviceController {
 
     res.status(HttpStatus.OK).json({
       success: true,
+      content: result,
       message: i18n.__("SuccessGeneric"),
     });
 

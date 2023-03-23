@@ -5,6 +5,7 @@ import { PrismaPromise } from "@prisma/client";
 import { getByIdInput } from "./inputs/getByIdInput";
 import { getInput } from "./inputs/getInput";
 import { hasMacAddressInput } from "./inputs/hasMacAddressInput";
+import { updateStatusInput } from "./inputs/updateStatusInput";
 
 interface IDeviceRepository {
   hasMacAddress(_: hasMacAddressInput): PrismaPromise<DeviceModel | null>;
@@ -23,6 +24,8 @@ interface IDeviceRepository {
       DeviceAccessControl: Exclude<DeviceAccessControlModel, "password">[];
     })[]
   >;
+
+  updateStatus(_: updateStatusInput): PrismaPromise<DeviceModel>;
 }
 
 export { IDeviceRepository };

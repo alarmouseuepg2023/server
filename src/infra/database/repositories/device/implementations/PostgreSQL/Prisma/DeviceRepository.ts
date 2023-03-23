@@ -7,6 +7,7 @@ import { IDeviceRepository } from "../../../models/IDeviceRepository";
 import { getByIdInput } from "../../../models/inputs/getByIdInput";
 import { getInput } from "../../../models/inputs/getInput";
 import { hasMacAddressInput } from "../../../models/inputs/hasMacAddressInput";
+import { updateStatusInput } from "../../../models/inputs/updateStatusInput";
 
 class DeviceRepository extends BaseRepository implements IDeviceRepository {
   public hasMacAddress = ({
@@ -112,7 +113,17 @@ class DeviceRepository extends BaseRepository implements IDeviceRepository {
       select: {
         id: true,
         nickname: true,
+        status: true,
       },
+    });
+
+  public updateStatus = ({
+    deviceId,
+    status,
+  }: updateStatusInput): PrismaPromise<DeviceModel> =>
+    this.prisma.device.update({
+      where: { id: deviceId },
+      data: { status },
     });
 }
 
