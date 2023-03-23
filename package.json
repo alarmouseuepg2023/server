@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "jest",
-    "commit": "git-cz",
+    "commit": "yarn lint && yarn type-check && git-cz",
     "prepare": "husky install",
     "lint": "eslint . --ext js,ts",
     "type-check": "tsc --project tsconfig.json --pretty --noEmit",
