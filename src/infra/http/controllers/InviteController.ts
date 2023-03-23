@@ -35,13 +35,14 @@ class InviteController {
     next: NextFunction
   ): Promise<void> {
     const { id: userId } = req.user;
-    const { token } = req.body;
+    const { token, id } = req.body;
 
     const service = container.resolve(AnswerInviteService);
 
     await service.execute({
       token,
       userId,
+      id,
       answer: "accept",
     });
 
