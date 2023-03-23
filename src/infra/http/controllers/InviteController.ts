@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import i18n from "i18n";
 import { container } from "tsyringe";
 
+import { AnswerInviteResponseModel } from "@http/dtos/invite/AnswerInviteResponseModel";
 import { CreateInviteResponseModel } from "@http/dtos/invite/CreateInviteResponseModel";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
@@ -31,23 +32,26 @@ class InviteController {
 
   public async accept(
     req: Request,
-    res: Response<IResponseMessage>,
+    res: Response<IResponseMessage<AnswerInviteResponseModel>>,
     next: NextFunction
   ): Promise<void> {
     const { id: userId } = req.user;
-    const { token, id } = req.body;
+    const { token, id, password, confirmPassword } = req.body;
 
     const service = container.resolve(AnswerInviteService);
 
-    await service.execute({
+    const result = await service.execute({
       token,
       userId,
       id,
+      confirmPassword,
+      password,
       answer: "accept",
     });
 
     res.status(HttpStatus.OK).json({
       success: true,
+      content: result,
       message: i18n.__("SuccessGeneric"),
     });
 
