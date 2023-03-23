@@ -8,6 +8,7 @@ import { IPaginationResponse } from "@http/models/IPaginationResponse";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
 import {
+  ChangeDeviceStatusService,
   CreateDeviceService,
   ListDevicesService,
   ResetDevicePasswordService,
@@ -88,6 +89,31 @@ class DeviceController {
       password,
       oldPassword,
       deviceId,
+    });
+
+    res.status(HttpStatus.OK).json({
+      success: true,
+      message: i18n.__("SuccessGeneric"),
+    });
+
+    return next();
+  }
+
+  public async changeStatus(
+    req: Request,
+    res: Response<IResponseMessage>,
+    next: NextFunction
+  ): Promise<void> {
+    const { id: userId } = req.user;
+    const { device_id: deviceId } = req.params;
+    const { status } = req.body;
+
+    const service = container.resolve(ChangeDeviceStatusService);
+
+    await service.execute({
+      userId,
+      deviceId,
+      status,
     });
 
     res.status(HttpStatus.OK).json({

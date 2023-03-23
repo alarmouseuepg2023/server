@@ -33,6 +33,14 @@ routes.get(
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
 routes.post(
+  "/status/:device_id",
+  logMiddleware.routeStart,
+  ensureAuthenticated.execute,
+  RBAC.has(),
+  controller.changeStatus,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
+routes.post(
   "/resetPassword/:device_id",
   logMiddleware.routeStart,
   ensureAuthenticated.execute,
