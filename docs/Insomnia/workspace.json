@@ -1,13 +1,13 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-03-23T16:06:34.653Z",
+  "__export_date": "2023-03-23T21:46:49.386Z",
   "__export_source": "insomnia.desktop.app:v2022.5.0",
   "resources": [
     {
       "_id": "req_e9c94156167f4d109509ae4b444f0f2f",
       "parentId": "fld_78b81e5a0bd44c2e86096317d6620cca",
-      "modified": 1679587577962,
+      "modified": 1679604675172,
       "created": 1679580102413,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "list",
@@ -55,7 +55,7 @@
     {
       "_id": "req_6c18b9b86d8644c8ac0b70fc4031e3e7",
       "parentId": "fld_78b81e5a0bd44c2e86096317d6620cca",
-      "modified": 1679577426528,
+      "modified": 1679604670774,
       "created": 1679571922766,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
       "name": "accept",
@@ -63,7 +63,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"token\": \"847322\",\n\t\"id\": \"74b0667d-7bcb-4fd7-a5ff-2dc288ccea06\",\n\t\"password\": \"123456\",\n  \"confirmPassword\": \"123456\"\n}"
+        "text": "{\n\t\"token\": \"728019\",\n\t\"id\": \"d34d3bac-1249-4242-9624-598cdbb2f8d0\",\n\t\"password\": \"123456\",\n  \"confirmPassword\": \"123456\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -90,15 +90,15 @@
     {
       "_id": "req_3c9eb956b3674eaebc6c1bda3d995120",
       "parentId": "fld_78b81e5a0bd44c2e86096317d6620cca",
-      "modified": 1679581168326,
+      "modified": 1679604677499,
       "created": 1679509084902,
-      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
+      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
       "name": "create",
       "description": "",
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"deviceId\": \"79182c48-9701-4bc8-b080-34d7dad0fe24\",\n\t\"email\": \"email1@email.com\"\n}"
+        "text": "{\n\t\"email\": \"email1@email.com\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -125,7 +125,7 @@
     {
       "_id": "req_44ba6c8b4b864be1ad80c04a087ce742",
       "parentId": "fld_3555e794c45243d8878bbb5ff87708b2",
-      "modified": 1679580099034,
+      "modified": 1679604683898,
       "created": 1679504059656,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "list",
@@ -163,7 +163,7 @@
     {
       "_id": "req_00710941bd2e4ead81e6910329bb043c",
       "parentId": "fld_3555e794c45243d8878bbb5ff87708b2",
-      "modified": 1679519990643,
+      "modified": 1679604421722,
       "created": 1679436070298,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "save",
@@ -196,9 +196,79 @@
       "_type": "request"
     },
     {
+      "_id": "req_fc482283cfba40eda35836c023fd4ce5",
+      "parentId": "fld_3555e794c45243d8878bbb5ff87708b2",
+      "modified": 1679604702349,
+      "created": 1679603290201,
+      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
+      "name": "resetPassword",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"oldPassword\": \"123456\",\n\t\"password\": \"123456\",\n\t\"confirmPassword\": \"123456\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_8af9a262901645cbafaf616ece208d87"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_444514f8504145588253c23220ae265d', 'b64::JC5jb250ZW50LmFjY2Vzc1Rva2Vu::46b', 'never', 60 %}"
+      },
+      "metaSortKey": -1679392871371.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_f914009c21ee432d8bc9f119236d36cf",
+      "parentId": "fld_3555e794c45243d8878bbb5ff87708b2",
+      "modified": 1679607698697,
+      "created": 1679605720893,
+      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
+      "name": "status",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"status\": \"3\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_8af9a262901645cbafaf616ece208d87"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_444514f8504145588253c23220ae265d', 'b64::JC5jb250ZW50LmFjY2Vzc1Rva2Vu::46b', 'never', 60 %}"
+      },
+      "metaSortKey": -1679371271908.25,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
       "_id": "req_9cd26d9938984c888b071199f10e08ad",
       "parentId": "fld_ed80ab4f257d4b2b874629229928088a",
-      "modified": 1679581163540,
+      "modified": 1679604414431,
       "created": 1679334866620,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "create",
@@ -242,7 +312,7 @@
     {
       "_id": "req_a0e491b19bd3462c9bb8f21a86a9604d",
       "parentId": "fld_ed80ab4f257d4b2b874629229928088a",
-      "modified": 1679579373823,
+      "modified": 1679604197148,
       "created": 1679576584629,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
       "name": "resetPassword",
@@ -321,7 +391,7 @@
     {
       "_id": "req_444514f8504145588253c23220ae265d",
       "parentId": "fld_b46a53b4b641404a9cb56009a765d5bf",
-      "modified": 1679581176267,
+      "modified": 1679604543399,
       "created": 1679245043762,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "login",
