@@ -6,7 +6,7 @@ class TopicsMQTT {
   private static readonly privateTopicsHash = env("MQTT_PRIVATE_TOPICS_HASH");
 
   public static MOBILE_NOTIFICATION_INVITE = (userId: string): string =>
-    `/alarmouse/mqtt/sb/${this.publicTopicsHash}/notification/invite/${userId}`;
+    `/alarmouse/mqtt/sm/${this.publicTopicsHash}/notification/invite/${userId}`;
 
   public static EMBEDDED_CHANGE_DEVICE_STATUS = (macAddress: string): string =>
     `/alarmouse/mqtt/se/${this.privateTopicsHash}/control/status/${macAddress}`;
