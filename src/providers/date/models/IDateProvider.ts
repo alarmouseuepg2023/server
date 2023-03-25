@@ -8,6 +8,7 @@ interface IDateProvider {
   minuteToMilli(minute: number): number;
   differenceInMillis(end: Date, start: Date): number;
   equals(start: Date, end: Date): boolean;
+  readableDate(date: Date): string;
 }
 
 export { IDateProvider };
