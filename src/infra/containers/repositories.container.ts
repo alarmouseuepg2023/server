@@ -13,10 +13,6 @@ import {
   IDeviceAccessControlRepository,
 } from "@infra/database/repositories/deviceAccessControl";
 import {
-  GuestRepository,
-  IGuestRepository,
-} from "@infra/database/repositories/guest";
-import {
   IInviteRepository,
   InviteRepository,
 } from "@infra/database/repositories/invite";
@@ -42,9 +38,4 @@ container.registerSingleton<IInviteRepository>(
 container.registerSingleton<IAlarmEventsRepository>(
   "AlarmEventsRepository",
   AlarmEventsRepository
-);
-
-container.registerSingleton<IGuestRepository>(
-  "GuestRepository",
-  GuestRepository
 );
