@@ -2,9 +2,14 @@ import { NextFunction, Request, Response } from "express";
 import i18n from "i18n";
 import { container } from "tsyringe";
 
+import { ListGuestsResponseModel } from "@http/dtos/guest/ListGuestsResponseModel";
+import { IPaginationResponse } from "@http/models/IPaginationResponse";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
-import { RevokeGuestPermissionService } from "@services/guest";
+import {
+  ListGuestsService,
+  RevokeGuestPermissionService,
+} from "@services/guest";
 
 class GuestController {
   public async revokePermission(
@@ -20,6 +25,33 @@ class GuestController {
     const result = await service.execute({
       deviceId,
       guestId,
+    });
+
+    res.status(HttpStatus.OK).json({
+      success: true,
+      content: result,
+      message: i18n.__("SuccessGeneric"),
+    });
+
+    return next();
+  }
+
+  public async list(
+    req: Request,
+    res: Response<
+      IResponseMessage<IPaginationResponse<ListGuestsResponseModel>>
+    >,
+    next: NextFunction
+  ): Promise<void> {
+    const { device_id: deviceId } = req.params;
+    const { size, page } = req.query;
+
+    const service = container.resolve(ListGuestsService);
+
+    const result = await service.execute({
+      deviceId,
+      size,
+      page,
     });
 
     res.status(HttpStatus.OK).json({

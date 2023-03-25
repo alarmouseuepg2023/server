@@ -1,3 +1,5 @@
+import { RolesKeys } from "@commons/RolesKey";
+import { InviteStatusDomain } from "@domains/InviteStatusDomain";
 import { BaseRepository } from "@infra/database/repositories/BaseRepository";
 import { DeviceAccessControlModel } from "@models/DeviceAccessControlModel";
 import { PrismaPromise } from "@prisma/client";
@@ -5,6 +7,7 @@ import { PrismaPromise } from "@prisma/client";
 import { IDeviceAccessControlRepository } from "../../../models/IDeviceAccessControlRepository";
 import { deleteInput } from "../../../models/inputs/deleteInput";
 import { getByIdInput } from "../../../models/inputs/getByIdInput";
+import { getGuestsInput } from "../../../models/inputs/getGuestsInput";
 import { saveInput } from "../../../models/inputs/saveInput";
 import { updatePasswordInput } from "../../../models/inputs/updatePasswordInput";
 import { verifyRoleInput } from "../../../models/inputs/verifyRoleInput";
@@ -81,6 +84,48 @@ class DeviceAccessControlRepository
           userId,
         },
       },
+    });
+
+  public countGuests = ({ deviceId }: getGuestsInput): PrismaPromise<number> =>
+    this.prisma.deviceAccessControl.count({
+      where: { deviceId, role: RolesKeys.GUEST },
+    });
+
+  public getGuests = (
+    { deviceId }: getGuestsInput,
+    [take, skip]: [number, number]
+  ): PrismaPromise<
+    {
+      user: { id: string; email: string; name: string } & {
+        invitee: { answeredAt: Date | null; invitedAt: Date }[];
+      };
+    }[]
+  > =>
+    this.prisma.deviceAccessControl.findMany({
+      where: { deviceId, role: RolesKeys.GUEST },
+      orderBy: { user: { name: "asc" } },
+      select: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            invitee: {
+              take: 1,
+              where: {
+                deviceId,
+                status: InviteStatusDomain.ACCEPTED,
+              },
+              select: {
+                answeredAt: true,
+                invitedAt: true,
+              },
+            },
+          },
+        },
+      },
+      skip,
+      take,
     });
 }
 

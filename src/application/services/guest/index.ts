@@ -1,3 +1,4 @@
+import { ListGuestsService } from "./ListGuestsService";
 import { RevokeGuestPermissionService } from "./RevokeGuestPermissionService";
 
-export { RevokeGuestPermissionService };
+export { ListGuestsService, RevokeGuestPermissionService };

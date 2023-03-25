@@ -19,6 +19,14 @@ const ensureAuthenticated = container.resolve(
 );
 const handleUrlPatternMatchMiddleware = new HandleUrlPatternMatchMiddleware();
 
+routes.get(
+  "/:device_id",
+  logMiddleware.routeStart,
+  ensureAuthenticated.execute,
+  RBAC.is(RolesKeys.OWNER),
+  controller.list,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
 routes.post(
   "/revoke/:device_id",
   logMiddleware.routeStart,
