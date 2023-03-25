@@ -23,6 +23,7 @@
   "ErrorEnvVarNotFound": "Não foi possível completar a operação. Por favor, entre em contato com a equipe de desenvolvimento.",
   "ErrorGenericUnknown": "Ocorreu um erro interno. Por favor, entre em contato com a equipe de desenvolvimento.",
   "ErrorGuestIdRequired": "É necessário informar a identificação do convidado.",
+  "ErrorGuestNotFound": "O usuário informado não possui autorização de convidado para este dispositivo.",
   "ErrorInviteAlreadyAnswered": "O convite informado já foi respondido.",
   "ErrorInviteAnswerRequired": "É necessário informar a response ao convite.",
   "ErrorInviteIdRequired": "É necessário informar o identificador do convite.",

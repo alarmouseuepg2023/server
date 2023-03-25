@@ -3,6 +3,7 @@ import { DeviceAccessControlModel } from "@models/DeviceAccessControlModel";
 import { PrismaPromise } from "@prisma/client";
 
 import { IDeviceAccessControlRepository } from "../../../models/IDeviceAccessControlRepository";
+import { deleteInput } from "../../../models/inputs/deleteInput";
 import { getByIdInput } from "../../../models/inputs/getByIdInput";
 import { saveInput } from "../../../models/inputs/saveInput";
 import { updatePasswordInput } from "../../../models/inputs/updatePasswordInput";
@@ -66,6 +67,19 @@ class DeviceAccessControlRepository
       where: {
         deviceId,
         userId,
+      },
+    });
+
+  public delete = ({
+    deviceId,
+    userId,
+  }: deleteInput): PrismaPromise<DeviceAccessControlModel> =>
+    this.prisma.deviceAccessControl.delete({
+      where: {
+        userId_deviceId: {
+          deviceId,
+          userId,
+        },
       },
     });
 }
