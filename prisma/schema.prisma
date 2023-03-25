@@ -16,7 +16,6 @@ model User {
   blocked             Boolean   @default(false)
   lastFailedLoginDate DateTime? @map("last_failed_login_date") @db.Timestamp()
 
-  guests                    Guest[]
   devices                   Device[]
   inviter                   Invite[]                    @relation(name: "inviter")
   invitee                   Invite[]                    @relation(name: "invitee")
@@ -50,23 +49,11 @@ model Device {
   ownerId String @map("owner_id") @db.Uuid()
   owner   User   @relation(fields: [ownerId], references: [id])
 
-  guests              Guest[]
   alarmEvents         AlarmEvents[]
   DeviceAccessControl DeviceAccessControl[]
   invites             Invite[]
 
   @@map("device")
-}
-
-model Guest {
-  userId String @map("user_id") @db.Uuid()
-  user   User   @relation(fields: [userId], references: [id])
-
-  deviceId String @map("device_id") @db.Uuid()
-  device   Device @relation(fields: [deviceId], references: [id])
-
-  @@id([userId, deviceId])
-  @@map("guest")
 }
 
 model AlarmEvents {
