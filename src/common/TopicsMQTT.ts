@@ -7,6 +7,9 @@ class TopicsMQTT {
 
   public static MOBILE_NOTIFICATION_INVITE = (userId: string): string =>
     `/alarmouse/mqtt/sb/${this.publicTopicsHash}/notification/invite/${userId}`;
+
+  public static EMBEDDED_CHANGE_DEVICE_STATUS = (macAddress: string): string =>
+    `/alarmouse/mqtt/se/${this.privateTopicsHash}/control/status/${macAddress}`;
 }
 
 export { TopicsMQTT };

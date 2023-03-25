@@ -1,6 +1,7 @@
 import i18n from "i18n";
 import { inject, injectable } from "tsyringe";
 
+import { TopicsMQTT } from "@commons/TopicsMQTT";
 import { DeviceStatusDomain } from "@domains/DeviceStatusDomain";
 import { AppError } from "@handlers/error/AppError";
 import { getEnumDescription } from "@helpers/getEnumDescription";
@@ -11,6 +12,7 @@ import { ChangeDeviceStatusResponseModel } from "@http/dtos/device/ChangeDeviceS
 import { IAlarmEventsRepository } from "@infra/database/repositories/alarmEvents";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { transaction } from "@infra/database/transaction";
+import { mqttClient } from "@infra/mqtt/client";
 import { IDateProvider } from "@providers/date";
 import { IMaskProvider } from "@providers/mask";
 import { IUniqueIdentifierProvider } from "@providers/uniqueIdentifier";
@@ -105,6 +107,14 @@ class ChangeDeviceStatusService {
         id: this.uniqueIdentifierProvider.generate(),
       }),
     ]);
+
+    if (hasDevice.macAddress)
+      mqttClient.publish(
+        TopicsMQTT.EMBEDDED_CHANGE_DEVICE_STATUS(
+          this.maskProvider.macAddress(hasDevice.macAddress)
+        ),
+        Buffer.from(`${statusConverted}`)
+      );
 
     return {
       id: updated.id,

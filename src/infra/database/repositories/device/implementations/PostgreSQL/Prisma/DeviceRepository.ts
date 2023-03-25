@@ -114,6 +114,7 @@ class DeviceRepository extends BaseRepository implements IDeviceRepository {
         id: true,
         nickname: true,
         status: true,
+        macAddress: true,
       },
     });
 
