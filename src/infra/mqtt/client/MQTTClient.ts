@@ -1,4 +1,3 @@
-import i18n from "i18n";
 import mqtt from "mqtt";
 
 import { env } from "@helpers/env";
@@ -16,7 +15,8 @@ class MQTTClient {
     host: env("MQTT_HOST"),
     port: toNumber({
       value: env("MQTT_PORT"),
-      error: i18n.__("ErrorEnvVarNotFound"),
+      error:
+        "Não foi possível completar a operação. Por favor, entre em contato com a equipe de desenvolvimento.",
     }),
     password: env("MQTT_PASSWORD"),
     username: env("MQTT_USERNAME"),

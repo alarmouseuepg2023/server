@@ -10,6 +10,8 @@ class RoutesPrefix {
   public static readonly INVITE: string = "/invite";
 
   public static readonly ALARM_EVENTS: string = "/alarmEvents";
+
+  public static readonly GUEST: string = "/guest";
 }
 
 export { RoutesPrefix };
