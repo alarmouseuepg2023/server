@@ -8,6 +8,8 @@ class RoutesPrefix {
   public static readonly DEVICE: string = "/device";
 
   public static readonly INVITE: string = "/invite";
+
+  public static readonly ALARM_EVENTS: string = "/alarmEvents";
 }
 
 export { RoutesPrefix };

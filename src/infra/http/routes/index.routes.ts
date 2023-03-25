@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import { RoutesPrefix } from "@commons/RoutesPrefix";
 
+import { routes as alarmEventsRoutes } from "./alarmEvents.routes";
 import { routes as authRoutes } from "./auth.routes";
 import { routes as deviceRoutes } from "./device.routes";
 import { routes as inviteRoutes } from "./invite.routes";
@@ -13,5 +14,6 @@ routes.use(RoutesPrefix.AUTH, authRoutes);
 routes.use(RoutesPrefix.USER, userRoutes);
 routes.use(RoutesPrefix.DEVICE, deviceRoutes);
 routes.use(RoutesPrefix.INVITE, inviteRoutes);
+routes.use(RoutesPrefix.ALARM_EVENTS, alarmEventsRoutes);
 
 export { routes };
