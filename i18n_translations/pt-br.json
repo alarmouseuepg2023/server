@@ -68,6 +68,8 @@
   "ErrorWithoutHandling": "Ocorreu um erro. Por favor, entre em contato com um administrador.",
   "MailSentInviteHtml": "Olá, {0}. <br/> Você recebeu um novo convite para gerenciar o dispositivo <b>{1}</b> de <b>{2}</b>. <br/>Código para aceitar o convite: <b>{3}</b>.",
   "MailSentInviteSubject": "Você recebeu um novo convite!!",
+  "MailSentNotificationDeviceTriggeredHtml": "Seu dispositivo <b>{0}</b> foi ACIONADO em <b>{1}</b>.",
+  "MailSentNotificationDeviceTriggeredSubject": "ATENÇÃO!! Seu dispositivo foi acionado!",
   "RandomWord_Email": "E-mail",
   "RandomWord_Guest": "Convidado",
   "RandomWord_Name": "Nome",

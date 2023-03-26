@@ -23,13 +23,13 @@ class ChangeDeviceStatusService {
     @inject("UniqueIdentifierProvider")
     private uniqueIdentifierProvider: IUniqueIdentifierProvider,
     @inject("DeviceRepository")
-    private deviceRepository: IDeviceRepository,
+    protected deviceRepository: IDeviceRepository,
     @inject("AlarmEventsRepository")
     private alarmEventsRepository: IAlarmEventsRepository,
     @inject("DateProvider")
     private dateProvider: IDateProvider,
     @inject("MaskProvider")
-    private maskProvider: IMaskProvider
+    protected maskProvider: IMaskProvider
   ) {}
 
   protected canChangeToAnyStatus = (): boolean => false;

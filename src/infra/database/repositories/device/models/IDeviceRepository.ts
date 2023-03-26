@@ -3,6 +3,7 @@ import { DeviceModel } from "@models/DeviceModel";
 import { PrismaPromise } from "@prisma/client";
 
 import { getByIdInput } from "./inputs/getByIdInput";
+import { getIdByMacAddressInput } from "./inputs/getIdByMacAddressInput";
 import { getInput } from "./inputs/getInput";
 import { hasMacAddressInput } from "./inputs/hasMacAddressInput";
 import { updateStatusInput } from "./inputs/updateStatusInput";
@@ -26,6 +27,12 @@ interface IDeviceRepository {
   >;
 
   updateStatus(_: updateStatusInput): PrismaPromise<DeviceModel>;
+
+  getByMacAddress(_: getIdByMacAddressInput): PrismaPromise<{
+    id: string;
+    nickname: string;
+    owner: { email: string };
+  } | null>;
 }
 
 export { IDeviceRepository };
