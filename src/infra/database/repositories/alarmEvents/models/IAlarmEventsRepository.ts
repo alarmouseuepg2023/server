@@ -11,7 +11,7 @@ interface IAlarmEventsRepository {
     _: getInput,
     __: [number, number]
   ): PrismaPromise<
-    (AlarmEventsModel & { user: { id: string; name: string } })[]
+    (AlarmEventsModel & { user: { id: string; name: string } | null })[]
   >;
 
   count(_: getInput): PrismaPromise<number>;

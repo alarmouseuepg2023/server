@@ -1,5 +1,5 @@
 type ChangeDeviceStatusRequestModel = {
-  userId: string;
+  userId: string | null;
   deviceId: string;
   status: string;
 };

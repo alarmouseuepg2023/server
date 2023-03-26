@@ -34,13 +34,17 @@ class ChangeDeviceStatusService {
 
   protected canChangeToAnyStatus = (): boolean => false;
 
-  public async execute({
-    deviceId,
-    status,
-    userId,
-  }: ChangeDeviceStatusRequestModel): Promise<ChangeDeviceStatusResponseModel> {
-    if (stringIsNullOrEmpty(userId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUserIdRequired"));
+  public async execute(
+    { deviceId, status, userId }: ChangeDeviceStatusRequestModel,
+    userRequired = true
+  ): Promise<ChangeDeviceStatusResponseModel> {
+    if (userRequired) {
+      if (stringIsNullOrEmpty(userId))
+        throw new AppError("BAD_REQUEST", i18n.__("ErrorUserIdRequired"));
+
+      if (!this.uniqueIdentifierProvider.isValid(userId as string))
+        throw new AppError("BAD_REQUEST", i18n.__("ErrorUUIDInvalid"));
+    }
 
     if (stringIsNullOrEmpty(deviceId))
       throw new AppError("BAD_REQUEST", i18n.__("ErrorDeviceIdRequired"));
@@ -62,10 +66,7 @@ class ChangeDeviceStatusService {
     )
       throw new AppError("BAD_REQUEST", i18n.__("ErrorCantUpdateDeviceStatus"));
 
-    if (
-      !this.uniqueIdentifierProvider.isValid(userId) ||
-      !this.uniqueIdentifierProvider.isValid(deviceId)
-    )
+    if (!this.uniqueIdentifierProvider.isValid(deviceId))
       throw new AppError("BAD_REQUEST", i18n.__("ErrorUUIDInvalid"));
 
     const [hasDevice] = await transaction([

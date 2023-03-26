@@ -36,7 +36,7 @@ class AlarmEventsRepository
     { deviceId }: getInput,
     [take, skip]: [number, number]
   ): PrismaPromise<
-    (AlarmEventsModel & { user: { id: string; name: string } })[]
+    (AlarmEventsModel & { user: { id: string; name: string } | null })[]
   > =>
     this.prisma.alarmEvents.findMany({
       where: { deviceId },

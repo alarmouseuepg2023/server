@@ -1,7 +1,7 @@
 type saveInput = {
   id: string;
   deviceId: string;
-  userId: string;
+  userId: string | null;
   message: string;
   createdAt: Date;
 };

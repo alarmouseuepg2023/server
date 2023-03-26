@@ -46,10 +46,12 @@ class ListAlarmEventsService {
           message,
           createdAt: this.maskProvider.timestamp(createdAt),
           readableDate: capitalize(this.dateProvider.readableDate(createdAt)),
-          user: {
-            id: user.id,
-            name: user.name,
-          },
+          user: user
+            ? {
+                id: user.id,
+                name: user.name,
+              }
+            : undefined,
         })
       ),
       totalItems,
