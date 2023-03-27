@@ -1,13 +1,13 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-03-25T16:51:54.059Z",
+  "__export_date": "2023-03-27T14:43:43.750Z",
   "__export_source": "insomnia.desktop.app:v2022.5.0",
   "resources": [
     {
       "_id": "req_32dee7d5272a4916988b83ba5f6a3eba",
       "parentId": "fld_09fbc35d211a47e49b69ad417e50118f",
-      "modified": 1679763087789,
+      "modified": 1679928097059,
       "created": 1679761231303,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
       "name": "list",
@@ -55,7 +55,7 @@
     {
       "_id": "req_f154f7884a1e4a2f97dd8ff8eec0baa6",
       "parentId": "fld_09fbc35d211a47e49b69ad417e50118f",
-      "modified": 1679763085835,
+      "modified": 1679913337715,
       "created": 1679752009248,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
       "name": "revoke",
@@ -90,7 +90,7 @@
     {
       "_id": "req_61f2e232ac664048ab38c19b74498bb7",
       "parentId": "fld_137e8dbacfb541dabc2f5dacd52432fd",
-      "modified": 1679761760624,
+      "modified": 1679928094738,
       "created": 1679744445615,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
       "name": "list",
@@ -126,9 +126,56 @@
       "_type": "request_group"
     },
     {
+      "_id": "req_3e31a04e922b4d6da8c4a8d043f817f7",
+      "parentId": "fld_78b81e5a0bd44c2e86096317d6620cca",
+      "modified": 1679927656847,
+      "created": 1679913353877,
+      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
+      "name": "reject",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"token\": \"855736\",\n\t\"id\": \"9b41668a-39cd-4c58-8861-b33c7554073b\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_39570ac976b94d82aee35a8415df4296"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_444514f8504145588253c23220ae265d', 'b64::JC5jb250ZW50LmFjY2Vzc1Rva2Vu::46b', 'never', 60 %}"
+      },
+      "metaSortKey": -1679913353877,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_78b81e5a0bd44c2e86096317d6620cca",
+      "parentId": "wrk_d0945dd4e0ab4bce9c2ce5956903b7f7",
+      "modified": 1679509083739,
+      "created": 1679509083739,
+      "name": "invite",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1679509083739,
+      "_type": "request_group"
+    },
+    {
       "_id": "req_e9c94156167f4d109509ae4b444f0f2f",
       "parentId": "fld_78b81e5a0bd44c2e86096317d6620cca",
-      "modified": 1679762881662,
+      "modified": 1679928092580,
       "created": 1679580102413,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "list",
@@ -152,21 +199,9 @@
       "_type": "request"
     },
     {
-      "_id": "fld_78b81e5a0bd44c2e86096317d6620cca",
-      "parentId": "wrk_d0945dd4e0ab4bce9c2ce5956903b7f7",
-      "modified": 1679509083739,
-      "created": 1679509083739,
-      "name": "invite",
-      "description": "",
-      "environment": {},
-      "environmentPropertyOrder": null,
-      "metaSortKey": -1679509083739,
-      "_type": "request_group"
-    },
-    {
       "_id": "req_6c18b9b86d8644c8ac0b70fc4031e3e7",
       "parentId": "fld_78b81e5a0bd44c2e86096317d6620cca",
-      "modified": 1679762823350,
+      "modified": 1679928092088,
       "created": 1679571922766,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
       "name": "accept",
@@ -174,7 +209,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"token\": \"844973\",\n\t\"id\": \"d34d3bac-1249-4242-9624-598cdbb2f8d0\",\n\t\"password\": \"123456\",\n  \"confirmPassword\": \"123456\"\n}"
+        "text": "{\n\t\"token\": \"855736\",\n\t\"id\": \"9b41668a-39cd-4c58-8861-b33c7554073b\",\n\t\"password\": \"123456\",\n  \"confirmPassword\": \"123456\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -201,7 +236,7 @@
     {
       "_id": "req_3c9eb956b3674eaebc6c1bda3d995120",
       "parentId": "fld_78b81e5a0bd44c2e86096317d6620cca",
-      "modified": 1679762823805,
+      "modified": 1679928091546,
       "created": 1679509084902,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
       "name": "create",
@@ -236,7 +271,7 @@
     {
       "_id": "req_44ba6c8b4b864be1ad80c04a087ce742",
       "parentId": "fld_3555e794c45243d8878bbb5ff87708b2",
-      "modified": 1679761733749,
+      "modified": 1679928084129,
       "created": 1679504059656,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "list",
@@ -274,7 +309,7 @@
     {
       "_id": "req_00710941bd2e4ead81e6910329bb043c",
       "parentId": "fld_3555e794c45243d8878bbb5ff87708b2",
-      "modified": 1679749891260,
+      "modified": 1679913294798,
       "created": 1679436070298,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "save",
@@ -309,7 +344,7 @@
     {
       "_id": "req_fc482283cfba40eda35836c023fd4ce5",
       "parentId": "fld_3555e794c45243d8878bbb5ff87708b2",
-      "modified": 1679604702349,
+      "modified": 1679913295595,
       "created": 1679603290201,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
       "name": "resetPassword",
@@ -344,7 +379,7 @@
     {
       "_id": "req_f914009c21ee432d8bc9f119236d36cf",
       "parentId": "fld_3555e794c45243d8878bbb5ff87708b2",
-      "modified": 1679749894247,
+      "modified": 1679928088056,
       "created": 1679605720893,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
       "name": "status",
@@ -379,7 +414,7 @@
     {
       "_id": "req_9cd26d9938984c888b071199f10e08ad",
       "parentId": "fld_ed80ab4f257d4b2b874629229928088a",
-      "modified": 1679604414431,
+      "modified": 1679928082776,
       "created": 1679334866620,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "create",
@@ -423,7 +458,7 @@
     {
       "_id": "req_a0e491b19bd3462c9bb8f21a86a9604d",
       "parentId": "fld_ed80ab4f257d4b2b874629229928088a",
-      "modified": 1679604197148,
+      "modified": 1679928079892,
       "created": 1679576584629,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
       "name": "resetPassword",
@@ -431,7 +466,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"oldPassword\": \"SenhaPadrao1234\",\n\t\"password\": \"SenhaPadrao123\",\n\t\"confirmPassword\": \"SenhaPadrao123\"\n}"
+        "text": "{\n\t\"oldPassword\": \"SenhaPadrao123\",\n\t\"password\": \"SenhaPadrao123\",\n\t\"confirmPassword\": \"SenhaPadrao123\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -458,7 +493,7 @@
     {
       "_id": "req_c8c70aaaf9ae4866bfebd0be51a33e9f",
       "parentId": "fld_b46a53b4b641404a9cb56009a765d5bf",
-      "modified": 1679502254526,
+      "modified": 1679928071510,
       "created": 1679349672445,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
       "name": "refresh",
@@ -466,7 +501,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoicmVmcmVzaFRva2VuIiwiaWQiOiI5NTA3Y2M1NS03ZjM4LTRiMWItYTMxOS01ZWQxNTkyYjg1NTMiLCJpYXQiOjE2NzkzNTA0NjQsImV4cCI6MTY3OTM1MDUyNH0.G3FBsk2nL4HPuxXtFWcS-gjulJwpUaU1cF557JNq6bE\"\n}"
+        "text": "{\n\t\"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoicmVmcmVzaFRva2VuIiwiaWQiOiIwYmI2M2NkNC0zNDk0LTRjY2QtODczYS1lNWRhYTY0ZTQwMTMiLCJpYXQiOjE2Nzk5MjgwNjAsImV4cCI6MTY4MTIyNDA2MH0.L833Zotymkzq00YNhP6hEfFPwgA3Cszz8TbjQdWYgzk\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -502,7 +537,7 @@
     {
       "_id": "req_444514f8504145588253c23220ae265d",
       "parentId": "fld_b46a53b4b641404a9cb56009a765d5bf",
-      "modified": 1679762815260,
+      "modified": 1679928064651,
       "created": 1679245043762,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "login",
