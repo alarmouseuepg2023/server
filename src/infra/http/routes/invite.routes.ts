@@ -20,6 +20,13 @@ const ensureAuthenticated = container.resolve(
 );
 
 routes.post(
+  "/reject",
+  logMiddleware.routeStart,
+  ensureAuthenticated.execute,
+  controller.reject,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
+routes.post(
   "/accept",
   logMiddleware.routeStart,
   ensureAuthenticated.execute,

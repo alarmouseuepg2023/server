@@ -9,9 +9,10 @@ import { IPaginationResponse } from "@http/models/IPaginationResponse";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
 import {
-  AnswerInviteService,
+  AcceptInviteService,
   CreateInviteService,
   ListInvitsService,
+  RejectInviteService,
 } from "@services/invite";
 
 class InviteController {
@@ -45,7 +46,7 @@ class InviteController {
     const { id: userId } = req.user;
     const { token, id, password, confirmPassword } = req.body;
 
-    const service = container.resolve(AnswerInviteService);
+    const service = container.resolve(AcceptInviteService);
 
     const result = await service.execute({
       token,
@@ -53,7 +54,31 @@ class InviteController {
       id,
       confirmPassword,
       password,
-      answer: "accept",
+    });
+
+    res.status(HttpStatus.OK).json({
+      success: true,
+      content: result,
+      message: i18n.__("SuccessGeneric"),
+    });
+
+    return next();
+  }
+
+  public async reject(
+    req: Request,
+    res: Response<IResponseMessage<AnswerInviteResponseModel>>,
+    next: NextFunction
+  ): Promise<void> {
+    const { id: userId } = req.user;
+    const { token, id } = req.body;
+
+    const service = container.resolve(RejectInviteService);
+
+    const result = await service.execute({
+      token,
+      userId,
+      id,
     });
 
     res.status(HttpStatus.OK).json({
