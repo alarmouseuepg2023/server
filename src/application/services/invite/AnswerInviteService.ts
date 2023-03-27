@@ -2,20 +2,19 @@ import i18n from "i18n";
 import { inject, injectable } from "tsyringe";
 
 import { ConstantsKeys } from "@commons/ConstantsKeys";
-import { RolesKeys } from "@commons/RolesKey";
 import { InviteStatusDomain } from "@domains/InviteStatusDomain";
 import { AppError } from "@handlers/error/AppError";
-import { env } from "@helpers/env";
 import { getEnumDescription } from "@helpers/getEnumDescription";
-import { getUserType2External } from "@helpers/getUserType2External";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
-import { toNumber } from "@helpers/toNumber";
 import { AnswerInviteRequestModel } from "@http/dtos/invite/AnswerInviteRequestModel";
 import { AnswerInviteResponseModel } from "@http/dtos/invite/AnswerInviteResponseModel";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
 import { IInviteRepository } from "@infra/database/repositories/invite";
 import { IUserRepository } from "@infra/database/repositories/user";
 import { transaction } from "@infra/database/transaction";
+import { logger } from "@infra/log";
+import { InviteModel } from "@models/InviteModel";
+import { PrismaPromise } from "@prisma/client";
 import { IDateProvider } from "@providers/date";
 import { IHashProvider } from "@providers/hash";
 import { IMaskProvider } from "@providers/mask";
@@ -23,7 +22,14 @@ import { IUniqueIdentifierProvider } from "@providers/uniqueIdentifier";
 import { IValidatorsProvider } from "@providers/validators";
 
 @injectable()
-class AnswerInviteService {
+class AnswerInviteService<
+  T extends AnswerInviteRequestModel = AnswerInviteRequestModel,
+  K extends AnswerInviteResponseModel = AnswerInviteResponseModel
+> {
+  private _deviceAccessControlOperation: PrismaPromise<{
+    role: string;
+  }> | null = null;
+
   constructor(
     @inject("UniqueIdentifierProvider")
     private uniqueIdentifierProvider: IUniqueIdentifierProvider,
@@ -32,25 +38,60 @@ class AnswerInviteService {
     @inject("InviteRepository")
     private inviteRepository: IInviteRepository,
     @inject("HashProvider")
-    private hashProvider: IHashProvider,
+    protected hashProvider: IHashProvider,
     @inject("DateProvider")
     private dateProvider: IDateProvider,
     @inject("DeviceAccessControlRepository")
-    private deviceAccessControl: IDeviceAccessControlRepository,
+    protected deviceAccessControlRepository: IDeviceAccessControlRepository,
     @inject("ValidatorsProvider")
-    private validatorsProvider: IValidatorsProvider,
+    protected validatorsProvider: IValidatorsProvider,
     @inject("MaskProvider")
     private maskProvider: IMaskProvider
   ) {}
 
-  public async execute({
-    answer,
-    token,
-    userId,
-    id,
-    confirmPassword,
-    password,
-  }: AnswerInviteRequestModel): Promise<AnswerInviteResponseModel> {
+  public get deviceAccessControlOperation(): PrismaPromise<{
+    role: string;
+  }> | null {
+    return this._deviceAccessControlOperation;
+  }
+
+  public set deviceAccessControlOperation(
+    operation: PrismaPromise<{ role: string }> | null
+  ) {
+    this._deviceAccessControlOperation = operation;
+  }
+
+  protected getReturnObject = (
+    inviteUpdated: InviteModel,
+    _: { role: string } | null
+  ): K => this.convertReturnObjectBase(inviteUpdated);
+
+  protected convertReturnObjectBase = (inviteUpdated: InviteModel): K =>
+    ({
+      id: inviteUpdated.id,
+      answeredAt: this.maskProvider.timestamp(inviteUpdated.answeredAt as Date),
+      invitedAt: this.maskProvider.timestamp(inviteUpdated.invitedAt),
+      status: getEnumDescription(
+        "INVITE_STATUS",
+        InviteStatusDomain[inviteUpdated.status]
+      ),
+    } as K);
+
+  protected handleDeviceAccessControl = async (
+    _: string,
+    __: T
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+  ): Promise<void> => {};
+
+  protected getInviteStatus = (): number => {
+    logger.error("Abstract method not implemented at answered invite service");
+
+    throw new AppError("INTERNAL_SERVER_ERROR", i18n.__("ErrorGenericUnknown"));
+  };
+
+  public async execute(input: T): Promise<K> {
+    const { id, token, userId } = input;
+
     if (stringIsNullOrEmpty(token))
       throw new AppError("BAD_REQUEST", i18n.__("ErrorInviteTokenRequired"));
 
@@ -59,27 +100,6 @@ class AnswerInviteService {
 
     if (stringIsNullOrEmpty(id))
       throw new AppError("BAD_REQUEST", i18n.__("ErrorInviteIdRequired"));
-
-    if (stringIsNullOrEmpty(answer))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorInviteAnswerRequired"));
-
-    if (stringIsNullOrEmpty(password))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorPasswordRequired"));
-
-    if (stringIsNullOrEmpty(confirmPassword))
-      throw new AppError(
-        "BAD_REQUEST",
-        i18n.__("ErrorConfirmPasswordRequired")
-      );
-
-    if (password !== confirmPassword)
-      throw new AppError(
-        "BAD_REQUEST",
-        i18n.__("ErrorPasswordAndConfirmAreNotEqual")
-      );
-
-    if (!this.validatorsProvider.devicePassword(password))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorDevicePasswordInvalid"));
 
     if (
       !this.uniqueIdentifierProvider.isValid(userId) ||
@@ -107,6 +127,8 @@ class AnswerInviteService {
     if (!hasInvite)
       throw new AppError("NOT_FOUND", i18n.__("ErrorInviteNotFound"));
 
+    await this.handleDeviceAccessControl(hasInvite.deviceId, input);
+
     if (
       [InviteStatusDomain.ACCEPTED, InviteStatusDomain.REJECTED].includes(
         hasInvite.status
@@ -133,38 +155,24 @@ class AnswerInviteService {
     )
       throw new AppError("BAD_REQUEST", i18n.__("ErrorAnswerInviteExpired"));
 
-    const hashSalt = toNumber({
-      value: env("PASSWORD_HASH_SALT"),
-      error: i18n.__("ErrorEnvVarNotFound"),
-    });
+    const [inviteUpdated, deviceAccessControl] = await transaction(
+      (() => {
+        const list: PrismaPromise<any>[] = [
+          this.inviteRepository.answer({
+            id,
+            answeredAt: this.dateProvider.now(),
+            status: this.getInviteStatus(),
+          }),
+        ];
 
-    const [inviteUpdated, deviceAccessControlCreated] = await transaction([
-      this.inviteRepository.answer({
-        id,
-        answeredAt: this.dateProvider.now(),
-        status:
-          answer === "accept"
-            ? InviteStatusDomain.ACCEPTED
-            : InviteStatusDomain.REJECTED,
-      }),
-      this.deviceAccessControl.save({
-        deviceId: hasInvite.deviceId,
-        password: await this.hashProvider.hash(password, hashSalt),
-        role: RolesKeys.GUEST,
-        userId,
-      }),
-    ]);
+        if (this.deviceAccessControlOperation)
+          list.push(this.deviceAccessControlOperation);
 
-    return {
-      id: inviteUpdated.id,
-      answeredAt: this.maskProvider.timestamp(inviteUpdated.answeredAt as Date),
-      invitedAt: this.maskProvider.timestamp(inviteUpdated.invitedAt),
-      role: getUserType2External(deviceAccessControlCreated.role),
-      status: getEnumDescription(
-        "INVITE_STATUS",
-        InviteStatusDomain[inviteUpdated.status]
-      ),
-    };
+        return list;
+      })()
+    );
+
+    return this.getReturnObject(inviteUpdated, deviceAccessControl);
   }
 }
 

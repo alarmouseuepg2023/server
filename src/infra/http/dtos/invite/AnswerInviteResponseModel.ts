@@ -3,7 +3,6 @@ type AnswerInviteResponseModel = {
   answeredAt: string;
   status: string;
   id: string;
-  role: string;
 };
 
 export { AnswerInviteResponseModel };

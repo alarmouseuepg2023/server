@@ -1,5 +1,11 @@
+import { AcceptInviteService } from "./AcceptInviteService";
 import { AnswerInviteService } from "./AnswerInviteService";
 import { CreateInviteService } from "./CreateInviteService";
 import { ListInvitsService } from "./ListInvitsService";
 
-export { ListInvitsService, AnswerInviteService, CreateInviteService };
+export {
+  AcceptInviteService,
+  ListInvitsService,
+  AnswerInviteService,
+  CreateInviteService,
+};
