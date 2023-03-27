@@ -9,6 +9,7 @@ import { deleteInput } from "../../../models/inputs/deleteInput";
 import { getByIdInput } from "../../../models/inputs/getByIdInput";
 import { getGuestsInput } from "../../../models/inputs/getGuestsInput";
 import { saveInput } from "../../../models/inputs/saveInput";
+import { updateControlPropsInput } from "../../../models/inputs/updateControlPropsInput";
 import { updatePasswordInput } from "../../../models/inputs/updatePasswordInput";
 import { verifyRoleInput } from "../../../models/inputs/verifyRoleInput";
 
@@ -126,6 +127,24 @@ class DeviceAccessControlRepository
       },
       skip,
       take,
+    });
+
+  public updateControlProps = ({
+    unlockAttempts,
+    lastFailedUnlock,
+    deviceId,
+    userId,
+    blocked,
+  }: updateControlPropsInput): PrismaPromise<DeviceAccessControlModel> =>
+    this.prisma.deviceAccessControl.update({
+      where: {
+        userId_deviceId: { deviceId, userId },
+      },
+      data: {
+        blocked,
+        unlockAttempts,
+        lastFailedUnlock,
+      },
     });
 }
 

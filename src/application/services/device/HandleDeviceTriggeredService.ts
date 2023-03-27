@@ -9,10 +9,13 @@ import { ChangeDeviceStatusRequestModel } from "@http/dtos/device/ChangeDeviceSt
 import { ChangeDeviceStatusResponseModel } from "@http/dtos/device/ChangeDeviceStatusResponseModel";
 import { IAlarmEventsRepository } from "@infra/database/repositories/alarmEvents";
 import { IDeviceRepository } from "@infra/database/repositories/device";
+import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
+import { IUserRepository } from "@infra/database/repositories/user";
 import { transaction } from "@infra/database/transaction";
 import { mailTransporter } from "@infra/mail";
 import { mqttClient } from "@infra/mqtt/client";
 import { IDateProvider } from "@providers/date";
+import { IHashProvider } from "@providers/hash";
 import { IMaskProvider } from "@providers/mask";
 import { IUniqueIdentifierProvider } from "@providers/uniqueIdentifier";
 import { IValidatorsProvider } from "@providers/validators";
@@ -32,6 +35,12 @@ class HandleDeviceTriggeredService extends ChangeDeviceStatusService {
     dateProvider: IDateProvider,
     @inject("MaskProvider")
     maskProvider: IMaskProvider,
+    @inject("DeviceAccessControlRepository")
+    deviceAccessControlRepository: IDeviceAccessControlRepository,
+    @inject("HashProvider")
+    hashProvider: IHashProvider,
+    @inject("UserRepository")
+    userRepository: IUserRepository,
     @inject("ValidatorsProvider")
     private validatorsProvider: IValidatorsProvider
   ) {
@@ -40,7 +49,10 @@ class HandleDeviceTriggeredService extends ChangeDeviceStatusService {
       deviceRepository,
       alarmEventsRepository,
       dateProvider,
-      maskProvider
+      maskProvider,
+      deviceAccessControlRepository,
+      hashProvider,
+      userRepository
     );
   }
 
@@ -69,6 +81,7 @@ class HandleDeviceTriggeredService extends ChangeDeviceStatusService {
         userId: null,
         deviceId: hasDevice.id,
         status: `${DeviceStatusDomain.TRIGGERED}`,
+        password: null,
       },
       false
     );

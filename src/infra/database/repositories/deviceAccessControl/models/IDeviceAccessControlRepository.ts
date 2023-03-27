@@ -5,6 +5,7 @@ import { deleteInput } from "./inputs/deleteInput";
 import { getByIdInput } from "./inputs/getByIdInput";
 import { getGuestsInput } from "./inputs/getGuestsInput";
 import { saveInput } from "./inputs/saveInput";
+import { updateControlPropsInput } from "./inputs/updateControlPropsInput";
 import { updatePasswordInput } from "./inputs/updatePasswordInput";
 import { verifyRoleInput } from "./inputs/verifyRoleInput";
 
@@ -24,6 +25,10 @@ interface IDeviceAccessControlRepository {
   delete(_: deleteInput): PrismaPromise<DeviceAccessControlModel>;
 
   countGuests(_: getGuestsInput): PrismaPromise<number>;
+
+  updateControlProps(
+    _: updateControlPropsInput
+  ): PrismaPromise<DeviceAccessControlModel>;
 
   getGuests(
     _: getGuestsInput,

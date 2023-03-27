@@ -107,7 +107,7 @@ class DeviceController {
   ): Promise<void> {
     const { id: userId } = req.user;
     const { device_id: deviceId } = req.params;
-    const { status } = req.body;
+    const { status, password } = req.body;
 
     const service = container.resolve(ChangeDeviceStatusService);
 
@@ -115,6 +115,7 @@ class DeviceController {
       userId,
       deviceId,
       status,
+      password,
     });
 
     res.status(HttpStatus.OK).json({
