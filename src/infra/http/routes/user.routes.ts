@@ -16,18 +16,18 @@ const ensureAuthenticated = container.resolve(
   EnsureUserAuthenticatedMiddleware
 );
 
-routes.post(
-  "/",
+routes.post("/", [
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
   logMiddleware.routeStart,
   controller.create,
-  handleUrlPatternMatchMiddleware.setHasUrlMatched()
-);
-routes.post(
-  "/resetPassword",
+  handleUrlPatternMatchMiddleware.setHasUrlMatched(),
+]);
+routes.post("/resetPassword", [
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
   logMiddleware.routeStart,
   ensureAuthenticated.execute,
   controller.resetPassword,
-  handleUrlPatternMatchMiddleware.setHasUrlMatched()
-);
+  handleUrlPatternMatchMiddleware.setHasUrlMatched(),
+]);
 
 export { routes };

@@ -19,13 +19,13 @@ const ensureAuthenticated = container.resolve(
   EnsureUserAuthenticatedMiddleware
 );
 
-routes.get(
-  "/:device_id",
+routes.get("/:device_id", [
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
   logMiddleware.routeStart,
   ensureAuthenticated.execute,
   RBAC.is(RolesKeys.OWNER),
   controller.list,
-  handleUrlPatternMatchMiddleware.setHasUrlMatched()
-);
+  handleUrlPatternMatchMiddleware.setHasUrlMatched(),
+]);
 
 export { routes };

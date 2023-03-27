@@ -19,20 +19,20 @@ const ensureAuthenticated = container.resolve(
 );
 const handleUrlPatternMatchMiddleware = new HandleUrlPatternMatchMiddleware();
 
-routes.get(
-  "/:device_id",
+routes.get("/:device_id", [
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
   logMiddleware.routeStart,
   ensureAuthenticated.execute,
   RBAC.is(RolesKeys.OWNER),
   controller.list,
-  handleUrlPatternMatchMiddleware.setHasUrlMatched()
-);
-routes.post(
-  "/revoke/:device_id",
+  handleUrlPatternMatchMiddleware.setHasUrlMatched(),
+]);
+routes.post("/revoke/:device_id", [
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
   logMiddleware.routeStart,
   ensureAuthenticated.execute,
   RBAC.is(RolesKeys.OWNER),
   controller.revokePermission,
-  handleUrlPatternMatchMiddleware.setHasUrlMatched()
-);
+  handleUrlPatternMatchMiddleware.setHasUrlMatched(),
+]);
 export { routes };

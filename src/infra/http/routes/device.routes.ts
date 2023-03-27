@@ -18,35 +18,35 @@ const ensureAuthenticated = container.resolve(
 );
 const handleUrlPatternMatchMiddleware = new HandleUrlPatternMatchMiddleware();
 
-routes.post(
-  "/",
+routes.post("/", [
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
   logMiddleware.routeStart,
   ensureAuthenticated.execute,
   controller.save,
-  handleUrlPatternMatchMiddleware.setHasUrlMatched()
-);
-routes.get(
-  "/",
+  handleUrlPatternMatchMiddleware.setHasUrlMatched(),
+]);
+routes.get("/", [
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
   logMiddleware.routeStart,
   ensureAuthenticated.execute,
   controller.list,
-  handleUrlPatternMatchMiddleware.setHasUrlMatched()
-);
-routes.post(
-  "/status/:device_id",
+  handleUrlPatternMatchMiddleware.setHasUrlMatched(),
+]);
+routes.post("/status/:device_id", [
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
   logMiddleware.routeStart,
   ensureAuthenticated.execute,
   RBAC.has(),
   controller.changeStatus,
-  handleUrlPatternMatchMiddleware.setHasUrlMatched()
-);
-routes.post(
-  "/resetPassword/:device_id",
+  handleUrlPatternMatchMiddleware.setHasUrlMatched(),
+]);
+routes.post("/resetPassword/:device_id", [
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
   logMiddleware.routeStart,
   ensureAuthenticated.execute,
   RBAC.has(),
   controller.resetPassword,
-  handleUrlPatternMatchMiddleware.setHasUrlMatched()
-);
+  handleUrlPatternMatchMiddleware.setHasUrlMatched(),
+]);
 
 export { routes };

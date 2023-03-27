@@ -11,17 +11,17 @@ const controller = new AuthController();
 const logMiddleware = new LogMiddleware();
 const handleUrlPatternMatchMiddleware = new HandleUrlPatternMatchMiddleware();
 
-routes.post(
-  "/",
+routes.post("/", [
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
   logMiddleware.routeStart,
   controller.login,
-  handleUrlPatternMatchMiddleware.setHasUrlMatched()
-);
-routes.post(
-  "/refresh",
+  handleUrlPatternMatchMiddleware.setHasUrlMatched(),
+]);
+routes.post("/refresh", [
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
   logMiddleware.routeStart,
   controller.refreshToken,
-  handleUrlPatternMatchMiddleware.setHasUrlMatched()
-);
+  handleUrlPatternMatchMiddleware.setHasUrlMatched(),
+]);
 
 export { routes };
