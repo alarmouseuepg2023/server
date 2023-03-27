@@ -93,6 +93,7 @@ model Invite {
 model DeviceAccessControl {
   role             String    @db.VarChar(32)
   password         String    @db.VarChar(100)
+  blocked          Boolean   @default(false)
   unlockAttempts   Int       @default(0) @map("unlock_attempts")
   lastFailedUnlock DateTime? @map("last_failed_unlock") @db.Timestamp()
 
