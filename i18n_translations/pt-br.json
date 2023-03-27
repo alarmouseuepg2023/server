@@ -4,7 +4,7 @@
   "DomainDeviceStatus_TRIGGERED": "Disparado",
   "DomainDeviceStatus_UNCONFIGURED": "Desconfigurado",
   "DomainDeviceStatus_UNLOCKED": "Desbloqueado",
-  "DomainInviteStatus_ACCEPTED": "Aceitado",
+  "DomainInviteStatus_ACCEPTED": "Aceito",
   "DomainInviteStatus_CREATED": "Criado",
   "DomainInviteStatus_REJECTED": "Rejeitado",
   "DomainInviteStatus_SENT": "Enviado",
