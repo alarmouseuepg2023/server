@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { container } from "tsyringe";
 
+import { RolesKeys } from "@commons/RolesKey";
 import { DeviceController } from "@controllers/DeviceController";
 import { EnsureUserAuthenticatedMiddleware } from "@middlewares/EnsureUserAuthenticatedMiddleware";
 import {
@@ -50,6 +51,24 @@ routes.post(
   ensureAuthenticated.execute,
   RBAC.has(),
   controller.resetPassword,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
+routes.patch(
+  "/changeWifi/:device_id",
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
+  logMiddleware.routeStart,
+  ensureAuthenticated.execute,
+  RBAC.is(RolesKeys.OWNER),
+  controller.changeWifi,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
+routes.patch(
+  "/changeNickname/:device_id",
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
+  logMiddleware.routeStart,
+  ensureAuthenticated.execute,
+  RBAC.is(RolesKeys.OWNER),
+  controller.changeNickname,
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
 
