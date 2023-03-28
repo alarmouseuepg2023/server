@@ -83,6 +83,7 @@ class HandleDeviceTriggeredService extends ChangeDeviceStatusService {
         status: `${DeviceStatusDomain.TRIGGERED}`,
         password: null,
       },
+      false,
       false
     );
 

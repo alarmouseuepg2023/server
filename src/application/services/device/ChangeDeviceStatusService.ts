@@ -46,7 +46,8 @@ class ChangeDeviceStatusService {
 
   public async execute(
     { deviceId, status, userId, password }: ChangeDeviceStatusRequestModel,
-    userRequired = true
+    userRequired = true,
+    publishChangedStatus = true
   ): Promise<ChangeDeviceStatusResponseModel> {
     if (userRequired) {
       if (stringIsNullOrEmpty(userId))
@@ -213,7 +214,7 @@ class ChangeDeviceStatusService {
       }),
     ]);
 
-    if (hasDevice.macAddress)
+    if (hasDevice.macAddress && publishChangedStatus)
       mqttClient.publish(
         TopicsMQTT.EMBEDDED_CHANGE_DEVICE_STATUS(
           this.maskProvider.macAddress(hasDevice.macAddress)
