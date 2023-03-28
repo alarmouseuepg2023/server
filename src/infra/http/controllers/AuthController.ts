@@ -80,14 +80,15 @@ class AuthController {
     res: Response<IResponseMessage<boolean>>,
     next: NextFunction
   ): Promise<void> {
-    const { confirmPassword, password, token } = req.body;
+    const { confirmPassword, password, pin, email } = req.body;
 
     const service = container.resolve(ResetPasswordService);
 
     const result = await service.execute({
       confirmPassword,
       password,
-      token,
+      email,
+      pin,
     });
 
     res.status(HttpStatus.OK).json({

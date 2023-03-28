@@ -50,6 +50,7 @@
   "ErrorPasswordOutOfBounds": "A senha deve possuir de {0} à {1} caracteres.",
   "ErrorPasswordRequired": "É necessário informar a senha.",
   "ErrorPasswordToWeak": "A senha é muito fraca. Mínimo de 8 caracteres, letras maiúsculas e minúsculas e pelo menos 1 número.",
+  "ErrorPinRequired": "É necessário informa o pin de autorização enviado via e-mail.",
   "ErrorQueryTypecasting": "Não foi possível realizar a operação com as informações opcionais informadas.",
   "ErrorRefreshTokenExpired": "As credenciais de atualização expiraram.",
   "ErrorRefreshTokenInvalid": "As credencias de atualização são inválidas. Por favor, realize a autenticação novamente.",
