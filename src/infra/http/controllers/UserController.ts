@@ -5,7 +5,7 @@ import { container } from "tsyringe";
 import { CreateUserResponseModel } from "@http/dtos/user/CreateUserResponseModel";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
-import { CreateUserService, ResetPasswordService } from "@services/user";
+import { ChangePasswordService, CreateUserService } from "@services/user";
 
 class UserController {
   public async create(
@@ -33,7 +33,7 @@ class UserController {
     return next();
   }
 
-  public async resetPassword(
+  public async changePassword(
     req: Request,
     res: Response<IResponseMessage>,
     next: NextFunction
@@ -41,7 +41,7 @@ class UserController {
     const { id: userId } = req.user;
     const { password, confirmPassword, oldPassword } = req.body;
 
-    const service = container.resolve(ResetPasswordService);
+    const service = container.resolve(ChangePasswordService);
 
     await service.execute({
       confirmPassword,

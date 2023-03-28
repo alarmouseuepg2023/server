@@ -24,11 +24,11 @@ routes.post(
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
 routes.post(
-  "/resetPassword",
+  "/changePassword",
   handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
   logMiddleware.routeStart,
   ensureAuthenticated.execute,
-  controller.resetPassword,
+  controller.changePassword,
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
 

@@ -5,7 +5,7 @@ import { AppError } from "@handlers/error/AppError";
 import { env } from "@helpers/env";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { toNumber } from "@helpers/toNumber";
-import { ResetPasswordRequestModel } from "@http/dtos/user/ResetPasswordRequestModel";
+import { ChangePasswordRequestModel } from "@http/dtos/user/ChangePasswordRequestModel";
 import { transaction } from "@infra/database/transaction";
 import { IHashProvider } from "@providers/hash";
 import { IPasswordProvider } from "@providers/password";
@@ -13,7 +13,7 @@ import { IUniqueIdentifierProvider } from "@providers/uniqueIdentifier";
 import { IUserRepository } from "@repositories/user";
 
 @injectable()
-class ResetPasswordService {
+class ChangePasswordService {
   constructor(
     @inject("UniqueIdentifierProvider")
     private uniqueIdentifierProvider: IUniqueIdentifierProvider,
@@ -30,7 +30,7 @@ class ResetPasswordService {
     password,
     oldPassword,
     userId,
-  }: ResetPasswordRequestModel): Promise<boolean> {
+  }: ChangePasswordRequestModel): Promise<boolean> {
     if (stringIsNullOrEmpty(oldPassword))
       throw new AppError(
         "BAD_REQUEST",
@@ -102,4 +102,4 @@ class ResetPasswordService {
   }
 }
 
-export { ResetPasswordService };
+export { ChangePasswordService };
