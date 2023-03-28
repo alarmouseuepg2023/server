@@ -25,5 +25,19 @@ routes.post(
   controller.refreshToken,
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
+routes.post(
+  "/forgotPassword",
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
+  logMiddleware.routeStart,
+  controller.forgotPassword,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
+routes.post(
+  "/resetPassword",
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
+  logMiddleware.routeStart,
+  controller.resetPassword,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
 
 export { routes };
