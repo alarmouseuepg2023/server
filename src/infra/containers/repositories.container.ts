@@ -3,20 +3,18 @@ import { container } from "tsyringe";
 import {
   AlarmEventsRepository,
   IAlarmEventsRepository,
-} from "@infra/database/repositories/alarmEvents";
-import {
-  DeviceRepository,
-  IDeviceRepository,
-} from "@infra/database/repositories/device";
+} from "@repositories/alarmEvents";
+import { DeviceRepository, IDeviceRepository } from "@repositories/device";
 import {
   DeviceAccessControlRepository,
   IDeviceAccessControlRepository,
-} from "@infra/database/repositories/deviceAccessControl";
-import {
-  IInviteRepository,
-  InviteRepository,
-} from "@infra/database/repositories/invite";
+} from "@repositories/deviceAccessControl";
+import { IInviteRepository, InviteRepository } from "@repositories/invite";
 import { IUserRepository, UserRepository } from "@repositories/user";
+import {
+  IWaitingEmailConfirmationRepository,
+  WaitingEmailConfirmationRepository,
+} from "@repositories/waitingEmailConfirmation";
 
 container.registerSingleton<IUserRepository>("UserRepository", UserRepository);
 
@@ -38,4 +36,9 @@ container.registerSingleton<IInviteRepository>(
 container.registerSingleton<IAlarmEventsRepository>(
   "AlarmEventsRepository",
   AlarmEventsRepository
+);
+
+container.registerSingleton<IWaitingEmailConfirmationRepository>(
+  "WaitingEmailConfirmationRepository",
+  WaitingEmailConfirmationRepository
 );
