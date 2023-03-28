@@ -1,13 +1,13 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-03-27T14:43:43.750Z",
+  "__export_date": "2023-03-28T22:15:35.747Z",
   "__export_source": "insomnia.desktop.app:v2022.5.0",
   "resources": [
     {
       "_id": "req_32dee7d5272a4916988b83ba5f6a3eba",
       "parentId": "fld_09fbc35d211a47e49b69ad417e50118f",
-      "modified": 1679928097059,
+      "modified": 1679961272191,
       "created": 1679761231303,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
       "name": "list",
@@ -90,7 +90,7 @@
     {
       "_id": "req_61f2e232ac664048ab38c19b74498bb7",
       "parentId": "fld_137e8dbacfb541dabc2f5dacd52432fd",
-      "modified": 1679928094738,
+      "modified": 1679961268776,
       "created": 1679744445615,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
       "name": "list",
@@ -128,7 +128,7 @@
     {
       "_id": "req_3e31a04e922b4d6da8c4a8d043f817f7",
       "parentId": "fld_78b81e5a0bd44c2e86096317d6620cca",
-      "modified": 1679927656847,
+      "modified": 1680038198978,
       "created": 1679913353877,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
       "name": "reject",
@@ -175,7 +175,7 @@
     {
       "_id": "req_e9c94156167f4d109509ae4b444f0f2f",
       "parentId": "fld_78b81e5a0bd44c2e86096317d6620cca",
-      "modified": 1679928092580,
+      "modified": 1680038198064,
       "created": 1679580102413,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "list",
@@ -201,7 +201,7 @@
     {
       "_id": "req_6c18b9b86d8644c8ac0b70fc4031e3e7",
       "parentId": "fld_78b81e5a0bd44c2e86096317d6620cca",
-      "modified": 1679928092088,
+      "modified": 1679967872360,
       "created": 1679571922766,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
       "name": "accept",
@@ -236,7 +236,7 @@
     {
       "_id": "req_3c9eb956b3674eaebc6c1bda3d995120",
       "parentId": "fld_78b81e5a0bd44c2e86096317d6620cca",
-      "modified": 1679928091546,
+      "modified": 1680036269339,
       "created": 1679509084902,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
       "name": "create",
@@ -271,7 +271,7 @@
     {
       "_id": "req_44ba6c8b4b864be1ad80c04a087ce742",
       "parentId": "fld_3555e794c45243d8878bbb5ff87708b2",
-      "modified": 1679928084129,
+      "modified": 1680041629573,
       "created": 1679504059656,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "list",
@@ -309,7 +309,7 @@
     {
       "_id": "req_00710941bd2e4ead81e6910329bb043c",
       "parentId": "fld_3555e794c45243d8878bbb5ff87708b2",
-      "modified": 1679913294798,
+      "modified": 1680041627301,
       "created": 1679436070298,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "save",
@@ -344,7 +344,7 @@
     {
       "_id": "req_fc482283cfba40eda35836c023fd4ce5",
       "parentId": "fld_3555e794c45243d8878bbb5ff87708b2",
-      "modified": 1679913295595,
+      "modified": 1680041626428,
       "created": 1679603290201,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
       "name": "resetPassword",
@@ -379,7 +379,7 @@
     {
       "_id": "req_f914009c21ee432d8bc9f119236d36cf",
       "parentId": "fld_3555e794c45243d8878bbb5ff87708b2",
-      "modified": 1679928088056,
+      "modified": 1680041625974,
       "created": 1679605720893,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
       "name": "status",
@@ -387,7 +387,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"status\": \"2\"\n}"
+        "text": "{\n\t\"status\": \"1\",\n\t\"password\": \"123456\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -414,7 +414,7 @@
     {
       "_id": "req_9cd26d9938984c888b071199f10e08ad",
       "parentId": "fld_ed80ab4f257d4b2b874629229928088a",
-      "modified": 1679928082776,
+      "modified": 1680041658664,
       "created": 1679334866620,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "create",
@@ -458,15 +458,15 @@
     {
       "_id": "req_a0e491b19bd3462c9bb8f21a86a9604d",
       "parentId": "fld_ed80ab4f257d4b2b874629229928088a",
-      "modified": 1679928079892,
+      "modified": 1680041677080,
       "created": 1679576584629,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
-      "name": "resetPassword",
+      "name": "changePassword",
       "description": "",
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"oldPassword\": \"SenhaPadrao123\",\n\t\"password\": \"SenhaPadrao123\",\n\t\"confirmPassword\": \"SenhaPadrao123\"\n}"
+        "text": "{\n\t\"oldPassword\": \"SenhaPadrao1236\",\n\t\"password\": \"SenhaPadrao123\",\n\t\"confirmPassword\": \"SenhaPadrao123\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -493,7 +493,7 @@
     {
       "_id": "req_c8c70aaaf9ae4866bfebd0be51a33e9f",
       "parentId": "fld_b46a53b4b641404a9cb56009a765d5bf",
-      "modified": 1679928071510,
+      "modified": 1680041657301,
       "created": 1679349672445,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
       "name": "refresh",
@@ -535,9 +535,73 @@
       "_type": "request_group"
     },
     {
+      "_id": "req_d5096c204e4d45c1823c8c58137f6c08",
+      "parentId": "fld_b46a53b4b641404a9cb56009a765d5bf",
+      "modified": 1680041654833,
+      "created": 1680037098202,
+      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
+      "name": "forgotPassword",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"email\": \"email@email.com\"\n}\t"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_65818761c86a4a2a9282b9388c5c6f73"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1679342269532.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_5716675e83814aab97da183a8375bac8",
+      "parentId": "fld_b46a53b4b641404a9cb56009a765d5bf",
+      "modified": 1680041655412,
+      "created": 1680037137458,
+      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
+      "name": "resetPassword",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"pin\": \"735065\",\n\t\"password\": \"SenhaPadrao1236\",\n\t\"confirmPassword\": \"SenhaPadrao1236\",\n\t\"email\": \"email@email.com\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_65818761c86a4a2a9282b9388c5c6f73"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1679338568076.25,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
       "_id": "req_444514f8504145588253c23220ae265d",
       "parentId": "fld_b46a53b4b641404a9cb56009a765d5bf",
-      "modified": 1679928064651,
+      "modified": 1680041650288,
       "created": 1679245043762,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "login",
@@ -545,7 +609,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"email\": \"email@email.com\",\n\t\"password\": \"SenhaPadrao123\"\n}"
+        "text": "{\n\t\"email\": \"email@email.com\",\n\t\"password\": \"SenhaPadrao1236\"\n}"
       },
       "parameters": [],
       "headers": [
