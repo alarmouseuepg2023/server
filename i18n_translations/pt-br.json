@@ -76,6 +76,8 @@
   "MailSentInviteSubject": "Você recebeu um novo convite!!",
   "MailSentNotificationDeviceTriggeredHtml": "Seu dispositivo <b>{0}</b> foi ACIONADO em <b>{1}</b>.",
   "MailSentNotificationDeviceTriggeredSubject": "ATENÇÃO!! Seu dispositivo foi acionado!",
+  "MailSentResetPasswordNotificationHtml": "Você solicitou a redefinição de senha da sua conta. Caso não tenha sido você, desconsidere este email.<br/>Pin para redefinição: <b>{0}</b><br/>Solicitação expira em: <b>{1}</b>.",
+  "MailSentResetPasswordNotificationSubject": "Novo pedido para alteração de senha!",
   "RandomWord_Email": "E-mail",
   "RandomWord_Guest": "Convidado",
   "RandomWord_Name": "Nome",
