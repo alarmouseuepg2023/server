@@ -8,6 +8,7 @@
   "DomainInviteStatus_CREATED": "Criado",
   "DomainInviteStatus_REJECTED": "Rejeitado",
   "DomainInviteStatus_SENT": "Enviado",
+  "DomainOperationsWithEmailConfirmation_RESET_PASSWORD": "Redefinição de senha",
   "ErrorAnswerInviteExpired": "O convite expirou.",
   "ErrorAnswerInviteTokenInvalid": "O pin informado para responder o convite é inválido.",
   "ErrorAuthTokenExpired": "As credenciais de autenticação expiraram. Por favor, realize a autenticação novamente.",
