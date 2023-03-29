@@ -11,6 +11,10 @@ const devicesSubscriptions = (): void => {
       qos: 2,
       cb: controller.deviceTriggered,
     },
+    [`${TopicsMQTT.EMBEDDED_CHANGE_WIFI}`]: {
+      qos: 2,
+      cb: controller.changeWifi,
+    },
   });
 };
 

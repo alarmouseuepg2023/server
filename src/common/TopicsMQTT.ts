@@ -17,6 +17,8 @@ class TopicsMQTT {
     `/alarmouse/mqtt/se/${this.privateTopicsHash}/control/status/${macAddress}`;
 
   public static EMBEDDED_DEVICE_TRIGGERED = `/alarmouse/mqtt/se/${this.privateTopicsHash}/control/triggered`;
+
+  public static EMBEDDED_CHANGE_WIFI = `/alarmouse/mqtt/se/${this.privateTopicsHash}/control/wifi`;
 }
 
 export { TopicsMQTT };
