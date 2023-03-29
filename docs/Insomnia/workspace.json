@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-03-29T11:27:33.983Z",
+  "__export_date": "2023-03-29T16:40:05.984Z",
   "__export_source": "insomnia.desktop.app:v2022.5.0",
   "resources": [
     {
@@ -90,7 +90,7 @@
     {
       "_id": "req_61f2e232ac664048ab38c19b74498bb7",
       "parentId": "fld_137e8dbacfb541dabc2f5dacd52432fd",
-      "modified": 1679961268776,
+      "modified": 1680106102430,
       "created": 1679744445615,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
       "name": "list",
@@ -269,56 +269,9 @@
       "_type": "request"
     },
     {
-      "_id": "req_35ca675d14e245eb9809de9a9f98aa54",
-      "parentId": "fld_3555e794c45243d8878bbb5ff87708b2",
-      "modified": 1680089099935,
-      "created": 1680044808285,
-      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
-      "name": "changeWifi",
-      "description": "",
-      "method": "PATCH",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\"ssid\": \"rede_2.4g_nova\",\n\t\"password\": \"senharedewifi\"\n}"
-      },
-      "parameters": [],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_fc391916ddf6498c972fd971f4fda45c"
-        }
-      ],
-      "authentication": {
-        "type": "bearer",
-        "token": "{% response 'body', 'req_444514f8504145588253c23220ae265d', 'b64::JC5jb250ZW50LmFjY2Vzc1Rva2Vu::46b', 'never', 60 %}"
-      },
-      "metaSortKey": -1680044808285,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "fld_3555e794c45243d8878bbb5ff87708b2",
-      "parentId": "wrk_d0945dd4e0ab4bce9c2ce5956903b7f7",
-      "modified": 1679436068037,
-      "created": 1679436068037,
-      "name": "device",
-      "description": "",
-      "environment": {},
-      "environmentPropertyOrder": null,
-      "metaSortKey": -1679436068037,
-      "_type": "request_group"
-    },
-    {
       "_id": "req_837d97d67a4b4a53a1e639338a966633",
       "parentId": "fld_3555e794c45243d8878bbb5ff87708b2",
-      "modified": 1680088692748,
+      "modified": 1680089285868,
       "created": 1680044909711,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
       "name": "changeNickname",
@@ -351,6 +304,18 @@
       "_type": "request"
     },
     {
+      "_id": "fld_3555e794c45243d8878bbb5ff87708b2",
+      "parentId": "wrk_d0945dd4e0ab4bce9c2ce5956903b7f7",
+      "modified": 1679436068037,
+      "created": 1679436068037,
+      "name": "device",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1679436068037,
+      "_type": "request_group"
+    },
+    {
       "_id": "req_44ba6c8b4b864be1ad80c04a087ce742",
       "parentId": "fld_3555e794c45243d8878bbb5ff87708b2",
       "modified": 1680089241544,
@@ -379,7 +344,7 @@
     {
       "_id": "req_00710941bd2e4ead81e6910329bb043c",
       "parentId": "fld_3555e794c45243d8878bbb5ff87708b2",
-      "modified": 1680044966781,
+      "modified": 1680106892877,
       "created": 1679436070298,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "save",
@@ -387,7 +352,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"macAddress\": \"aa:01:a3:b5:f4:61\",\n  \"ownerPassword\": \"123456\",\n  \"nickname\": \"Alarme de casa\",\n  \"wifiSsid\": \"rede_2.4g\",\n  \"wifiPassword\": \"40028922\"\n}"
+        "text": "{\n\t\"macAddress\": \"aa:01:a3:b5:f4:61\",\n  \"ownerPassword\": \"123456\",\n  \"nickname\": \"Alarme de casa\",\n  \"wifiSsid\": \"rede_2.4g\"\n}"
       },
       "parameters": [],
       "headers": [
