@@ -84,7 +84,7 @@ class MQTTClient {
 
     logger.info(`MQTT Client received message at ${topic}`);
 
-    subscription.cb(payload);
+    subscription.cb(payload).catch((e) => subscription.errorHandler(e));
   };
 }
 
