@@ -3,7 +3,6 @@ type CreateDeviceRequestModel = {
   ownerPassword: string;
   nickname: string;
   wifiSsid: string;
-  wifiPassword: string;
   userId: string;
 };
 

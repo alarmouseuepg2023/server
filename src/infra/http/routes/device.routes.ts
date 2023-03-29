@@ -54,15 +54,6 @@ routes.post(
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
 routes.patch(
-  "/changeWifi/:device_id",
-  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
-  logMiddleware.routeStart,
-  ensureAuthenticated.execute,
-  RBAC.is(RolesKeys.OWNER),
-  controller.changeWifi,
-  handleUrlPatternMatchMiddleware.setHasUrlMatched()
-);
-routes.patch(
   "/changeNickname/:device_id",
   handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
   logMiddleware.routeStart,

@@ -40,7 +40,6 @@ class CreateDeviceService {
     macAddress,
     nickname,
     ownerPassword,
-    wifiPassword,
     wifiSsid,
     userId,
   }: CreateDeviceRequestModel): Promise<CreateDeviceResponseModel> {
@@ -84,9 +83,6 @@ class CreateDeviceService {
         ])
       );
 
-    if (stringIsNullOrEmpty(wifiPassword))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorWifiPasswordRequired"));
-
     if (stringIsNullOrEmpty(ownerPassword))
       throw new AppError("BAD_REQUEST", i18n.__("ErrorOwnerPasswordRequired"));
 
@@ -116,7 +112,6 @@ class CreateDeviceService {
       this.deviceRepository.save({
         macAddress: macAddressFormatted,
         nickname,
-        wifiPassword: await this.hashProvider.hash(wifiPassword, hashSalt),
         wifiSsid,
         userId,
         status: DeviceStatusDomain.UNCONFIGURED,

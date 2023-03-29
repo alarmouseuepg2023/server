@@ -3,7 +3,6 @@ type DeviceModel = {
   macAddress: string;
   nickname: string;
   wifiSsid: string;
-  wifiPassword: string;
   status: number;
 };
 

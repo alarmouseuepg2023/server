@@ -21,7 +21,6 @@ class DeviceRepository extends BaseRepository implements IDeviceRepository {
         macAddress: true,
         nickname: true,
         wifiSsid: true,
-        wifiPassword: true,
         status: true,
       },
     });
@@ -31,7 +30,6 @@ class DeviceRepository extends BaseRepository implements IDeviceRepository {
     macAddress,
     nickname,
     status,
-    wifiPassword,
     wifiSsid,
     userId,
   }: DeviceModel & { userId: string }): PrismaPromise<DeviceModel> =>
@@ -42,13 +40,11 @@ class DeviceRepository extends BaseRepository implements IDeviceRepository {
         macAddress,
         nickname,
         status,
-        wifiPassword,
         wifiSsid,
         ownerId: userId,
       },
       update: {
         nickname,
-        wifiPassword,
         wifiSsid,
         status,
       },

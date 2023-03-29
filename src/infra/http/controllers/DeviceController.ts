@@ -12,7 +12,6 @@ import { HttpStatus } from "@http/utils/HttpStatus";
 import {
   ChangeDeviceStatusService,
   ChangeNicknameService,
-  ChangeWifiService,
   CreateDeviceService,
   ListDevicesService,
   ResetDevicePasswordService,
@@ -24,8 +23,7 @@ class DeviceController {
     res: Response<IResponseMessage<CreateDeviceResponseModel>>,
     next: NextFunction
   ): Promise<void> {
-    const { macAddress, ownerPassword, nickname, wifiSsid, wifiPassword } =
-      req.body;
+    const { macAddress, ownerPassword, nickname, wifiSsid } = req.body;
 
     const { id: userId } = req.user;
 
@@ -35,7 +33,6 @@ class DeviceController {
       macAddress,
       nickname,
       ownerPassword,
-      wifiPassword,
       wifiSsid,
       userId,
     });
@@ -119,33 +116,6 @@ class DeviceController {
       deviceId,
       status,
       password,
-    });
-
-    res.status(HttpStatus.OK).json({
-      success: true,
-      content: result,
-      message: i18n.__("SuccessGeneric"),
-    });
-
-    return next();
-  }
-
-  public async changeWifi(
-    req: Request,
-    res: Response<IResponseMessage<UpdateDeviceResponseModel>>,
-    next: NextFunction
-  ): Promise<void> {
-    const { id: userId } = req.user;
-    const { device_id: deviceId } = req.params;
-    const { ssid, password } = req.body;
-
-    const service = container.resolve(ChangeWifiService);
-
-    const result = await service.execute({
-      ssid,
-      password,
-      userId,
-      deviceId,
     });
 
     res.status(HttpStatus.OK).json({
