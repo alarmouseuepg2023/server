@@ -43,7 +43,6 @@ model Device {
   macAddress   String @unique @map("mac_address") @db.VarChar(12)
   nickname     String @db.VarChar(32)
   wifiSsid     String @map("wifi_ssid") @db.VarChar(32)
-  wifiPassword String @map("wifi_password") @db.VarChar(100)
   status       Int    @db.SmallInt
 
   ownerId String @map("owner_id") @db.Uuid()
