@@ -108,15 +108,9 @@ class DeviceRepository extends BaseRepository implements IDeviceRepository {
 
   public getById = ({
     deviceId,
-  }: getByIdInput): PrismaPromise<Partial<DeviceModel> | null> =>
+  }: getByIdInput): PrismaPromise<DeviceModel | null> =>
     this.prisma.device.findFirst({
       where: { id: deviceId },
-      select: {
-        id: true,
-        nickname: true,
-        status: true,
-        macAddress: true,
-      },
     });
 
   public updateStatus = ({

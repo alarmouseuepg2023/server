@@ -13,7 +13,7 @@ interface IDeviceRepository {
 
   save(_: DeviceModel & { userId: string }): PrismaPromise<DeviceModel>;
 
-  getById(_: getByIdInput): PrismaPromise<Partial<DeviceModel> | null>;
+  getById(_: getByIdInput): PrismaPromise<DeviceModel | null>;
 
   count(_: getInput): PrismaPromise<number>;
 
