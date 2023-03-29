@@ -120,16 +120,17 @@ class DeviceRepository extends BaseRepository implements IDeviceRepository {
 
   public getByMacAddress = ({
     macAddress,
-  }: getIdByMacAddressInput): PrismaPromise<{
-    id: string;
-    nickname: string;
-    owner: { email: string };
-  } | null> =>
+  }: getIdByMacAddressInput): PrismaPromise<
+    (DeviceModel & { owner: { email: string } }) | null
+  > =>
     this.prisma.device.findFirst({
       where: { macAddress },
       select: {
         id: true,
         nickname: true,
+        status: true,
+        wifiSsid: true,
+        macAddress: true,
         owner: {
           select: {
             email: true,

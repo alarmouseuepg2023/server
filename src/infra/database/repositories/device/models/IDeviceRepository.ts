@@ -28,11 +28,9 @@ interface IDeviceRepository {
 
   updateStatus(_: updateStatusInput): PrismaPromise<DeviceModel>;
 
-  getByMacAddress(_: getIdByMacAddressInput): PrismaPromise<{
-    id: string;
-    nickname: string;
-    owner: { email: string };
-  } | null>;
+  getByMacAddress(
+    _: getIdByMacAddressInput
+  ): PrismaPromise<(DeviceModel & { owner: { email: string } }) | null>;
 }
 
 export { IDeviceRepository };

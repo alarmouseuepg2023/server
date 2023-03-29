@@ -1,8 +1,6 @@
 type ChangeWifiRequestModel = {
-  userId: string;
-  deviceId: string;
+  macAddress: string;
   ssid: string;
-  password: string;
 };
 
 export { ChangeWifiRequestModel };

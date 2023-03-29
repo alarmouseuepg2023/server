@@ -1,21 +1,18 @@
 import i18n from "i18n";
 import { inject, injectable } from "tsyringe";
 
+import { RolesKeys } from "@commons/RolesKey";
 import { VarcharMaxLength } from "@commons/VarcharMaxLength";
 import { DeviceStatusDomain } from "@domains/DeviceStatusDomain";
 import { AppError } from "@handlers/error/AppError";
-import { env } from "@helpers/env";
 import { getEnumDescription } from "@helpers/getEnumDescription";
 import { getUserType2External } from "@helpers/getUserType2External";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
-import { toNumber } from "@helpers/toNumber";
 import { ChangeWifiRequestModel } from "@http/dtos/device/ChangeWifiRequestModel";
 import { UpdateDeviceResponseModel } from "@http/dtos/device/UpdateDeviceResponseModel";
 import { IDeviceRepository } from "@infra/database/repositories/device";
-import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
 import { transaction } from "@infra/database/transaction";
-import { IHashProvider } from "@providers/hash";
-import { IUniqueIdentifierProvider } from "@providers/uniqueIdentifier";
+import { IMaskProvider } from "@providers/mask";
 import { IValidatorsProvider } from "@providers/validators";
 
 @injectable()
@@ -23,25 +20,16 @@ class ChangeWifiService {
   constructor(
     @inject("ValidatorsProvider")
     private validatorsProvider: IValidatorsProvider,
-    @inject("UniqueIdentifierProvider")
-    private uniqueIdentifierProvider: IUniqueIdentifierProvider,
     @inject("DeviceRepository")
-    protected deviceRepository: IDeviceRepository,
-    @inject("DeviceAccessControlRepository")
-    private deviceAccessControlRepository: IDeviceAccessControlRepository,
-    @inject("HashProvider")
-    private hashProvider: IHashProvider
+    private deviceRepository: IDeviceRepository,
+    @inject("MaskProvider")
+    private maskProvider: IMaskProvider
   ) {}
 
   public async execute({
-    deviceId,
-    password,
+    macAddress,
     ssid,
-    userId,
   }: ChangeWifiRequestModel): Promise<UpdateDeviceResponseModel> {
-    if (stringIsNullOrEmpty(password))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorWifiPasswordRequired"));
-
     if (stringIsNullOrEmpty(ssid))
       throw new AppError("BAD_REQUEST", i18n.__("ErrorWifiSsidRequired"));
 
@@ -56,47 +44,25 @@ class ChangeWifiService {
         ])
       );
 
-    if (stringIsNullOrEmpty(userId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUserIdRequired"));
+    if (stringIsNullOrEmpty(macAddress))
+      throw new AppError("BAD_REQUEST", i18n.__("ErrorMacAddressRequired"));
 
-    if (stringIsNullOrEmpty(deviceId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorDeviceIdRequired"));
+    if (!this.validatorsProvider.macAddress(macAddress))
+      throw new AppError("BAD_REQUEST", i18n.__("ErrorMacAddressInvalid"));
 
-    if (
-      !this.uniqueIdentifierProvider.isValid(deviceId) ||
-      !this.uniqueIdentifierProvider.isValid(userId)
-    )
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUUIDInvalid"));
-
-    const [hasDevice, hasDeviceAccessControl] = await transaction([
-      this.deviceRepository.getById({
-        deviceId,
-      }),
-      this.deviceAccessControlRepository.getById({
-        deviceId,
-        userId,
+    const [hasDevice] = await transaction([
+      this.deviceRepository.getByMacAddress({
+        macAddress: this.maskProvider.removeMacAddress(macAddress),
       }),
     ]);
 
     if (!hasDevice)
       throw new AppError("NOT_FOUND", i18n.__("ErrorDeviceNotFound"));
 
-    if (!hasDeviceAccessControl)
-      throw new AppError(
-        "NOT_FOUND",
-        i18n.__("ErrorDeviceAccessControlNotFound")
-      );
-
-    const hashSalt = toNumber({
-      value: env("PASSWORD_HASH_SALT"),
-      error: i18n.__("ErrorEnvVarNotFound"),
-    });
-
     const [updated] = await transaction([
       this.deviceRepository.save({
         ...hasDevice,
         wifiSsid: ssid,
-        wifiPassword: await this.hashProvider.hash(password, hashSalt),
         userId: "",
       }),
     ]);
@@ -108,7 +74,7 @@ class ChangeWifiService {
         "DEVICE_STATUS",
         DeviceStatusDomain[updated.status]
       ),
-      role: getUserType2External(hasDeviceAccessControl.role),
+      role: getUserType2External(RolesKeys.OWNER),
     };
   }
 }
