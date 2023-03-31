@@ -5,6 +5,7 @@ type ListDevicesResponseModel = {
   status: string;
   wifiSsid: string;
   role: string;
+  ownerName: string;
 };
 
 export { ListDevicesResponseModel };

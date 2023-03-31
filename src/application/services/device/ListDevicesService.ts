@@ -48,6 +48,7 @@ class ListDevicesService {
           nickname,
           status,
           wifiSsid,
+          owner,
         }): ListDevicesResponseModel => ({
           id,
           nickname,
@@ -58,6 +59,7 @@ class ListDevicesService {
             DeviceStatusDomain[status]
           ),
           wifiSsid,
+          ownerName: owner.name,
         })
       ),
     };

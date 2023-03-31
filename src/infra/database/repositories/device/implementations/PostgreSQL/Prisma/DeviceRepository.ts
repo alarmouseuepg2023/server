@@ -66,6 +66,7 @@ class DeviceRepository extends BaseRepository implements IDeviceRepository {
     [take, skip]: [number, number]
   ): PrismaPromise<
     (Exclude<DeviceModel, "wifiPassword"> & {
+      owner: { name: string };
       DeviceAccessControl: Exclude<DeviceAccessControlModel, "password">[];
     })[]
   > =>
@@ -83,6 +84,11 @@ class DeviceRepository extends BaseRepository implements IDeviceRepository {
         nickname: true,
         wifiSsid: true,
         status: true,
+        owner: {
+          select: {
+            name: true,
+          },
+        },
         DeviceAccessControl: {
           where: { userId },
           take: 1,
@@ -98,6 +104,7 @@ class DeviceRepository extends BaseRepository implements IDeviceRepository {
       skip,
     }) as PrismaPromise<
       (Exclude<DeviceModel, "wifiPassword"> & {
+        owner: { name: string };
         DeviceAccessControl: Exclude<DeviceAccessControlModel, "password">[];
       })[]
     >;

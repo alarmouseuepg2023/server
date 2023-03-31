@@ -22,6 +22,7 @@ interface IDeviceRepository {
     __: [number, number]
   ): PrismaPromise<
     (Exclude<DeviceModel, "wifiPassword"> & {
+      owner: { name: string };
       DeviceAccessControl: Exclude<DeviceAccessControlModel, "password">[];
     })[]
   >;
