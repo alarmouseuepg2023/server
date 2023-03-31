@@ -76,6 +76,8 @@
   "ErrorWifiPasswordRequired": "É necessário informar a senha da rede Wi-fi.",
   "ErrorWifiSsidRequired": "É necessário informar o nome da rede Wi-fi.",
   "ErrorWithoutHandling": "Ocorreu um erro. Por favor, entre em contato com um administrador.",
+  "MailSentDeleteAccountNotificationHtml": "Você solicitou a exclusão da sua conta. Caso não tenha sido você, desconsidere este email.<br/>Pin para confirmação: <b>{0}</b><br/>Solicitação expira em: <b>{1}</b>.",
+  "MailSentDeleteAccountNotificationSubject": "Confirmar exclusão de conta!!",
   "MailSentInviteHtml": "Olá, {0}. <br/> Você recebeu um novo convite para gerenciar o dispositivo <b>{1}</b> de <b>{2}</b>. <br/>Código para aceitar o convite: <b>{3}</b>.",
   "MailSentInviteSubject": "Você recebeu um novo convite!!",
   "MailSentNotificationDeviceTriggeredHtml": "Seu dispositivo <b>{0}</b> foi ACIONADO em <b>{1}</b>.",
