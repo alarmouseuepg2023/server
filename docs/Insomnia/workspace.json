@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-03-29T16:40:05.984Z",
+  "__export_date": "2023-03-31T18:53:29.652Z",
   "__export_source": "insomnia.desktop.app:v2022.5.0",
   "resources": [
     {
@@ -90,9 +90,9 @@
     {
       "_id": "req_61f2e232ac664048ab38c19b74498bb7",
       "parentId": "fld_137e8dbacfb541dabc2f5dacd52432fd",
-      "modified": 1680106102430,
+      "modified": 1680287914920,
       "created": 1679744445615,
-      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
+      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{{ _.device_id }}",
       "name": "list",
       "description": "",
       "method": "GET",
@@ -175,7 +175,7 @@
     {
       "_id": "req_e9c94156167f4d109509ae4b444f0f2f",
       "parentId": "fld_78b81e5a0bd44c2e86096317d6620cca",
-      "modified": 1680038198064,
+      "modified": 1680288520247,
       "created": 1679580102413,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "list",
@@ -201,7 +201,7 @@
     {
       "_id": "req_6c18b9b86d8644c8ac0b70fc4031e3e7",
       "parentId": "fld_78b81e5a0bd44c2e86096317d6620cca",
-      "modified": 1679967872360,
+      "modified": 1680287752146,
       "created": 1679571922766,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
       "name": "accept",
@@ -209,7 +209,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"token\": \"855736\",\n\t\"id\": \"9b41668a-39cd-4c58-8861-b33c7554073b\",\n\t\"password\": \"123456\",\n  \"confirmPassword\": \"123456\"\n}"
+        "text": "{\n\t\"token\": \"678351\",\n\t\"id\": \"20b4944c-95d3-413a-b302-6a122e48005e\",\n\t\"password\": \"123456\",\n  \"confirmPassword\": \"123456\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -236,9 +236,9 @@
     {
       "_id": "req_3c9eb956b3674eaebc6c1bda3d995120",
       "parentId": "fld_78b81e5a0bd44c2e86096317d6620cca",
-      "modified": 1680036269339,
+      "modified": 1680287743361,
       "created": 1679509084902,
-      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
+      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{{ _.device_id }}",
       "name": "create",
       "description": "",
       "method": "POST",
@@ -318,7 +318,7 @@
     {
       "_id": "req_44ba6c8b4b864be1ad80c04a087ce742",
       "parentId": "fld_3555e794c45243d8878bbb5ff87708b2",
-      "modified": 1680089241544,
+      "modified": 1680288517332,
       "created": 1679504059656,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "list",
@@ -344,7 +344,7 @@
     {
       "_id": "req_00710941bd2e4ead81e6910329bb043c",
       "parentId": "fld_3555e794c45243d8878bbb5ff87708b2",
-      "modified": 1680106892877,
+      "modified": 1680287718623,
       "created": 1679436070298,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "save",
@@ -414,9 +414,9 @@
     {
       "_id": "req_f914009c21ee432d8bc9f119236d36cf",
       "parentId": "fld_3555e794c45243d8878bbb5ff87708b2",
-      "modified": 1680044968737,
+      "modified": 1680287910767,
       "created": 1679605720893,
-      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
+      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/{{ _.device_id }}",
       "name": "status",
       "description": "",
       "method": "POST",
@@ -447,28 +447,22 @@
       "_type": "request"
     },
     {
-      "_id": "req_9cd26d9938984c888b071199f10e08ad",
+      "_id": "req_93015dc1a21a4438ad65b59cae312949",
       "parentId": "fld_ed80ab4f257d4b2b874629229928088a",
-      "modified": 1680041658664,
-      "created": 1679334866620,
-      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
-      "name": "create",
+      "modified": 1680288621846,
+      "created": 1680283044670,
+      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
+      "name": "delete/request",
       "description": "",
       "method": "POST",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\"password\": \"SenhaPadrao123\",\n\t\"confirmPassword\": \"SenhaPadrao123\",\n\t\"email\": \"email@email.com\",\n\t\"name\": \"Marcos Krul\"\n}"
-      },
+      "body": {},
       "parameters": [],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_ed4aef898f2a4a6284d80940900e0e87"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1679334866620,
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_444514f8504145588253c23220ae265d', 'b64::JC5jb250ZW50LmFjY2Vzc1Rva2Vu::46b', 'never', 60 %}"
+      },
+      "metaSortKey": -1680283044670,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -489,6 +483,64 @@
       "environmentPropertyOrder": null,
       "metaSortKey": -1679334863038,
       "_type": "request_group"
+    },
+    {
+      "_id": "req_dc57c52a08244faa825959efe18e7e46",
+      "parentId": "fld_ed80ab4f257d4b2b874629229928088a",
+      "modified": 1680288637500,
+      "created": 1680283057366,
+      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/400545",
+      "name": "delete/confirm",
+      "description": "",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_444514f8504145588253c23220ae265d', 'b64::JC5jb250ZW50LmFjY2Vzc1Rva2Vu::46b', 'never', 60 %}"
+      },
+      "metaSortKey": -1680131058322,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_9cd26d9938984c888b071199f10e08ad",
+      "parentId": "fld_ed80ab4f257d4b2b874629229928088a",
+      "modified": 1680287686046,
+      "created": 1679334866620,
+      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
+      "name": "create",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"password\": \"SenhaPadrao123\",\n\t\"confirmPassword\": \"SenhaPadrao123\",\n\t\"email\": \"email1@email.com\",\n\t\"name\": \"Marcos Krul\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_ed4aef898f2a4a6284d80940900e0e87"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1679334866620,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
     },
     {
       "_id": "req_a0e491b19bd3462c9bb8f21a86a9604d",
@@ -572,7 +624,7 @@
     {
       "_id": "req_d5096c204e4d45c1823c8c58137f6c08",
       "parentId": "fld_b46a53b4b641404a9cb56009a765d5bf",
-      "modified": 1680041654833,
+      "modified": 1680280847456,
       "created": 1680037098202,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
       "name": "forgotPassword",
@@ -636,7 +688,7 @@
     {
       "_id": "req_444514f8504145588253c23220ae265d",
       "parentId": "fld_b46a53b4b641404a9cb56009a765d5bf",
-      "modified": 1680041650288,
+      "modified": 1680288618192,
       "created": 1679245043762,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "login",
@@ -644,7 +696,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"email\": \"email@email.com\",\n\t\"password\": \"SenhaPadrao1236\"\n}"
+        "text": "{\n\t\"email\": \"email1@email.com\",\n\t\"password\": \"SenhaPadrao123\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -700,15 +752,17 @@
     {
       "_id": "env_ecbebc3a49ec479592017086b11b4cbf",
       "parentId": "env_1243ae4af5f36e44f9e605a7f0443b6940da639b",
-      "modified": 1679338485819,
+      "modified": 1680287712519,
       "created": 1679245014413,
       "name": "dev",
       "data": {
-        "base_url": "http://localhost:3333/api"
+        "base_url": "http://localhost:3333/api",
+        "device_id": "f3f65f31-3bde-48b5-af74-9dee8d68bca0"
       },
       "dataPropertyOrder": {
         "&": [
-          "base_url"
+          "base_url",
+          "device_id"
         ]
       },
       "color": "#2be811",
@@ -719,15 +773,17 @@
     {
       "_id": "env_19a879df425547248868f0fd4155a2c5",
       "parentId": "env_1243ae4af5f36e44f9e605a7f0443b6940da639b",
-      "modified": 1679509504314,
+      "modified": 1680287718053,
       "created": 1679338450432,
       "name": "homolog",
       "data": {
-        "base_url": "https://server-wefs.onrender.com/api"
+        "base_url": "https://server-wefs.onrender.com/api",
+        "device_id": "f3f65f31-3bde-48b5-af74-9dee8d68bca0"
       },
       "dataPropertyOrder": {
         "&": [
-          "base_url"
+          "base_url",
+          "device_id"
         ]
       },
       "color": "#e90c0c",
