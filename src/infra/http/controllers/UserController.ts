@@ -5,7 +5,12 @@ import { container } from "tsyringe";
 import { CreateUserResponseModel } from "@http/dtos/user/CreateUserResponseModel";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
-import { ChangePasswordService, CreateUserService } from "@services/user";
+import {
+  ChangePasswordService,
+  ConfirmDeletionService,
+  CreateUserService,
+  RequestDeletionService,
+} from "@services/user";
 
 class UserController {
   public async create(
@@ -52,6 +57,52 @@ class UserController {
 
     res.status(HttpStatus.OK).json({
       success: true,
+      message: i18n.__("SuccessGeneric"),
+    });
+
+    return next();
+  }
+
+  public async requestDeletion(
+    req: Request,
+    res: Response<IResponseMessage<boolean>>,
+    next: NextFunction
+  ): Promise<void> {
+    const { id: userId } = req.user;
+
+    const service = container.resolve(RequestDeletionService);
+
+    const result = await service.execute({
+      userId,
+    });
+
+    res.status(HttpStatus.OK).json({
+      success: true,
+      content: result,
+      message: i18n.__("SuccessGeneric"),
+    });
+
+    return next();
+  }
+
+  public async confirmDeletion(
+    req: Request,
+    res: Response<IResponseMessage<boolean>>,
+    next: NextFunction
+  ): Promise<void> {
+    const { id: userId } = req.user;
+    const { pin } = req.params;
+
+    const service = container.resolve(ConfirmDeletionService);
+
+    const result = await service.execute({
+      pin,
+      userId,
+    });
+
+    res.status(HttpStatus.OK).json({
+      success: true,
+      content: result,
       message: i18n.__("SuccessGeneric"),
     });
 

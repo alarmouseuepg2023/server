@@ -31,5 +31,21 @@ routes.post(
   controller.changePassword,
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
+routes.post(
+  "/delete/request",
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
+  logMiddleware.routeStart,
+  ensureAuthenticated.execute,
+  controller.requestDeletion,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
+routes.delete(
+  "/delete/confirm/:pin",
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
+  logMiddleware.routeStart,
+  ensureAuthenticated.execute,
+  controller.confirmDeletion,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
 
 export { routes };
