@@ -3,6 +3,7 @@ import { UserModel } from "@models/UserModel";
 import { PrismaPromise } from "@prisma/client";
 import { IUserRepository } from "@repositories/user/models/IUserRepository";
 
+import { deleteInput } from "../../../models/inputs/deleteInput";
 import { getByIdInput } from "../../../models/inputs/getByIdInput";
 import { hasEmailInput } from "../../../models/inputs/hasEmailInput";
 import { updateLoginControlPropsInput } from "../../../models/inputs/updateLoginControlPropsInput";
@@ -97,6 +98,13 @@ class UserRepository extends BaseRepository implements IUserRepository {
       where: { id: userId },
       data: {
         password,
+      },
+    });
+
+  public delete = ({ userId }: deleteInput): PrismaPromise<UserModel> =>
+    this.prisma.user.delete({
+      where: {
+        id: userId,
       },
     });
 }

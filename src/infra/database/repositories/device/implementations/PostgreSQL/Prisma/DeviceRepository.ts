@@ -4,6 +4,7 @@ import { DeviceModel } from "@models/DeviceModel";
 import { PrismaPromise } from "@prisma/client";
 
 import { IDeviceRepository } from "../../../models/IDeviceRepository";
+import { deleteByUserInput } from "../../../models/inputs/deleteByUserInput";
 import { getByIdInput } from "../../../models/inputs/getByIdInput";
 import { getIdByMacAddressInput } from "../../../models/inputs/getIdByMacAddressInput";
 import { getInput } from "../../../models/inputs/getInput";
@@ -143,6 +144,15 @@ class DeviceRepository extends BaseRepository implements IDeviceRepository {
             email: true,
           },
         },
+      },
+    });
+
+  public deleteByUser = ({
+    userId,
+  }: deleteByUserInput): PrismaPromise<{ count: number }> =>
+    this.prisma.device.deleteMany({
+      where: {
+        ownerId: userId,
       },
     });
 }

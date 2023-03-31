@@ -2,6 +2,7 @@ import { DeviceAccessControlModel } from "@models/DeviceAccessControlModel";
 import { DeviceModel } from "@models/DeviceModel";
 import { PrismaPromise } from "@prisma/client";
 
+import { deleteByUserInput } from "./inputs/deleteByUserInput";
 import { getByIdInput } from "./inputs/getByIdInput";
 import { getIdByMacAddressInput } from "./inputs/getIdByMacAddressInput";
 import { getInput } from "./inputs/getInput";
@@ -32,6 +33,8 @@ interface IDeviceRepository {
   getByMacAddress(
     _: getIdByMacAddressInput
   ): PrismaPromise<(DeviceModel & { owner: { email: string } }) | null>;
+
+  deleteByUser(_: deleteByUserInput): PrismaPromise<{ count: number }>;
 }
 
 export { IDeviceRepository };
