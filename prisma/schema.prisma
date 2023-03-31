@@ -61,10 +61,10 @@ model AlarmEvents {
   createdAt DateTime @db.Timestamp()
 
   deviceId String @map("device_id") @db.Uuid()
-  device   Device @relation(fields: [deviceId], references: [id])
+  device   Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
 
   userId String? @map("user_id") @db.Uuid()
-  user   User?   @relation(fields: [userId], references: [id])
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("alarm_events")
 }
@@ -77,13 +77,13 @@ model Invite {
   answeredAt DateTime? @map("answered_at") @db.Timestamp()
 
   inviteeId String @map("invitee_id") @db.Uuid()
-  invitee   User   @relation(name: "invitee", fields: [inviteeId], references: [id])
+  invitee   User   @relation(name: "invitee", fields: [inviteeId], references: [id], onDelete: Cascade)
 
   inviterId String @map("inviter_id") @db.Uuid()
-  inviter   User   @relation(name: "inviter", fields: [inviterId], references: [id])
+  inviter   User   @relation(name: "inviter", fields: [inviterId], references: [id], onDelete: Cascade)
 
   deviceId String @map("device_id") @db.Uuid()
-  device   Device @relation(fields: [deviceId], references: [id])
+  device   Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
 
   @@unique([inviteeId, inviterId, deviceId])
   @@map("invite")
@@ -97,10 +97,10 @@ model DeviceAccessControl {
   lastFailedUnlock DateTime? @map("last_failed_unlock") @db.Timestamp()
 
   userId String @map("user_id") @db.Uuid()
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   deviceId String @map("device_id") @db.Uuid()
-  device   Device @relation(fields: [deviceId], references: [id])
+  device   Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
 
   @@id([userId, deviceId])
   @@map("device_access_control")
