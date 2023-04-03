@@ -1,7 +1,8 @@
 interface IDateProvider {
   now(): Date;
   isBefore(date: Date, toCompare: Date): boolean;
-  addMinutes(date: Date, hours: number): Date;
+  addMinutes(date: Date, minutes: number): Date;
+  subMinutes(date: Date, minutes: number): Date;
   getTodayWithoutTime(): Date;
   getUTCDate(date: string, time?: string): Date;
   isAfter(date: Date, toCompare: Date): boolean;

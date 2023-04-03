@@ -1,4 +1,4 @@
-import ptBR, { isAfter, format, isBefore, addMinutes, isEqual } from "date-fns";
+import ptBR, { isAfter, format, isBefore, addMinutes, isEqual, subMinutes } from "date-fns";
 import { zonedTimeToUtc } from "date-fns-tz";
 
 import { IDateProvider } from "@providers/date/models/IDateProvider";
@@ -32,7 +32,9 @@ class DateProvider implements IDateProvider {
   differenceInMillis = (end: Date, start: Date): number =>
     end.getTime() - start.getTime();
 
-  addMinutes = (date: Date, hours: number): Date => addMinutes(date, hours);
+  addMinutes = (date: Date, minutes: number): Date => addMinutes(date, minutes);
+  
+  subMinutes = (date: Date, minutes: number): Date => subMinutes(date, minutes);
 
   equals = (start: Date, end: Date): boolean => isEqual(start, end);
 
