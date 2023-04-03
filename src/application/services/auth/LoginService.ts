@@ -1,5 +1,5 @@
 import i18n from "i18n";
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 
 import { ConstantsKeys } from "@commons/ConstantsKeys";
 import { AppError } from "@handlers/error/AppError";

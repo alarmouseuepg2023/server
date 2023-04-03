@@ -1,4 +1,4 @@
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 
 import { DeviceStatusDomain } from "@domains/DeviceStatusDomain";
 import { getEnumDescription } from "@helpers/getEnumDescription";

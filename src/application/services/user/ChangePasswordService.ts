@@ -1,5 +1,5 @@
 import i18n from "i18n";
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 
 import { AppError } from "@handlers/error/AppError";
 import { env } from "@helpers/env";

@@ -1,4 +1,4 @@
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 
 import { InviteStatusDomain } from "@domains/InviteStatusDomain";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";

@@ -1,4 +1,4 @@
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 
 import { capitalize } from "@helpers/capitalize";
 import { pagination } from "@helpers/pagination";
