@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { container } from "tsyringe";
 
 import { RolesKeys } from "@commons/RolesKey";
 import { DeviceController } from "@controllers/DeviceController";
+import { container } from "@infra/containers";
 import { EnsureUserAuthenticatedMiddleware } from "@middlewares/EnsureUserAuthenticatedMiddleware";
 import {
   HandleUrlPatternMatchMiddleware,

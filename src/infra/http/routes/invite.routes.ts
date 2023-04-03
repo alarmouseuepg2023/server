@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { container } from "tsyringe";
 
 import { RolesKeys } from "@commons/RolesKey";
 import { InviteController } from "@http/controllers/InviteController";
+import { container } from "@infra/containers";
 import { EnsureUserAuthenticatedMiddleware } from "@middlewares/EnsureUserAuthenticatedMiddleware";
 import {
   HandleUrlPatternMatchMiddleware,

@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { container } from "tsyringe";
 
 import { UserController } from "@http/controllers/UserController";
+import { container } from "@infra/containers";
 import { EnsureUserAuthenticatedMiddleware } from "@middlewares/EnsureUserAuthenticatedMiddleware";
 import {
   HandleUrlPatternMatchMiddleware,
