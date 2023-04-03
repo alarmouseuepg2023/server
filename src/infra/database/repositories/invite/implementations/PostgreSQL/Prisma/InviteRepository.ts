@@ -70,10 +70,11 @@ class InviteRepository extends BaseRepository implements IInviteRepository {
       },
     });
 
-  public count = ({ userId }: getInput): PrismaPromise<number> =>
+  public count = ({ userId, date }: getInput): PrismaPromise<number> =>
     this.prisma.invite.count({
       where: {
         inviteeId: userId,
+        invitedAt: { gte: date },
         status: {
           in: [InviteStatusDomain.CREATED, InviteStatusDomain.SENT],
         },
@@ -81,7 +82,7 @@ class InviteRepository extends BaseRepository implements IInviteRepository {
     });
 
   public get = (
-    { userId }: getInput,
+    { userId, date }: getInput,
     [take, skip]: [number, number]
   ): PrismaPromise<
     {
@@ -94,6 +95,7 @@ class InviteRepository extends BaseRepository implements IInviteRepository {
     this.prisma.invite.findMany({
       where: {
         inviteeId: userId,
+        invitedAt: { gte: date },
         status: {
           in: [InviteStatusDomain.CREATED, InviteStatusDomain.SENT],
         },
