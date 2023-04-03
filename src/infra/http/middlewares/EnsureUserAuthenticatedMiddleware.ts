@@ -1,5 +1,5 @@
 import i18n from "i18n";
-import { inject, injectable } from "tsyringe";
+import { inject, injectable } from "inversify";
 
 import { IMiddleware } from "@http/models/IMiddleware";
 import { HttpStatus } from "@http/utils/HttpStatus";
