@@ -1,9 +1,11 @@
+import { injectable } from "inversify";
 import { sign, decode as jwtDecode, verify as jwtVerify } from "jsonwebtoken";
 
 import { env } from "@helpers/env";
 import { IAuthTokenPayload, AuthTokenType } from "@providers/authToken/";
 import { IAuthTokenProvider } from "@providers/authToken/models/IAuthTokenProvider";
 
+@injectable()
 class AuthTokenProvider implements IAuthTokenProvider {
   private readonly keys: { [key in AuthTokenType]: string };
 

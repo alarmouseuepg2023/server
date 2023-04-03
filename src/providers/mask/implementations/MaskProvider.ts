@@ -1,5 +1,8 @@
+import { injectable } from "inversify";
+
 import { IMaskProvider } from "../models/IMaskProvider";
 
+@injectable()
 class MaskProvider implements IMaskProvider {
   removeMacAddress = (macAddress: string): string =>
     macAddress.replace(/:/g, "");

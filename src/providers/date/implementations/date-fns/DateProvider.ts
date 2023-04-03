@@ -1,5 +1,13 @@
-import ptBR, { isAfter, format, isBefore, addMinutes, isEqual, subMinutes } from "date-fns";
+import ptBR, {
+  isAfter,
+  format,
+  isBefore,
+  addMinutes,
+  isEqual,
+  subMinutes,
+} from "date-fns";
 import { zonedTimeToUtc } from "date-fns-tz";
+import { injectable } from "inversify";
 
 import { IDateProvider } from "@providers/date/models/IDateProvider";
 
@@ -7,6 +15,7 @@ const rtf = new Intl.RelativeTimeFormat("pt-br", {
   numeric: "auto",
 });
 
+@injectable()
 class DateProvider implements IDateProvider {
   getUTCDate = (date: string, time?: string): Date =>
     zonedTimeToUtc(
@@ -33,7 +42,7 @@ class DateProvider implements IDateProvider {
     end.getTime() - start.getTime();
 
   addMinutes = (date: Date, minutes: number): Date => addMinutes(date, minutes);
-  
+
   subMinutes = (date: Date, minutes: number): Date => subMinutes(date, minutes);
 
   equals = (start: Date, end: Date): boolean => isEqual(start, end);

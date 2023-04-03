@@ -3,12 +3,14 @@ import {
   passwordStrength,
   DiversityType,
 } from "check-password-strength";
+import { injectable } from "inversify";
 import { randomBytes } from "node:crypto";
 
 import { arrayContainsArray } from "@helpers/arrayContainsArray";
 
 import { IPasswordProvider } from "../models/IPasswordProvider";
 
+@injectable()
 class PasswordProvider implements IPasswordProvider {
   readonly MIN_LENGTH: number = 8;
 

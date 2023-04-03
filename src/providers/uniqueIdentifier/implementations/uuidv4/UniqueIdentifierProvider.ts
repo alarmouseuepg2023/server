@@ -1,7 +1,9 @@
+import { injectable } from "inversify";
 import { v4 as uuidv4, validate as uuidValidate } from "uuid";
 
 import { IUniqueIdentifierProvider } from "@providers/uniqueIdentifier/models/IUniqueIdentifierProvider";
 
+@injectable()
 class UniqueIdentifierProvider implements IUniqueIdentifierProvider {
   generate = (): string => uuidv4();
 
