@@ -85,11 +85,11 @@
     "express-async-errors": "^3.1.1",
     "helmet": "^6.0.1",
     "i18n": "^0.15.1",
+    "inversify": "^6.0.1",
     "jsonwebtoken": "^9.0.0",
     "mqtt": "^4.3.7",
     "nodemailer": "^6.9.1",
     "reflect-metadata": "^0.1.13",
-    "tsyringe": "^4.7.0",
     "uuid": "^9.0.0",
     "winston": "^3.8.2",
     "winston-daily-rotate-file": "^4.7.1"
