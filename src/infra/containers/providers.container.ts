@@ -1,5 +1,3 @@
-import { container } from "tsyringe";
-
 import { AuthTokenProvider, IAuthTokenProvider } from "@providers/authToken";
 import { DateProvider, IDateProvider } from "@providers/date";
 import { HashProvider, IHashProvider } from "@providers/hash";
@@ -11,28 +9,22 @@ import {
 } from "@providers/uniqueIdentifier";
 import { IValidatorsProvider, ValidatorsProvider } from "@providers/validators";
 
-container.registerSingleton<IHashProvider>("HashProvider", HashProvider);
+import { container } from "./container";
 
-container.registerSingleton<IAuthTokenProvider>(
-  "AuthTokenProvider",
-  AuthTokenProvider
-);
+container.bind<IHashProvider>("HashProvider").to(HashProvider);
 
-container.registerSingleton<IDateProvider>("DateProvider", DateProvider);
+container.bind<IAuthTokenProvider>("AuthTokenProvider").to(AuthTokenProvider);
 
-container.registerSingleton<IValidatorsProvider>(
-  "ValidatorsProvider",
-  ValidatorsProvider
-);
+container.bind<IDateProvider>("DateProvider").to(DateProvider);
 
-container.registerSingleton<IUniqueIdentifierProvider>(
-  "UniqueIdentifierProvider",
-  UniqueIdentifierProvider
-);
+container
+  .bind<IValidatorsProvider>("ValidatorsProvider")
+  .to(ValidatorsProvider);
 
-container.registerSingleton<IPasswordProvider>(
-  "PasswordProvider",
-  PasswordProvider
-);
+container
+  .bind<IUniqueIdentifierProvider>("UniqueIdentifierProvider")
+  .to(UniqueIdentifierProvider);
 
-container.registerSingleton<IMaskProvider>("MaskProvider", MaskProvider);
+container.bind<IPasswordProvider>("PasswordProvider").to(PasswordProvider);
+
+container.bind<IMaskProvider>("MaskProvider").to(MaskProvider);

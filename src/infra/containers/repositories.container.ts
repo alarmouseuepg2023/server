@@ -1,5 +1,3 @@
-import { container } from "tsyringe";
-
 import {
   AlarmEventsRepository,
   IAlarmEventsRepository,
@@ -16,29 +14,24 @@ import {
   WaitingEmailConfirmationRepository,
 } from "@repositories/waitingEmailConfirmation";
 
-container.registerSingleton<IUserRepository>("UserRepository", UserRepository);
+import { container } from "./container";
 
-container.registerSingleton<IDeviceAccessControlRepository>(
-  "DeviceAccessControlRepository",
-  DeviceAccessControlRepository
-);
+container.bind<IUserRepository>("UserRepository").to(UserRepository);
 
-container.registerSingleton<IDeviceRepository>(
-  "DeviceRepository",
-  DeviceRepository
-);
+container
+  .bind<IDeviceAccessControlRepository>("DeviceAccessControlRepository")
+  .to(DeviceAccessControlRepository);
 
-container.registerSingleton<IInviteRepository>(
-  "InviteRepository",
-  InviteRepository
-);
+container.bind<IDeviceRepository>("DeviceRepository").to(DeviceRepository);
 
-container.registerSingleton<IAlarmEventsRepository>(
-  "AlarmEventsRepository",
-  AlarmEventsRepository
-);
+container.bind<IInviteRepository>("InviteRepository").to(InviteRepository);
 
-container.registerSingleton<IWaitingEmailConfirmationRepository>(
-  "WaitingEmailConfirmationRepository",
-  WaitingEmailConfirmationRepository
-);
+container
+  .bind<IAlarmEventsRepository>("AlarmEventsRepository")
+  .to(AlarmEventsRepository);
+
+container
+  .bind<IWaitingEmailConfirmationRepository>(
+    "WaitingEmailConfirmationRepository"
+  )
+  .to(WaitingEmailConfirmationRepository);
