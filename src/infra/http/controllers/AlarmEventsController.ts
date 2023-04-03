@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import i18n from "i18n";
-import { container } from "tsyringe";
 
 import { ListAlarmEventsResponseModel } from "@http/dtos/alarmEvents/ListAlarmEventsResponseModel";
 import { IPaginationResponse } from "@http/models/IPaginationResponse";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
+import { container } from "@infra/containers";
 import { ListAlarmEventsService } from "@services/alarmEvents";
 
 class AlarmEventsController {

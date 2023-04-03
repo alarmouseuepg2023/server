@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import i18n from "i18n";
-import { container } from "tsyringe";
 
 import { LoginResponseModel } from "@http/dtos/auth/";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
+import { container } from "@infra/containers";
 import {
   ForgotPasswordService,
   LoginService,

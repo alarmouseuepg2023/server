@@ -1,5 +1,4 @@
-import { container } from "tsyringe";
-
+import { container } from "@infra/containers";
 import { logger } from "@infra/log";
 import {
   ChangeWifiService,

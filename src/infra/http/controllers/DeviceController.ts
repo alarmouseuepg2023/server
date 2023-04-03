@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import i18n from "i18n";
-import { container } from "tsyringe";
 
 import { ChangeDeviceStatusResponseModel } from "@http/dtos/device/ChangeDeviceStatusResponseModel";
 import { CreateDeviceResponseModel } from "@http/dtos/device/CreateDeviceResponseModel";
@@ -9,6 +8,7 @@ import { UpdateDeviceResponseModel } from "@http/dtos/device/UpdateDeviceRespons
 import { IPaginationResponse } from "@http/models/IPaginationResponse";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
+import { container } from "@infra/containers";
 import {
   ChangeDeviceStatusService,
   ChangeNicknameService,

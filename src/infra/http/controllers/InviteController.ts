@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import i18n from "i18n";
-import { container } from "tsyringe";
 
 import { AnswerInviteResponseModel } from "@http/dtos/invite/AnswerInviteResponseModel";
 import { CreateInviteResponseModel } from "@http/dtos/invite/CreateInviteResponseModel";
@@ -8,6 +7,7 @@ import { ListInvitsResponseModel } from "@http/dtos/invite/ListInvitsResponseMod
 import { IPaginationResponse } from "@http/models/IPaginationResponse";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
+import { container } from "@infra/containers";
 import {
   AcceptInviteService,
   CreateInviteService,

@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import i18n from "i18n";
-import { container } from "tsyringe";
 
 import { CreateUserResponseModel } from "@http/dtos/user/CreateUserResponseModel";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
+import { container } from "@infra/containers";
 import {
   ChangePasswordService,
   ConfirmDeletionService,
