@@ -1,3 +1,5 @@
+import { injectable } from "inversify";
+
 import { BaseRepository } from "@infra/database/repositories/BaseRepository";
 import { UserModel } from "@models/UserModel";
 import { PrismaPromise } from "@prisma/client";
@@ -9,6 +11,7 @@ import { hasEmailInput } from "../../../models/inputs/hasEmailInput";
 import { updateLoginControlPropsInput } from "../../../models/inputs/updateLoginControlPropsInput";
 import { updatePasswordInput } from "../../../models/inputs/updatePasswordInput";
 
+@injectable()
 class UserRepository extends BaseRepository implements IUserRepository {
   public hasEmail = ({
     email,

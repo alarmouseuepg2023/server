@@ -1,3 +1,5 @@
+import { injectable } from "inversify";
+
 import { InviteStatusDomain } from "@domains/InviteStatusDomain";
 import { BaseRepository } from "@infra/database/repositories/BaseRepository";
 import { InviteModel } from "@models/InviteModel";
@@ -9,6 +11,7 @@ import { getByIdAndUserInput } from "../../../models/inputs/getByIdAndUserInput"
 import { getInput } from "../../../models/inputs/getInput";
 import { saveInput } from "../../../models/inputs/saveInput";
 
+@injectable()
 class InviteRepository extends BaseRepository implements IInviteRepository {
   public save = ({
     deviceId,

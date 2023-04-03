@@ -1,3 +1,5 @@
+import { injectable } from "inversify";
+
 import { BaseRepository } from "@infra/database/repositories/BaseRepository";
 import { AlarmEventsModel } from "@models/AlarmEventsModel";
 import { AlarmEvents, PrismaPromise } from "@prisma/client";
@@ -6,6 +8,7 @@ import { IAlarmEventsRepository } from "../../../models/IAlarmEventsRepository";
 import { getInput } from "../../../models/inputs/getInput";
 import { saveInput } from "../../../models/inputs/saveInput";
 
+@injectable()
 class AlarmEventsRepository
   extends BaseRepository
   implements IAlarmEventsRepository

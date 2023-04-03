@@ -1,3 +1,5 @@
+import { injectable } from "inversify";
+
 import { BaseRepository } from "@infra/database/repositories/BaseRepository";
 import { DeviceAccessControlModel } from "@models/DeviceAccessControlModel";
 import { DeviceModel } from "@models/DeviceModel";
@@ -11,6 +13,7 @@ import { getInput } from "../../../models/inputs/getInput";
 import { hasMacAddressInput } from "../../../models/inputs/hasMacAddressInput";
 import { updateStatusInput } from "../../../models/inputs/updateStatusInput";
 
+@injectable()
 class DeviceRepository extends BaseRepository implements IDeviceRepository {
   public hasMacAddress = ({
     macAddress,

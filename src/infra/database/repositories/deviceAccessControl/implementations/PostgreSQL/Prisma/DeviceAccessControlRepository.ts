@@ -1,3 +1,5 @@
+import { injectable } from "inversify";
+
 import { RolesKeys } from "@commons/RolesKey";
 import { InviteStatusDomain } from "@domains/InviteStatusDomain";
 import { BaseRepository } from "@infra/database/repositories/BaseRepository";
@@ -13,6 +15,7 @@ import { updateControlPropsInput } from "../../../models/inputs/updateControlPro
 import { updatePasswordInput } from "../../../models/inputs/updatePasswordInput";
 import { verifyRoleInput } from "../../../models/inputs/verifyRoleInput";
 
+@injectable()
 class DeviceAccessControlRepository
   extends BaseRepository
   implements IDeviceAccessControlRepository

@@ -1,3 +1,5 @@
+import { injectable } from "inversify";
+
 import { BaseRepository } from "@infra/database/repositories/BaseRepository";
 import { WaitingEmailConfirmationModel } from "@models/WaitingEmailConfirmationModel";
 import { PrismaPromise } from "@prisma/client";
@@ -7,6 +9,7 @@ import { getByIdInput } from "../../../models/inputs/getByIdInput";
 import { saveInput } from "../../../models/inputs/saveInput";
 import { IWaitingEmailConfirmationRepository } from "../../../models/IWaitingEmailConfirmationRepository";
 
+@injectable()
 class WaitingEmailConfirmationRepository
   extends BaseRepository
   implements IWaitingEmailConfirmationRepository
