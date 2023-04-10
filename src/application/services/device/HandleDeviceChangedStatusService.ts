@@ -2,7 +2,6 @@ import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { TopicsMQTT } from "@commons/TopicsMQTT";
-import { DeviceStatusDomain } from "@domains/DeviceStatusDomain";
 import { AppError } from "@handlers/error/AppError";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { ChangeDeviceStatusRequestModel } from "@http/dtos/device/ChangeDeviceStatusRequestModel";
@@ -23,7 +22,7 @@ import { IValidatorsProvider } from "@providers/validators";
 import { ChangeDeviceStatusService } from "./ChangeDeviceStatusService";
 
 @injectable()
-class HandleDeviceTriggeredService extends ChangeDeviceStatusService {
+class HandleDeviceChangedStatusService extends ChangeDeviceStatusService {
   constructor(
     @inject("UniqueIdentifierProvider")
     uniqueIdentifierProvider: IUniqueIdentifierProvider,
@@ -60,6 +59,7 @@ class HandleDeviceTriggeredService extends ChangeDeviceStatusService {
 
   public async execute({
     deviceId,
+    status,
   }: Partial<ChangeDeviceStatusRequestModel>): Promise<ChangeDeviceStatusResponseModel> {
     if (stringIsNullOrEmpty(deviceId || ""))
       throw new AppError("BAD_REQUEST", i18n.__("ErrorDeviceIdRequired"));
@@ -80,7 +80,7 @@ class HandleDeviceTriggeredService extends ChangeDeviceStatusService {
       {
         userId: null,
         deviceId: hasDevice.id,
-        status: `${DeviceStatusDomain.TRIGGERED}`,
+        status: `${status}`,
         password: null,
       },
       false,
@@ -105,4 +105,4 @@ class HandleDeviceTriggeredService extends ChangeDeviceStatusService {
   }
 }
 
-export { HandleDeviceTriggeredService };
+export { HandleDeviceChangedStatusService };

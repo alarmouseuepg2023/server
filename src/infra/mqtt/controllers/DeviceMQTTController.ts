@@ -2,21 +2,24 @@ import { container } from "@infra/containers";
 import { logger } from "@infra/log";
 import {
   ChangeWifiService,
-  HandleDeviceTriggeredService,
+  HandleDeviceChangedStatusService,
 } from "@services/device";
 
 import { OnMQTTMessageCallback } from "../models/OnMQTTMessageCallback";
 
 class DeviceMQTTController {
-  public deviceTriggered: OnMQTTMessageCallback = async (payload) => {
+  public changedStatus: OnMQTTMessageCallback = async (payload) => {
     logger.info(
-      "======================== MQTT SERVICE deviceTriggered ========================"
+      "======================== MQTT SERVICE changedStatus ========================"
     );
 
-    const service = container.resolve(HandleDeviceTriggeredService);
+    const service = container.resolve(HandleDeviceChangedStatusService);
+
+    const { macAddress, status } = JSON.parse(payload.toString());
 
     await service.execute({
-      deviceId: payload.toString(),
+      deviceId: macAddress,
+      status,
     });
   };
 
