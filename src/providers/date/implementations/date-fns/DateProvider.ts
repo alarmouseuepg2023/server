@@ -53,12 +53,14 @@ class DateProvider implements IDateProvider {
 
     if (differenceInSeconds < 3600) {
       const difference = now.getMinutes() - date.getMinutes();
-      return rtf.format(-difference, "minute");
+      return rtf.format(-Math.abs(difference), "minute");
     }
 
     if (differenceInSeconds < 3600 * 24) {
-      const difference = now.getHours() - date.getHours();
-      return rtf.format(-difference, "hour");
+      const difference = Math.floor(
+        (now.getTime() - date.getTime()) / (1000 * 60 * 60)
+      );
+      return rtf.format(-Math.abs(difference), "hour");
     }
 
     if (differenceInSeconds < 3600 * 24 * 7) {
