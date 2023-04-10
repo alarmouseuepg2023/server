@@ -13,10 +13,12 @@ class TopicsMQTT {
   ): string =>
     `/alarmouse/mqtt/sm/${this.publicTopicsHash}/notification/triggered/${deviceId}`;
 
-  public static EMBEDDED_CHANGE_DEVICE_STATUS = (macAddress: string): string =>
+  public static EMBEDDED_PUB_CHANGE_DEVICE_STATUS = (
+    macAddress: string
+  ): string =>
     `/alarmouse/mqtt/se/${this.privateTopicsHash}/control/status/${macAddress}`;
 
-  public static EMBEDDED_DEVICE_TRIGGERED = `/alarmouse/mqtt/se/${this.privateTopicsHash}/control/triggered`;
+  public static EMBEDDED_SUB_CHANGE_DEVICE_STATUS = `/alarmouse/mqtt/es/${this.privateTopicsHash}/control/status`;
 
   public static EMBEDDED_CHANGE_WIFI = `/alarmouse/mqtt/se/${this.privateTopicsHash}/control/wifi`;
 }
