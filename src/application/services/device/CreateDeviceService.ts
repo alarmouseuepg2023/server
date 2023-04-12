@@ -114,7 +114,7 @@ class CreateDeviceService {
         nickname,
         wifiSsid,
         userId,
-        status: DeviceStatusDomain.UNCONFIGURED,
+        status: DeviceStatusDomain.UNLOCKED,
         id,
       }),
       this.deviceAccessControlRepository.save({

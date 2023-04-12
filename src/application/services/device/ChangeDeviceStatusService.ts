@@ -167,7 +167,9 @@ class ChangeDeviceStatusService {
 
     if (
       !this.canChangeToAnyStatus() &&
-      [DeviceStatusDomain.TRIGGERED].includes(statusConverted)
+      [DeviceStatusDomain.TRIGGERED, DeviceStatusDomain.UNCONFIGURED].includes(
+        statusConverted
+      )
     )
       throw new AppError("BAD_REQUEST", i18n.__("ErrorCantUpdateDeviceStatus"));
 
