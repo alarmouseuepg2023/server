@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import { RolesKeys } from "@commons/RolesKey";
+import { TopicsMQTT } from "@commons/TopicsMQTT";
 import { DeviceController } from "@controllers/DeviceController";
 import { container } from "@infra/containers";
 import { EnsureUserAuthenticatedMiddleware } from "@middlewares/EnsureUserAuthenticatedMiddleware";
@@ -8,6 +9,7 @@ import {
   HandleUrlPatternMatchMiddleware,
   LogMiddleware,
   RBACMiddleware,
+  throwAppError2MQTTMiddleware,
 } from "@middlewares/index";
 
 const routes = Router();
@@ -25,6 +27,7 @@ routes.post(
   logMiddleware.routeStart,
   ensureAuthenticated.execute,
   controller.save,
+  throwAppError2MQTTMiddleware(TopicsMQTT.EMBEDDED_ERROR_AT_CREATE_DEVICE),
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
 routes.get(

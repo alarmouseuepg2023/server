@@ -18,6 +18,11 @@ class TopicsMQTT {
   ): string =>
     `/alarmouse/mqtt/se/${this.privateTopicsHash}/control/status/${macAddress}`;
 
+  public static EMBEDDED_ERROR_AT_CREATE_DEVICE = (
+    macAddress: string
+  ): string =>
+    `/alarmouse/mqtt/se/${this.privateTopicsHash}/control/error/create_device/${macAddress}`;
+
   public static EMBEDDED_SUB_CHANGE_DEVICE_STATUS = `/alarmouse/mqtt/es/${this.privateTopicsHash}/control/status`;
 
   public static EMBEDDED_CHANGE_WIFI = `/alarmouse/mqtt/se/${this.privateTopicsHash}/control/wifi`;
