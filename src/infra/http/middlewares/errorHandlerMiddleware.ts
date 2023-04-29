@@ -1,18 +1,16 @@
-import { NextFunction, Request, Response } from "express";
-
 import { i18n } from "@config/i18n";
 import { AppError } from "@handlers/error/AppError";
 import { getErrorStackTrace } from "@helpers/getErrorStackTrace";
-import { IResponseMessage } from "@http/models/IResponseMessage";
+import { IMiddlewareWithError } from "@http/models/IMiddlewareWithError";
 import { HttpStatus } from "@http/utils/HttpStatus";
 import { logger } from "@infra/log";
 
-const errorHandlerMiddleware = async (
-  err: Error,
-  _: Request,
-  res: Response<IResponseMessage>,
-  next: NextFunction
-): Promise<void> => {
+const errorHandlerMiddleware: IMiddlewareWithError = async (
+  err,
+  _,
+  res,
+  next
+) => {
   logger.error(getErrorStackTrace(err));
 
   const [statusCode, message, content] = ((): [
