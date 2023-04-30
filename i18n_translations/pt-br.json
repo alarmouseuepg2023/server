@@ -43,6 +43,7 @@
   "ErrorLoginUserWillBeBlocked": "Não foi possível realizar o login. Devido à excessivas tentativas, sua conta será bloqueada. Para recuperá-la, entre em contato com um administrador.",
   "ErrorMacAddressAlreadyExists": "O Mac Address informado já existe.",
   "ErrorMacAddressInvalid": "O Mac Address não é válido.",
+  "ErrorMacAddressNotFound": "Não foi possível localizar o dispositivo com o Mac Address informado.",
   "ErrorMacAddressRequired": "É necessário informar o Mac Address do dispositivo.",
   "ErrorNameRequired": "É necessário informar o nome.",
   "ErrorNicknameRequired": "É necessário informar o apelido do dispositivo.",
