@@ -16,14 +16,21 @@ class TopicsMQTT {
   public static EMBEDDED_PUB_CHANGE_DEVICE_STATUS = (
     macAddress: string
   ): string =>
-    `/alarmouse/mqtt/se/${this.privateTopicsHash}/control/status/${macAddress}`;
+    `/alarmouse/mqtt/se/${this.privateTopicsHash}/control/status/change/${macAddress}`;
+
+  public static EMBEDDED_PUB_GET_CURRENT_DEVICE_STATUS = (
+    macAddress: string
+  ): string =>
+    `/alarmouse/mqtt/se/${this.privateTopicsHash}/control/status/get/${macAddress}`;
 
   public static EMBEDDED_ERROR_AT_CREATE_DEVICE = (
     macAddress: string
   ): string =>
     `/alarmouse/mqtt/se/${this.privateTopicsHash}/control/error/create_device/${macAddress}`;
 
-  public static EMBEDDED_SUB_CHANGE_DEVICE_STATUS = `/alarmouse/mqtt/es/${this.privateTopicsHash}/control/status`;
+  public static EMBEDDED_SUB_CHANGE_DEVICE_STATUS = `/alarmouse/mqtt/es/${this.privateTopicsHash}/control/status/change`;
+
+  public static EMBEDDED_SUB_GET_CURRENT_DEVICE_STATUS = `/alarmouse/mqtt/es/${this.privateTopicsHash}/control/status/get`;
 
   public static EMBEDDED_CHANGE_WIFI = `/alarmouse/mqtt/se/${this.privateTopicsHash}/control/wifi`;
 }
