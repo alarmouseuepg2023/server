@@ -3,6 +3,7 @@ import { logger } from "@infra/log";
 import {
   ChangeWifiService,
   HandleDeviceChangedStatusService,
+  SynchronizeCurrentDeviceStatusService,
 } from "@services/device";
 
 import { OnMQTTMessageCallback } from "../models/OnMQTTMessageCallback";
@@ -35,6 +36,20 @@ class DeviceMQTTController {
     await service.execute({
       macAddress,
       ssid,
+    });
+  };
+
+  public getCurrentStatus: OnMQTTMessageCallback = async (payload) => {
+    logger.info(
+      "======================== MQTT SERVICE getCurrentStatus ========================"
+    );
+
+    const service = container.resolve(SynchronizeCurrentDeviceStatusService);
+
+    const { macAddress } = JSON.parse(payload.toString());
+
+    await service.execute({
+      macAddress,
     });
   };
 }

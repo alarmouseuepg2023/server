@@ -18,6 +18,11 @@ const devicesSubscriptions = (): void => {
       cb: controller.changeWifi,
       errorHandler: MQTTErrorHandlerMiddleware,
     },
+    [`${TopicsMQTT.EMBEDDED_SUB_GET_CURRENT_DEVICE_STATUS}`]: {
+      qos: 2,
+      cb: controller.getCurrentStatus,
+      errorHandler: MQTTErrorHandlerMiddleware,
+    },
   });
 };
 
