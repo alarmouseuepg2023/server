@@ -218,7 +218,7 @@ class ChangeDeviceStatusService {
 
     if (hasDevice.macAddress && publishChangedStatus)
       mqttClient.publish(
-        TopicsMQTT.EMBEDDED_PUB_CHANGE_DEVICE_STATUS(
+        TopicsMQTT.ALL_PUB_CHANGE_DEVICE_STATUS(
           this.maskProvider.macAddress(hasDevice.macAddress)
         ),
         Buffer.from(`${statusConverted}`)

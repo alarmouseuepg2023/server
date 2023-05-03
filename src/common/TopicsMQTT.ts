@@ -8,15 +8,8 @@ class TopicsMQTT {
   public static MOBILE_NOTIFICATION_INVITE = (userId: string): string =>
     `/alarmouse/mqtt/sm/${this.publicTopicsHash}/notification/invite/${userId}`;
 
-  public static MOBILE_NOTIFICATION_DEVICE_TRIGGERED = (
-    deviceId: string
-  ): string =>
-    `/alarmouse/mqtt/sm/${this.publicTopicsHash}/notification/triggered/${deviceId}`;
-
-  public static EMBEDDED_PUB_CHANGE_DEVICE_STATUS = (
-    macAddress: string
-  ): string =>
-    `/alarmouse/mqtt/se/${this.privateTopicsHash}/control/status/change/${macAddress}`;
+  public static ALL_PUB_CHANGE_DEVICE_STATUS = (macAddress: string): string =>
+    `/alarmouse/mqtt/sall/${this.publicTopicsHash}/control/status/change/${macAddress}`;
 
   public static EMBEDDED_PUB_GET_CURRENT_DEVICE_STATUS = (
     macAddress: string
@@ -28,7 +21,7 @@ class TopicsMQTT {
   ): string =>
     `/alarmouse/mqtt/se/${this.privateTopicsHash}/control/error/create_device/${macAddress}`;
 
-  public static EMBEDDED_SUB_CHANGE_DEVICE_STATUS = `/alarmouse/mqtt/es/${this.privateTopicsHash}/control/status/change`;
+  public static ALL_SUB_CHANGE_DEVICE_STATUS = `/alarmouse/mqtt/eall/${this.publicTopicsHash}/control/status/change`;
 
   public static EMBEDDED_SUB_GET_CURRENT_DEVICE_STATUS = `/alarmouse/mqtt/es/${this.privateTopicsHash}/control/status/get`;
 
