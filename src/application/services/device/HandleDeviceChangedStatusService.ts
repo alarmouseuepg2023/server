@@ -1,8 +1,9 @@
 import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
-import { TopicsMQTT } from "@commons/TopicsMQTT";
+import { DeviceStatusDomain } from "@domains/DeviceStatusDomain";
 import { AppError } from "@handlers/error/AppError";
+import { getEnumDescription } from "@helpers/getEnumDescription";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { ChangeDeviceStatusRequestModel } from "@http/dtos/device/ChangeDeviceStatusRequestModel";
 import { ChangeDeviceStatusResponseModel } from "@http/dtos/device/ChangeDeviceStatusResponseModel";
@@ -12,7 +13,6 @@ import { IDeviceAccessControlRepository } from "@infra/database/repositories/dev
 import { IUserRepository } from "@infra/database/repositories/user";
 import { transaction } from "@infra/database/transaction";
 import { mailTransporter } from "@infra/mail";
-import { mqttClient } from "@infra/mqtt/client";
 import { IDateProvider } from "@providers/date";
 import { IHashProvider } from "@providers/hash";
 import { IMaskProvider } from "@providers/mask";
@@ -87,19 +87,18 @@ class HandleDeviceChangedStatusService extends ChangeDeviceStatusService {
       false
     );
 
-    mailTransporter.sendMail({
-      subject: i18n.__("MailSentNotificationDeviceTriggeredSubject"),
-      to: hasDevice.owner.email,
-      html: i18n.__mf("MailSentNotificationDeviceTriggeredHtml", [
-        hasDevice.nickname,
-        result.alarmEvent.createdAt,
-      ]),
-    });
-
-    mqttClient.publish(
-      TopicsMQTT.MOBILE_NOTIFICATION_DEVICE_TRIGGERED(hasDevice.id),
-      Buffer.from("triggered")
-    );
+    if (
+      result.status ===
+      getEnumDescription("DEVICE_STATUS", DeviceStatusDomain[3])
+    )
+      mailTransporter.sendMail({
+        subject: i18n.__("MailSentNotificationDeviceTriggeredSubject"),
+        to: hasDevice.owner.email,
+        html: i18n.__mf("MailSentNotificationDeviceTriggeredHtml", [
+          hasDevice.nickname,
+          result.alarmEvent.createdAt,
+        ]),
+      });
 
     return result;
   }
