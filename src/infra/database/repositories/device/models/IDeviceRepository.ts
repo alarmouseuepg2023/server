@@ -3,6 +3,7 @@ import { DeviceModel } from "@models/DeviceModel";
 import { PrismaPromise } from "@prisma/client";
 
 import { deleteByUserInput } from "./inputs/deleteByUserInput";
+import { deleteInput } from "./inputs/deleteInput";
 import { getByIdInput } from "./inputs/getByIdInput";
 import { getIdByMacAddressInput } from "./inputs/getIdByMacAddressInput";
 import { getInput } from "./inputs/getInput";
@@ -35,6 +36,8 @@ interface IDeviceRepository {
   ): PrismaPromise<(DeviceModel & { owner: { email: string } }) | null>;
 
   deleteByUser(_: deleteByUserInput): PrismaPromise<{ count: number }>;
+
+  delete(_: deleteInput): PrismaPromise<DeviceModel>;
 }
 
 export { IDeviceRepository };

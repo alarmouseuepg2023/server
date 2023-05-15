@@ -21,6 +21,9 @@ class TopicsMQTT {
   ): string =>
     `/alarmouse/mqtt/se/${this.privateTopicsHash}/control/error/create_device/${macAddress}`;
 
+  public static ALL_DEVICE_DELETED = (macAddress: string): string =>
+    `/alarmouse/mqtt/sall/${this.publicTopicsHash}/control/device/deleted/${macAddress}`;
+
   public static ALL_SUB_CHANGE_DEVICE_STATUS = `/alarmouse/mqtt/eall/${this.publicTopicsHash}/control/status/change`;
 
   public static EMBEDDED_SUB_GET_CURRENT_DEVICE_STATUS = `/alarmouse/mqtt/es/${this.privateTopicsHash}/control/status/get`;
