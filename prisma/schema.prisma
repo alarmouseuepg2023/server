@@ -39,11 +39,11 @@ model WaitingEmailConfirmations {
 }
 
 model Device {
-  id           String @id @db.Uuid()
-  macAddress   String @unique @map("mac_address") @db.VarChar(12)
-  nickname     String @db.VarChar(32)
-  wifiSsid     String @map("wifi_ssid") @db.VarChar(32)
-  status       Int    @db.SmallInt
+  id         String @id @db.Uuid()
+  macAddress String @unique @map("mac_address") @db.VarChar(12)
+  nickname   String @db.VarChar(32)
+  wifiSsid   String @map("wifi_ssid") @db.VarChar(32)
+  status     Int    @db.SmallInt
 
   ownerId String @map("owner_id") @db.Uuid()
   owner   User   @relation(fields: [ownerId], references: [id])
@@ -56,9 +56,10 @@ model Device {
 }
 
 model AlarmEvents {
-  id        String   @id @db.Uuid()
-  message   String   @db.Text()
-  createdAt DateTime @db.Timestamp()
+  id            String   @id @db.Uuid()
+  message       String   @db.Text()
+  createdAt     DateTime @db.Timestamp()
+  currentStatus Int      @db.SmallInt
 
   deviceId String @map("device_id") @db.Uuid()
   device   Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
