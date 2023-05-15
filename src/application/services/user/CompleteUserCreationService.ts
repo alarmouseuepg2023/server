@@ -4,7 +4,9 @@ import { inject, injectable } from "inversify";
 import { ConstantsKeys } from "@commons/ConstantsKeys";
 import { OperationsWithEmailConfirmationDomain } from "@domains/OperationsWithEmailConfirmationDomain";
 import { AppError } from "@handlers/error/AppError";
+import { env } from "@helpers/env";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
+import { toNumber } from "@helpers/toNumber";
 import { CompleteUserCreationRequestModel } from "@http/dtos/user/CompleteUserCreationRequestModel";
 import { CompleteUserCreationResponseModel } from "@http/dtos/user/CompleteUserCreationResponseModel";
 import { IUserRepository } from "@infra/database/repositories/user";
@@ -90,10 +92,15 @@ class CompleteUserCreationService {
         ConstantsKeys.MINUTES_TO_CONFIRM_USER_CREATION
       );
 
+      const hashSalt = toNumber({
+        value: env("PASSWORD_HASH_SALT"),
+        error: i18n.__("ErrorEnvVarNotFound"),
+      });
+
       await transaction([
         this.waitingEmailConfirmationRepository.save({
           expiresIn: newExpiresIn,
-          pin: newPin,
+          pin: await this.hashProvider.hash(newPin, hashSalt),
           operation:
             OperationsWithEmailConfirmationDomain.CONFIRM_USER_CREATION,
           userId: hasUser.id,
