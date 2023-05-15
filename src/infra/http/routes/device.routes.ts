@@ -65,5 +65,14 @@ routes.patch(
   controller.changeNickname,
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
+routes.delete(
+  "/:device_id",
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
+  logMiddleware.routeStart,
+  ensureAuthenticated.execute,
+  RBAC.is(RolesKeys.OWNER),
+  controller.delete,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
 
 export { routes };

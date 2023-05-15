@@ -13,6 +13,7 @@ import {
   ChangeDeviceStatusService,
   ChangeNicknameService,
   CreateDeviceService,
+  DeleteDeviceService,
   ListDevicesService,
   ResetDevicePasswordService,
 } from "@services/device";
@@ -141,6 +142,28 @@ class DeviceController {
     const result = await service.execute({
       nickname,
       userId,
+      deviceId,
+    });
+
+    res.status(HttpStatus.OK).json({
+      success: true,
+      content: result,
+      message: i18n.__("SuccessGeneric"),
+    });
+
+    return next();
+  }
+
+  public async delete(
+    req: Request,
+    res: Response<IResponseMessage<boolean>>,
+    next: NextFunction
+  ): Promise<void> {
+    const { device_id: deviceId } = req.params;
+
+    const service = container.resolve(DeleteDeviceService);
+
+    const result = await service.execute({
       deviceId,
     });
 
