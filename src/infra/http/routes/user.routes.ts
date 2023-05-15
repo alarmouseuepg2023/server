@@ -24,6 +24,13 @@ routes.post(
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
 routes.post(
+  "/confirm",
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
+  logMiddleware.routeStart,
+  controller.completeCreation,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
+routes.post(
   "/changePassword",
   handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
   logMiddleware.routeStart,

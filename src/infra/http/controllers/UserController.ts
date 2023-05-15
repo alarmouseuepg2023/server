@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import i18n from "i18n";
 
+import { CompleteUserCreationResponseModel } from "@http/dtos/user/CompleteUserCreationResponseModel";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
 import { container } from "@infra/containers";
@@ -9,6 +10,7 @@ import {
   ConfirmDeletionService,
   BlockedUserCreationService,
   RequestDeletionService,
+  CompleteUserCreationService,
 } from "@services/user";
 
 class UserController {
@@ -26,6 +28,29 @@ class UserController {
       email,
       name,
       password,
+    });
+
+    res.status(HttpStatus.OK).json({
+      success: true,
+      content: result,
+      message: i18n.__("SuccessGeneric"),
+    });
+
+    return next();
+  }
+
+  public async completeCreation(
+    req: Request,
+    res: Response<IResponseMessage<CompleteUserCreationResponseModel>>,
+    next: NextFunction
+  ): Promise<void> {
+    const { email, pin } = req.body;
+
+    const service = container.resolve(CompleteUserCreationService);
+
+    const result = await service.execute({
+      email,
+      pin,
     });
 
     res.status(HttpStatus.OK).json({

@@ -18,7 +18,7 @@
   "ErrorCantUpdateDeviceStatus": "O usuário não possui permissão para realizar esta alteração no estado do dispositivo.",
   "ErrorCompleteUserCreationRequestNotFound": "Não foi possível encontrar a solicitação de criação do usuário.",
   "ErrorCompleteUserCreationRequestPinInvalid": "A credencial para confirmação da criação da conta é inválida.",
-  "ErrorCompleteUserCreationRequestTimeExpired": "A credencial para confirmação da criação da conta expirou. Por favor, solicite uma nova credencial.",
+  "ErrorCompleteUserCreationRequestTimeExpired": "A credencial para confirmação da criação da conta expirou. Uma nova credencial foi enviado ao seu e-mail.",
   "ErrorConfirmPasswordRequired": "É necessário informar a confirmação da senha.",
   "ErrorDeletionUserAccountRequestNotFound": "Não foi possível encontrar uma solicitação de exclusão válida.",
   "ErrorDeletionUserAccountRequestPinInvalid": "A credencial de autorização para exclusão da conta é inválida.",
