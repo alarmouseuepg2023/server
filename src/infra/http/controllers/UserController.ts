@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import i18n from "i18n";
 
-import { CreateBlockedUserResponseModel } from "@http/dtos/user/CreateBlockedUserResponseModel";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
 import { container } from "@infra/containers";
@@ -15,7 +14,7 @@ import {
 class UserController {
   public async createBlocked(
     req: Request,
-    res: Response<IResponseMessage<CreateBlockedUserResponseModel>>,
+    res: Response<IResponseMessage<boolean>>,
     next: NextFunction
   ): Promise<void> {
     const { password, confirmPassword, email, name } = req.body;

@@ -16,6 +16,8 @@ class ConstantsKeys {
   public static readonly MINUTES_TO_RESET_PASSWORD = 60;
 
   public static readonly MINUTES_TO_DELETE_ACCOUNT = 10;
+
+  public static readonly MINUTES_TO_CONFIRM_USER_CREATION = 30;
 }
 
 export { ConstantsKeys };
