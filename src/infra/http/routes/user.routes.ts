@@ -20,7 +20,7 @@ routes.post(
   "/",
   handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
   logMiddleware.routeStart,
-  controller.create,
+  controller.createBlocked,
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
 routes.post(

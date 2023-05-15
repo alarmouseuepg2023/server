@@ -6,8 +6,8 @@ import { AppError } from "@handlers/error/AppError";
 import { env } from "@helpers/env";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { toNumber } from "@helpers/toNumber";
-import { CreateUserRequestModel } from "@http/dtos/user/CreateUserRequestModel";
-import { CreateUserResponseModel } from "@http/dtos/user/CreateUserResponseModel";
+import { CreateBlockedUserRequestModel } from "@http/dtos/user/CreateBlockedUserRequestModel";
+import { CreateBlockedUserResponseModel } from "@http/dtos/user/CreateBlockedUserResponseModel";
 import { IUserRepository } from "@infra/database/repositories/user";
 import { transaction } from "@infra/database/transaction";
 import { UserModel } from "@models/UserModel";
@@ -18,7 +18,7 @@ import { IUniqueIdentifierProvider } from "@providers/uniqueIdentifier";
 import { IValidatorsProvider } from "@providers/validators";
 
 @injectable()
-class CreateUserService {
+class BlockedUserCreationService {
   constructor(
     @inject("ValidatorsProvider")
     private validatorsProvider: IValidatorsProvider,
@@ -39,7 +39,7 @@ class CreateUserService {
     email,
     name,
     password,
-  }: CreateUserRequestModel): Promise<CreateUserResponseModel> {
+  }: CreateBlockedUserRequestModel): Promise<CreateBlockedUserResponseModel> {
     if (stringIsNullOrEmpty(name))
       throw new AppError("BAD_REQUEST", i18n.__("ErrorNameRequired"));
 
@@ -133,4 +133,4 @@ class CreateUserService {
   }
 }
 
-export { CreateUserService };
+export { BlockedUserCreationService };

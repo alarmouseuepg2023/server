@@ -1,26 +1,26 @@
 import { NextFunction, Request, Response } from "express";
 import i18n from "i18n";
 
-import { CreateUserResponseModel } from "@http/dtos/user/CreateUserResponseModel";
+import { CreateBlockedUserResponseModel } from "@http/dtos/user/CreateBlockedUserResponseModel";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
 import { container } from "@infra/containers";
 import {
   ChangePasswordService,
   ConfirmDeletionService,
-  CreateUserService,
+  BlockedUserCreationService,
   RequestDeletionService,
 } from "@services/user";
 
 class UserController {
-  public async create(
+  public async createBlocked(
     req: Request,
-    res: Response<IResponseMessage<CreateUserResponseModel>>,
+    res: Response<IResponseMessage<CreateBlockedUserResponseModel>>,
     next: NextFunction
   ): Promise<void> {
     const { password, confirmPassword, email, name } = req.body;
 
-    const service = container.resolve(CreateUserService);
+    const service = container.resolve(BlockedUserCreationService);
 
     const result = await service.execute({
       confirmPassword,
