@@ -49,7 +49,9 @@ class DateProvider implements IDateProvider {
 
   readableDate = (date: Date): string => {
     const now = this.now();
-    const differenceInSeconds = this.differenceInMillis(now, date) / 1000;
+    const differenceInSeconds = Math.abs(
+      this.differenceInMillis(now, date) / 1000
+    );
 
     if (differenceInSeconds < 3600) {
       const difference = now.getMinutes() - date.getMinutes();
