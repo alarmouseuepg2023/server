@@ -19,6 +19,7 @@ class AlarmEventsRepository
     deviceId,
     message,
     userId,
+    currentStatus,
   }: saveInput): PrismaPromise<AlarmEvents> =>
     this.prisma.alarmEvents.create({
       data: {
@@ -27,6 +28,7 @@ class AlarmEventsRepository
         message,
         deviceId,
         userId,
+        currentStatus,
       },
     });
 
@@ -47,6 +49,7 @@ class AlarmEventsRepository
         id: true,
         message: true,
         createdAt: true,
+        currentStatus: true,
         user: {
           select: {
             id: true,

@@ -3,6 +3,7 @@ type ListAlarmEventsResponseModel = {
   message: string;
   createdAt: string;
   readableDate: string;
+  status: string;
   user?: {
     id: string;
     name: string;

@@ -201,6 +201,7 @@ class ChangeDeviceStatusService {
       this.alarmEventsRepository.save({
         deviceId,
         userId,
+        currentStatus: statusConverted,
         message: i18n.__mf("AlarmEvents_ChangeStatus", [
           getEnumDescription(
             "DEVICE_STATUS",

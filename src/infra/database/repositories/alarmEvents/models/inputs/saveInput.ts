@@ -4,6 +4,7 @@ type saveInput = {
   userId: string | null;
   message: string;
   createdAt: Date;
+  currentStatus: number;
 };
 
 export { saveInput };

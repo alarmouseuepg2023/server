@@ -1,6 +1,8 @@
 import { injectable, inject } from "inversify";
 
+import { DeviceStatusDomain } from "@domains/DeviceStatusDomain";
 import { capitalize } from "@helpers/capitalize";
+import { getEnumDescription } from "@helpers/getEnumDescription";
 import { pagination } from "@helpers/pagination";
 import { ListAlarmEventsRequestModel } from "@http/dtos/alarmEvents/ListAlarmEventsRequestModel";
 import { ListAlarmEventsResponseModel } from "@http/dtos/alarmEvents/ListAlarmEventsResponseModel";
@@ -41,9 +43,19 @@ class ListAlarmEventsService {
 
     return {
       items: items.map(
-        ({ id, createdAt, message, user }): ListAlarmEventsResponseModel => ({
+        ({
+          id,
+          createdAt,
+          message,
+          user,
+          currentStatus,
+        }): ListAlarmEventsResponseModel => ({
           id,
           message,
+          status: getEnumDescription(
+            "DEVICE_STATUS",
+            DeviceStatusDomain[currentStatus]
+          ),
           createdAt: this.maskProvider.timestamp(createdAt),
           readableDate: capitalize(this.dateProvider.readableDate(createdAt)),
           user: user
