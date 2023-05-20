@@ -29,6 +29,8 @@ class TopicsMQTT {
   public static EMBEDDED_SUB_GET_CURRENT_DEVICE_STATUS = `/alarmouse/mqtt/es/${this.privateTopicsHash}/control/status/get`;
 
   public static EMBEDDED_CHANGE_WIFI = `/alarmouse/mqtt/se/${this.privateTopicsHash}/control/wifi`;
+
+  public static EMBEDDED_FAILED_STATUS_CHANGED_ATTEMPT = `/alarmouse/mqtt/es/${this.privateTopicsHash}/control/status/change/failed`;
 }
 
 export { TopicsMQTT };

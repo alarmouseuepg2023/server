@@ -23,6 +23,11 @@ const devicesSubscriptions = (): void => {
       cb: controller.getCurrentStatus,
       errorHandler: MQTTErrorHandlerMiddleware,
     },
+    [`${TopicsMQTT.EMBEDDED_FAILED_STATUS_CHANGED_ATTEMPT}`]: {
+      qos: 2,
+      cb: controller.failedChangedStatusAttempt,
+      errorHandler: MQTTErrorHandlerMiddleware,
+    },
   });
 };
 

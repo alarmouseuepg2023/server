@@ -52,6 +52,16 @@ class DeviceMQTTController {
       macAddress,
     });
   };
+
+  public failedChangedStatusAttempt: OnMQTTMessageCallback = async (
+    payload
+  ) => {
+    logger.info(
+      "======================== MQTT SERVICE failedChangedStatusAttempt ========================"
+    );
+
+    const { macAddress } = JSON.parse(payload.toString());
+  };
 }
 
 export { DeviceMQTTController };
