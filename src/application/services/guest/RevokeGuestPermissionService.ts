@@ -4,9 +4,9 @@ import { inject, injectable } from "inversify";
 import { RolesKeys } from "@commons/RolesKey";
 import { AppError } from "@handlers/error/AppError";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
-import { RevokeGuestPermissionRequestModel } from "@http/dtos/guest/RevokeGuestPermissionRequestModel";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
 import { transaction } from "@infra/database/transaction";
+import { RevokeGuestPermissionRequestModel } from "@infra/dtos/guest/RevokeGuestPermissionRequestModel";
 import { IUniqueIdentifierProvider } from "@providers/uniqueIdentifier";
 
 @injectable()

@@ -3,10 +3,10 @@ import { inject, injectable } from "inversify";
 
 import { AppError } from "@handlers/error/AppError";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
-import { HandleFailedChangedStatusAttemptRequestModel } from "@http/dtos/device/HandleFailedChangedStatusAttemptRequestModel";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
 import { transaction } from "@infra/database/transaction";
+import { HandleFailedChangedStatusAttemptRequestModel } from "@infra/dtos/device/HandleFailedChangedStatusAttemptRequestModel";
 import { mailTransporter } from "@infra/mail";
 import { IMaskProvider } from "@providers/mask";
 import { IValidatorsProvider } from "@providers/validators";

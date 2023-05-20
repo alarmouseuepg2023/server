@@ -4,11 +4,11 @@ import { DeviceStatusDomain } from "@domains/DeviceStatusDomain";
 import { getEnumDescription } from "@helpers/getEnumDescription";
 import { getUserType2External } from "@helpers/getUserType2External";
 import { pagination } from "@helpers/pagination";
-import { ListDevicesRequestModel } from "@http/dtos/device/ListDevicesRequestModel";
-import { ListDevicesResponseModel } from "@http/dtos/device/ListDevicesResponseModel";
 import { IPaginationResponse } from "@http/models/IPaginationResponse";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { transaction } from "@infra/database/transaction";
+import { ListDevicesRequestModel } from "@infra/dtos/device/ListDevicesRequestModel";
+import { ListDevicesResponseModel } from "@infra/dtos/device/ListDevicesResponseModel";
 import { IMaskProvider } from "@providers/mask";
 
 @injectable()

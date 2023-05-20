@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import i18n from "i18n";
 
-import { ChangeDeviceStatusResponseModel } from "@http/dtos/device/ChangeDeviceStatusResponseModel";
-import { CreateDeviceResponseModel } from "@http/dtos/device/CreateDeviceResponseModel";
-import { ListDevicesResponseModel } from "@http/dtos/device/ListDevicesResponseModel";
-import { UpdateDeviceResponseModel } from "@http/dtos/device/UpdateDeviceResponseModel";
 import { IPaginationResponse } from "@http/models/IPaginationResponse";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
 import { container } from "@infra/containers";
+import { ChangeDeviceStatusResponseModel } from "@infra/dtos/device/ChangeDeviceStatusResponseModel";
+import { CreateDeviceResponseModel } from "@infra/dtos/device/CreateDeviceResponseModel";
+import { ListDevicesResponseModel } from "@infra/dtos/device/ListDevicesResponseModel";
+import { UpdateDeviceResponseModel } from "@infra/dtos/device/UpdateDeviceResponseModel";
 import {
   ChangeDeviceStatusService,
   ChangeNicknameService,

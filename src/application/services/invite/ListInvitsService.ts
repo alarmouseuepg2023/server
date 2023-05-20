@@ -2,11 +2,11 @@ import { inject, injectable } from "inversify";
 
 import { ConstantsKeys } from "@commons/ConstantsKeys";
 import { pagination } from "@helpers/pagination";
-import { ListInvitsRequestModel } from "@http/dtos/invite/ListInvitsRequestModel";
-import { ListInvitsResponseModel } from "@http/dtos/invite/ListInvitsResponseModel";
 import { IPaginationResponse } from "@http/models/IPaginationResponse";
 import { IInviteRepository } from "@infra/database/repositories/invite";
 import { transaction } from "@infra/database/transaction";
+import { ListInvitsRequestModel } from "@infra/dtos/invite/ListInvitsRequestModel";
+import { ListInvitsResponseModel } from "@infra/dtos/invite/ListInvitsResponseModel";
 import { IDateProvider } from "@providers/date";
 import { IMaskProvider } from "@providers/mask";
 

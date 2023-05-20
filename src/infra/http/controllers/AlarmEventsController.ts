@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import i18n from "i18n";
 
-import { ListAlarmEventsResponseModel } from "@http/dtos/alarmEvents/ListAlarmEventsResponseModel";
 import { IPaginationResponse } from "@http/models/IPaginationResponse";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
 import { container } from "@infra/containers";
+import { ListAlarmEventsResponseModel } from "@infra/dtos/alarmEvents/ListAlarmEventsResponseModel";
 import { ListAlarmEventsService } from "@services/alarmEvents";
 
 class AlarmEventsController {

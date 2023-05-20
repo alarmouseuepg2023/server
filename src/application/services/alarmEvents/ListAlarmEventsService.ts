@@ -4,11 +4,11 @@ import { DeviceStatusDomain } from "@domains/DeviceStatusDomain";
 import { capitalize } from "@helpers/capitalize";
 import { getEnumDescription } from "@helpers/getEnumDescription";
 import { pagination } from "@helpers/pagination";
-import { ListAlarmEventsRequestModel } from "@http/dtos/alarmEvents/ListAlarmEventsRequestModel";
-import { ListAlarmEventsResponseModel } from "@http/dtos/alarmEvents/ListAlarmEventsResponseModel";
 import { IPaginationResponse } from "@http/models/IPaginationResponse";
 import { IAlarmEventsRepository } from "@infra/database/repositories/alarmEvents";
 import { transaction } from "@infra/database/transaction";
+import { ListAlarmEventsRequestModel } from "@infra/dtos/alarmEvents/ListAlarmEventsRequestModel";
+import { ListAlarmEventsResponseModel } from "@infra/dtos/alarmEvents/ListAlarmEventsResponseModel";
 import { IDateProvider } from "@providers/date";
 import { IMaskProvider } from "@providers/mask";
 

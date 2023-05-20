@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 import i18n from "i18n";
 
-import { AnswerInviteResponseModel } from "@http/dtos/invite/AnswerInviteResponseModel";
-import { CreateInviteResponseModel } from "@http/dtos/invite/CreateInviteResponseModel";
-import { ListInvitsResponseModel } from "@http/dtos/invite/ListInvitsResponseModel";
 import { IPaginationResponse } from "@http/models/IPaginationResponse";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
 import { container } from "@infra/containers";
+import { AnswerInviteResponseModel } from "@infra/dtos/invite/AnswerInviteResponseModel";
+import { CreateInviteResponseModel } from "@infra/dtos/invite/CreateInviteResponseModel";
+import { ListInvitsResponseModel } from "@infra/dtos/invite/ListInvitsResponseModel";
 import {
   AcceptInviteService,
   CreateInviteService,

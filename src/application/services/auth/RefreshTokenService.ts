@@ -3,9 +3,9 @@ import { inject, injectable } from "inversify";
 
 import { AppError } from "@handlers/error/AppError";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
-import { LoginResponseModel } from "@http/dtos/auth";
 import { IUserRepository } from "@infra/database/repositories/user";
 import { transaction } from "@infra/database/transaction";
+import { LoginResponseModel } from "@infra/dtos/auth";
 import { IAuthTokenPayload, IAuthTokenProvider } from "@providers/authToken";
 
 @injectable()

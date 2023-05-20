@@ -2,11 +2,11 @@ import { inject, injectable } from "inversify";
 
 import { capitalize } from "@helpers/capitalize";
 import { pagination } from "@helpers/pagination";
-import { ListGuestsRequestModel } from "@http/dtos/guest/ListGuestsRequestModel";
-import { ListGuestsResponseModel } from "@http/dtos/guest/ListGuestsResponseModel";
 import { IPaginationResponse } from "@http/models/IPaginationResponse";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
 import { transaction } from "@infra/database/transaction";
+import { ListGuestsRequestModel } from "@infra/dtos/guest/ListGuestsRequestModel";
+import { ListGuestsResponseModel } from "@infra/dtos/guest/ListGuestsResponseModel";
 import { IDateProvider } from "@providers/date";
 import { IMaskProvider } from "@providers/mask";
 

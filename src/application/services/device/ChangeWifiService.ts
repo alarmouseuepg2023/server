@@ -8,10 +8,10 @@ import { AppError } from "@handlers/error/AppError";
 import { getEnumDescription } from "@helpers/getEnumDescription";
 import { getUserType2External } from "@helpers/getUserType2External";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
-import { ChangeWifiRequestModel } from "@http/dtos/device/ChangeWifiRequestModel";
-import { UpdateDeviceResponseModel } from "@http/dtos/device/UpdateDeviceResponseModel";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { transaction } from "@infra/database/transaction";
+import { ChangeWifiRequestModel } from "@infra/dtos/device/ChangeWifiRequestModel";
+import { UpdateDeviceResponseModel } from "@infra/dtos/device/UpdateDeviceResponseModel";
 import { IMaskProvider } from "@providers/mask";
 import { IValidatorsProvider } from "@providers/validators";
 

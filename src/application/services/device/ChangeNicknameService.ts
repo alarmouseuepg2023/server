@@ -7,11 +7,11 @@ import { AppError } from "@handlers/error/AppError";
 import { getEnumDescription } from "@helpers/getEnumDescription";
 import { getUserType2External } from "@helpers/getUserType2External";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
-import { ChangeNicknameRequestModel } from "@http/dtos/device/ChangeNicknameRequestModel";
-import { UpdateDeviceResponseModel } from "@http/dtos/device/UpdateDeviceResponseModel";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
 import { transaction } from "@infra/database/transaction";
+import { ChangeNicknameRequestModel } from "@infra/dtos/device/ChangeNicknameRequestModel";
+import { UpdateDeviceResponseModel } from "@infra/dtos/device/UpdateDeviceResponseModel";
 import { IUniqueIdentifierProvider } from "@providers/uniqueIdentifier";
 import { IValidatorsProvider } from "@providers/validators";
 
