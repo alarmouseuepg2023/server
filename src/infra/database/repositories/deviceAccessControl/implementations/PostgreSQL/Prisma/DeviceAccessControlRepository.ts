@@ -10,6 +10,7 @@ import { IDeviceAccessControlRepository } from "../../../models/IDeviceAccessCon
 import { deleteInput } from "../../../models/inputs/deleteInput";
 import { getByIdInput } from "../../../models/inputs/getByIdInput";
 import { getGuestsInput } from "../../../models/inputs/getGuestsInput";
+import { getOwnerByMacAddressInput } from "../../../models/inputs/getOwnerByMacAddressInput";
 import { saveInput } from "../../../models/inputs/saveInput";
 import { updateControlPropsInput } from "../../../models/inputs/updateControlPropsInput";
 import { updatePasswordInput } from "../../../models/inputs/updatePasswordInput";
@@ -147,6 +148,31 @@ class DeviceAccessControlRepository
         blocked,
         unlockAttempts,
         lastFailedUnlock,
+      },
+    });
+
+  public getOwnerByMacAddress = ({
+    macAddress,
+  }: getOwnerByMacAddressInput): PrismaPromise<{
+    user: { email: string };
+    device: { nickname: string };
+  } | null> =>
+    this.prisma.deviceAccessControl.findFirst({
+      where: {
+        device: { macAddress },
+        role: RolesKeys.OWNER,
+      },
+      select: {
+        user: {
+          select: {
+            email: true,
+          },
+        },
+        device: {
+          select: {
+            nickname: true,
+          },
+        },
       },
     });
 }

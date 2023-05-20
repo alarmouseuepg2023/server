@@ -3,6 +3,7 @@ import { logger } from "@infra/log";
 import {
   ChangeWifiService,
   HandleDeviceChangedStatusService,
+  HandleFailedChangedStatusAttemptService,
   SynchronizeCurrentDeviceStatusService,
 } from "@services/device";
 
@@ -60,7 +61,13 @@ class DeviceMQTTController {
       "======================== MQTT SERVICE failedChangedStatusAttempt ========================"
     );
 
+    const service = container.resolve(HandleFailedChangedStatusAttemptService);
+
     const { macAddress } = JSON.parse(payload.toString());
+
+    await service.execute({
+      macAddress,
+    });
   };
 }
 

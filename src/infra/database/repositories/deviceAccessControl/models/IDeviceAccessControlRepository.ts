@@ -4,6 +4,7 @@ import { PrismaPromise } from "@prisma/client";
 import { deleteInput } from "./inputs/deleteInput";
 import { getByIdInput } from "./inputs/getByIdInput";
 import { getGuestsInput } from "./inputs/getGuestsInput";
+import { getOwnerByMacAddressInput } from "./inputs/getOwnerByMacAddressInput";
 import { saveInput } from "./inputs/saveInput";
 import { updateControlPropsInput } from "./inputs/updateControlPropsInput";
 import { updatePasswordInput } from "./inputs/updatePasswordInput";
@@ -40,6 +41,11 @@ interface IDeviceAccessControlRepository {
       };
     }[]
   >;
+
+  getOwnerByMacAddress(_: getOwnerByMacAddressInput): PrismaPromise<{
+    user: { email: string };
+    device: { nickname: string };
+  } | null>;
 }
 
 export { IDeviceAccessControlRepository };
