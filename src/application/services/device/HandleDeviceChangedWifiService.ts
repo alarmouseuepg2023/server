@@ -2,17 +2,22 @@ import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { RolesKeys } from "@commons/RolesKey";
+import { TopicsMQTT } from "@commons/TopicsMQTT";
 import { VarcharMaxLength } from "@commons/VarcharMaxLength";
 import { DeviceStatusDomain } from "@domains/DeviceStatusDomain";
 import { AppError } from "@handlers/error/AppError";
 import { getEnumDescription } from "@helpers/getEnumDescription";
 import { getUserType2External } from "@helpers/getUserType2External";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
+import { IAlarmEventsRepository } from "@infra/database/repositories/alarmEvents";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { transaction } from "@infra/database/transaction";
 import { ChangeWifiRequestModel } from "@infra/dtos/device/ChangeWifiRequestModel";
 import { UpdateDeviceResponseModel } from "@infra/dtos/device/UpdateDeviceResponseModel";
+import { mqttClient } from "@infra/mqtt/client";
+import { IDateProvider } from "@providers/date";
 import { IMaskProvider } from "@providers/mask";
+import { IUniqueIdentifierProvider } from "@providers/uniqueIdentifier";
 import { IValidatorsProvider } from "@providers/validators";
 
 @injectable()
@@ -23,7 +28,13 @@ class HandleDeviceChangedWifiService {
     @inject("DeviceRepository")
     private deviceRepository: IDeviceRepository,
     @inject("MaskProvider")
-    private maskProvider: IMaskProvider
+    private maskProvider: IMaskProvider,
+    @inject("AlarmEventsRepository")
+    private alarmEventsRepository: IAlarmEventsRepository,
+    @inject("DateProvider")
+    private dateProvider: IDateProvider,
+    @inject("UniqueIdentifierProvider")
+    private uniqueIdentifierProvider: IUniqueIdentifierProvider
   ) {}
 
   public async execute({
@@ -59,13 +70,38 @@ class HandleDeviceChangedWifiService {
     if (!hasDevice)
       throw new AppError("NOT_FOUND", i18n.__("ErrorDeviceNotFound"));
 
-    const [updated] = await transaction([
+    const deviceId = hasDevice.id;
+    const unlocked = DeviceStatusDomain.UNLOCKED;
+
+    const [updated, _] = await transaction([
       this.deviceRepository.save({
         ...hasDevice,
+        status: unlocked,
         wifiSsid: ssid,
         userId: "",
       }),
+      this.alarmEventsRepository.save({
+        deviceId,
+        userId: hasDevice.owner.id,
+        currentStatus: unlocked,
+        message: i18n.__mf("AlarmEvents_ChangeStatus", [
+          getEnumDescription(
+            "DEVICE_STATUS",
+            DeviceStatusDomain[hasDevice.status as number]
+          ),
+          getEnumDescription("DEVICE_STATUS", DeviceStatusDomain[unlocked]),
+        ]),
+        createdAt: this.dateProvider.now(),
+        id: this.uniqueIdentifierProvider.generate(),
+      }),
     ]);
+
+    mqttClient.publish(
+      TopicsMQTT.ALL_PUB_CHANGE_DEVICE_STATUS(
+        this.maskProvider.macAddress(hasDevice.macAddress)
+      ),
+      Buffer.from(`${unlocked}`)
+    );
 
     return {
       id: updated.id,

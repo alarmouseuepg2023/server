@@ -33,7 +33,9 @@ interface IDeviceRepository {
 
   getByMacAddress(
     _: getIdByMacAddressInput
-  ): PrismaPromise<(DeviceModel & { owner: { email: string } }) | null>;
+  ): PrismaPromise<
+    (DeviceModel & { owner: { id: string; email: string } }) | null
+  >;
 
   deleteByUser(_: deleteByUserInput): PrismaPromise<{ count: number }>;
 
