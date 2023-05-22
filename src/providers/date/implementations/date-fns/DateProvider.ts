@@ -54,24 +54,22 @@ class DateProvider implements IDateProvider {
     );
 
     if (differenceInSeconds < 3600) {
-      const difference = now.getMinutes() - date.getMinutes();
-      return rtf.format(-Math.abs(difference), "minute");
+      const difference = Math.floor(differenceInSeconds / 60);
+      return rtf.format(-difference, "minute");
     }
 
     if (differenceInSeconds < 3600 * 24) {
-      const difference = Math.floor(
-        (now.getTime() - date.getTime()) / (1000 * 60 * 60)
-      );
-      return rtf.format(-Math.abs(difference), "hour");
+      const difference = Math.floor(differenceInSeconds / 3600);
+      return rtf.format(-difference, "hour");
     }
 
     if (differenceInSeconds < 3600 * 24 * 7) {
-      const difference = now.getDate() - date.getDate();
+      const difference = Math.floor(differenceInSeconds / (3600 * 24));
       return rtf.format(-difference, "day");
     }
 
     if (differenceInSeconds < 3600 * 24 * 7 * 4) {
-      const difference = Math.floor((now.getDate() - date.getDate()) / 7);
+      const difference = Math.floor(differenceInSeconds / (3600 * 24 * 7));
       return rtf.format(-difference, "week");
     }
 
@@ -80,8 +78,7 @@ class DateProvider implements IDateProvider {
       const startMonth = date.getMonth();
 
       const difference =
-        now.getMonth() + (endMonth < startMonth ? 12 : 0) - date.getMonth();
-
+        endMonth + (endMonth < startMonth ? 12 : 0) - startMonth;
       return rtf.format(-difference, "month");
     }
 
