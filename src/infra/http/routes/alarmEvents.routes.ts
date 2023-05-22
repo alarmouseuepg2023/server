@@ -1,6 +1,5 @@
 import { Router } from "express";
 
-import { RolesKeys } from "@commons/RolesKey";
 import { AlarmEventsController } from "@http/controllers/AlarmEventsController";
 import { container } from "@infra/containers";
 import { EnsureUserAuthenticatedMiddleware } from "@middlewares/EnsureUserAuthenticatedMiddleware";
@@ -24,7 +23,7 @@ routes.get(
   handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
   logMiddleware.routeStart,
   ensureAuthenticated.execute,
-  RBAC.is(RolesKeys.OWNER),
+  RBAC.has(),
   controller.list,
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
