@@ -1,8 +1,8 @@
 import { container } from "@infra/containers";
 import { logger } from "@infra/log";
 import {
-  ChangeWifiService,
   HandleDeviceChangedStatusService,
+  HandleDeviceChangedWifiService,
   HandleFailedChangedStatusAttemptService,
   SynchronizeCurrentDeviceStatusService,
 } from "@services/device";
@@ -30,7 +30,7 @@ class DeviceMQTTController {
       "======================== MQTT SERVICE changeWifi ========================"
     );
 
-    const service = container.resolve(ChangeWifiService);
+    const service = container.resolve(HandleDeviceChangedWifiService);
 
     const { macAddress, ssid } = JSON.parse(payload.toString());
 

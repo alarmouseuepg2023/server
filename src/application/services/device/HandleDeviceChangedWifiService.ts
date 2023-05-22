@@ -16,7 +16,7 @@ import { IMaskProvider } from "@providers/mask";
 import { IValidatorsProvider } from "@providers/validators";
 
 @injectable()
-class ChangeWifiService {
+class HandleDeviceChangedWifiService {
   constructor(
     @inject("ValidatorsProvider")
     private validatorsProvider: IValidatorsProvider,
@@ -79,4 +79,4 @@ class ChangeWifiService {
   }
 }
 
-export { ChangeWifiService };
+export { HandleDeviceChangedWifiService };
