@@ -15,6 +15,7 @@ import {
   CreateDeviceService,
   DeleteDeviceService,
   ListDevicesService,
+  NotifyAllDeviceWifiChangesHaveStartedService,
   ResetDevicePasswordService,
 } from "@services/device";
 
@@ -142,6 +143,30 @@ class DeviceController {
     const result = await service.execute({
       nickname,
       userId,
+      deviceId,
+    });
+
+    res.status(HttpStatus.OK).json({
+      success: true,
+      content: result,
+      message: i18n.__("SuccessGeneric"),
+    });
+
+    return next();
+  }
+
+  public async wifiChangeHaveStarted(
+    req: Request,
+    res: Response<IResponseMessage<boolean>>,
+    next: NextFunction
+  ): Promise<void> {
+    const { device_id: deviceId } = req.params;
+
+    const service = container.resolve(
+      NotifyAllDeviceWifiChangesHaveStartedService
+    );
+
+    const result = await service.execute({
       deviceId,
     });
 
