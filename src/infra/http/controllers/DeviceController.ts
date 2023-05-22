@@ -160,6 +160,7 @@ class DeviceController {
     res: Response<IResponseMessage<boolean>>,
     next: NextFunction
   ): Promise<void> {
+    const { id: userId } = req.user;
     const { device_id: deviceId } = req.params;
 
     const service = container.resolve(
@@ -167,6 +168,7 @@ class DeviceController {
     );
 
     const result = await service.execute({
+      userId,
       deviceId,
     });
 
