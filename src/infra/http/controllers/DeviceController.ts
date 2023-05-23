@@ -157,11 +157,12 @@ class DeviceController {
 
   public async wifiChangeHaveStarted(
     req: Request,
-    res: Response<IResponseMessage<boolean>>,
+    res: Response<IResponseMessage<ChangeDeviceStatusResponseModel>>,
     next: NextFunction
   ): Promise<void> {
     const { id: userId } = req.user;
     const { device_id: deviceId } = req.params;
+    const { password } = req.body;
 
     const service = container.resolve(
       NotifyAllDeviceWifiChangesHaveStartedService
@@ -169,6 +170,7 @@ class DeviceController {
 
     const result = await service.execute({
       userId,
+      password,
       deviceId,
     });
 
