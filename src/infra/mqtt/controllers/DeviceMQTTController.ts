@@ -63,10 +63,11 @@ class DeviceMQTTController {
 
     const service = container.resolve(HandleFailedChangedStatusAttemptService);
 
-    const { macAddress } = JSON.parse(payload.toString());
+    const { macAddress, status } = JSON.parse(payload.toString());
 
     await service.execute({
-      macAddress,
+      deviceId: macAddress,
+      status,
     });
   };
 }
