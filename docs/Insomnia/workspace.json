@@ -1,8 +1,8 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-05-22T12:29:13.026Z",
-  "__export_source": "insomnia.desktop.app:v2023.2.2",
+  "__export_date": "2023-05-23T13:24:53.738Z",
+  "__export_source": "insomnia.desktop.app:v2022.5.0",
   "resources": [
     {
       "_id": "req_c6c69242a08f42e28b652987f14ce009",
@@ -90,7 +90,7 @@
     {
       "_id": "req_22e232e9a4f54253bb29235435236cd8",
       "parentId": "fld_7d88991623304b80a8e49a4fd1156b3c",
-      "modified": 1684593931807,
+      "modified": 1684845727509,
       "created": 1679744445615,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{{ _.device_id }}",
       "name": "list",
@@ -309,15 +309,24 @@
     {
       "_id": "req_bd8f2835f8d34a6bba27b17f3f0fa57a",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1684757323043,
+      "modified": 1684848274655,
       "created": 1684757038942,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/{{ _.device_id }}",
       "name": "wifiChangeHaveStarted",
       "description": "",
       "method": "POST",
-      "body": {},
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"password\": \"123456\"\n}"
+      },
       "parameters": [],
-      "headers": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_d4577d5eb89f4fa1931dc7dd83b14026"
+        }
+      ],
       "authentication": {
         "type": "bearer",
         "token": "{% response 'body', 'req_73159beaac29458f8cfb58bc95d3d053', 'b64::JC5jb250ZW50LmFjY2Vzc1Rva2Vu::46b', 'never', 60 %}"
@@ -335,7 +344,7 @@
     {
       "_id": "req_f600b9dbf0a0432e8423323378e790e7",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1684167403074,
+      "modified": 1684846286695,
       "created": 1680044909711,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
       "name": "changeNickname",
@@ -370,7 +379,7 @@
     {
       "_id": "req_0a89ee682a044613893d650681410c32",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1684589152533,
+      "modified": 1684848026215,
       "created": 1679504059656,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "list",
@@ -396,7 +405,7 @@
     {
       "_id": "req_4e8cc19eacf4458c9a0447fba9ddbf05",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1684589127414,
+      "modified": 1684846283472,
       "created": 1679436070298,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "save",
@@ -431,7 +440,7 @@
     {
       "_id": "req_e4607fd26ee441f89981c50f5233a4d7",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1680044969596,
+      "modified": 1684846281106,
       "created": 1679603290201,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
       "name": "resetPassword",
@@ -466,7 +475,7 @@
     {
       "_id": "req_7ab3b5baeacc47b79b0cd7762009017f",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1684593092612,
+      "modified": 1684848020041,
       "created": 1679605720893,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/{{ _.device_id }}",
       "name": "status",
@@ -772,7 +781,7 @@
     {
       "_id": "req_73159beaac29458f8cfb58bc95d3d053",
       "parentId": "fld_631dfacbc1d64b56a2acfa95833bbaff",
-      "modified": 1684588104053,
+      "modified": 1684845698466,
       "created": 1679245043762,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "login",
@@ -780,7 +789,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"email\": \"marcos@email.com\",\n\t\"password\": \"SenhaPadrao123\"\n}"
+        "text": "{\n\t\"email\": \"email1@email.com\",\n\t\"password\": \"SenhaPadrao123\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -836,12 +845,12 @@
     {
       "_id": "env_4199f22b58b54e54a5a8441084895a71",
       "parentId": "env_7f9d87bbe52b4e79b46a382e128538eb",
-      "modified": 1684589221941,
+      "modified": 1684845712294,
       "created": 1679245014413,
       "name": "dev",
       "data": {
         "base_url": "http://localhost:3333/api",
-        "device_id": "ed42e6fa-8a07-4c72-b254-8471fabbf5fa"
+        "device_id": "5088d612-579f-40f9-9846-8a2d0006299f"
       },
       "dataPropertyOrder": {
         "&": [
