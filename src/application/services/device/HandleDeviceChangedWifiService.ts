@@ -97,10 +97,13 @@ class HandleDeviceChangedWifiService {
     ]);
 
     mqttClient.publish(
-      TopicsMQTT.ALL_PUB_CHANGE_DEVICE_STATUS(
-        this.maskProvider.macAddress(hasDevice.macAddress)
-      ),
-      Buffer.from(`${unlocked}`)
+      TopicsMQTT.MOBILE_NOTIFICATION_STATUS_CHANGED,
+      Buffer.from(
+        JSON.stringify({
+          status: unlocked,
+          macAddress: this.maskProvider.macAddress(hasDevice.macAddress),
+        })
+      )
     );
 
     return {
