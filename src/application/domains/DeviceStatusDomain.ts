@@ -3,6 +3,7 @@ enum DeviceStatusDomain {
   LOCKED = 1,
   UNLOCKED = 2,
   TRIGGERED = 3,
+  WAITING_ACK = 4,
 }
 
 export { DeviceStatusDomain };
