@@ -48,15 +48,6 @@ class ChangeDeviceStatusService {
 
   protected saveWaitingAckStatus = (): boolean => true;
 
-  protected publishAtMqtt = (macAddress: string, status: number): void => {
-    mqttClient.publish(
-      TopicsMQTT.EMBEDDED_WAITING_ACK_ON_CHANGED_STATUS(
-        this.maskProvider.macAddress(macAddress)
-      ),
-      Buffer.from(`${status}`)
-    );
-  };
-
   public async execute({
     deviceId,
     status,
@@ -232,7 +223,23 @@ class ChangeDeviceStatusService {
       }),
     ]);
 
-    this.publishAtMqtt(hasDevice.macAddress, statusConverted);
+    if (this.saveWaitingAckStatus())
+      mqttClient.publish(
+        TopicsMQTT.EMBEDDED_WAITING_ACK_ON_CHANGED_STATUS(
+          this.maskProvider.macAddress(hasDevice.macAddress)
+        ),
+        Buffer.from(`${statusConverted}`)
+      );
+
+    mqttClient.publish(
+      TopicsMQTT.MOBILE_NOTIFICATION_STATUS_CHANGED,
+      Buffer.from(
+        JSON.stringify({
+          status: status2save,
+          macAddress: this.maskProvider.macAddress(hasDevice.macAddress),
+        })
+      )
+    );
 
     return {
       id: updated.id,
