@@ -55,7 +55,7 @@ class HandleDeviceChangedStatusService extends ChangeDeviceStatusService {
     );
   }
 
-  protected canChangeToAnyStatus = (): boolean => false;
+  protected canChangeToAnyStatus = (): boolean => true;
 
   protected userRequired = (): boolean => false;
 
