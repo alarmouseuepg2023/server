@@ -8,8 +8,12 @@ class TopicsMQTT {
   public static MOBILE_NOTIFICATION_INVITE = (userId: string): string =>
     `/alarmouse/mqtt/sm/${this.publicTopicsHash}/notification/invite/${userId}`;
 
-  public static ALL_PUB_CHANGE_DEVICE_STATUS = (macAddress: string): string =>
-    `/alarmouse/mqtt/sall/${this.publicTopicsHash}/control/status/change/${macAddress}`;
+  public static MOBILE_NOTIFICATION_STATUS_CHANGED = `/alarmouse/mqtt/sm/${this.publicTopicsHash}/notification/status/change`;
+
+  public static EMBEDDED_WAITING_ACK_ON_CHANGED_STATUS = (
+    macAddress: string
+  ): string =>
+    `/alarmouse/mqtt/se/${this.privateTopicsHash}/control/status/change/waiting_ack/${macAddress}`;
 
   public static EMBEDDED_PUB_GET_CURRENT_DEVICE_STATUS = (
     macAddress: string
@@ -24,7 +28,7 @@ class TopicsMQTT {
   public static ALL_DEVICE_DELETED = (macAddress: string): string =>
     `/alarmouse/mqtt/sall/${this.publicTopicsHash}/control/device/deleted/${macAddress}`;
 
-  public static ALL_SUB_CHANGE_DEVICE_STATUS = `/alarmouse/mqtt/eall/${this.publicTopicsHash}/control/status/change`;
+  public static EMBEDDED_CHANGE_DEVICE_STATUS = `/alarmouse/mqtt/es/${this.privateTopicsHash}/control/status/change`;
 
   public static EMBEDDED_SUB_GET_CURRENT_DEVICE_STATUS = `/alarmouse/mqtt/es/${this.privateTopicsHash}/control/status/get`;
 

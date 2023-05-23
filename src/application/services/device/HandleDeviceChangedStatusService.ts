@@ -1,6 +1,7 @@
 import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
+import { TopicsMQTT } from "@commons/TopicsMQTT";
 import { DeviceStatusDomain } from "@domains/DeviceStatusDomain";
 import { AppError } from "@handlers/error/AppError";
 import { getEnumDescription } from "@helpers/getEnumDescription";
@@ -13,6 +14,7 @@ import { transaction } from "@infra/database/transaction";
 import { ChangeDeviceStatusRequestModel } from "@infra/dtos/device/ChangeDeviceStatusRequestModel";
 import { ChangeDeviceStatusResponseModel } from "@infra/dtos/device/ChangeDeviceStatusResponseModel";
 import { mailTransporter } from "@infra/mail";
+import { mqttClient } from "@infra/mqtt/client";
 import { IDateProvider } from "@providers/date";
 import { IHashProvider } from "@providers/hash";
 import { IMaskProvider } from "@providers/mask";
@@ -55,7 +57,23 @@ class HandleDeviceChangedStatusService extends ChangeDeviceStatusService {
     );
   }
 
-  protected canChangeToAnyStatus = (): boolean => true;
+  protected canChangeToAnyStatus = (): boolean => false;
+
+  protected userRequired = (): boolean => false;
+
+  protected saveWaitingAckStatus = (): boolean => false;
+
+  protected publishAtMqtt = (macAddress: string, status: number): void => {
+    mqttClient.publish(
+      TopicsMQTT.MOBILE_NOTIFICATION_STATUS_CHANGED,
+      Buffer.from(
+        JSON.stringify({
+          status,
+          macAddress: this.maskProvider.macAddress(macAddress),
+        })
+      )
+    );
+  };
 
   public async execute({
     deviceId,
@@ -76,16 +94,12 @@ class HandleDeviceChangedStatusService extends ChangeDeviceStatusService {
     if (!hasDevice)
       throw new AppError("NOT_FOUND", i18n.__("ErrorDeviceNotFound"));
 
-    const result = await super.execute(
-      {
-        userId: null,
-        deviceId: hasDevice.id,
-        status: `${status}`,
-        password: null,
-      },
-      false,
-      false
-    );
+    const result = await super.execute({
+      userId: null,
+      deviceId: hasDevice.id,
+      status: `${status}`,
+      password: null,
+    });
 
     if (
       result.status ===

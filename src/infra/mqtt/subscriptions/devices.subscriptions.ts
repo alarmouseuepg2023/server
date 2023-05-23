@@ -8,7 +8,7 @@ const controller = new DeviceMQTTController();
 
 const devicesSubscriptions = (): void => {
   mqttClient.subscribe({
-    [`${TopicsMQTT.ALL_SUB_CHANGE_DEVICE_STATUS}`]: {
+    [`${TopicsMQTT.EMBEDDED_CHANGE_DEVICE_STATUS}`]: {
       qos: 2,
       cb: controller.changedStatus,
       errorHandler: MQTTErrorHandlerMiddleware,

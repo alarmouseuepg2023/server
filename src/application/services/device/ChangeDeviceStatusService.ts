@@ -44,12 +44,26 @@ class ChangeDeviceStatusService {
 
   protected canChangeToAnyStatus = (): boolean => false;
 
-  public async execute(
-    { deviceId, status, userId, password }: ChangeDeviceStatusRequestModel,
-    userRequired = true,
-    publishChangedStatus = true
-  ): Promise<ChangeDeviceStatusResponseModel> {
-    if (userRequired) {
+  protected userRequired = (): boolean => true;
+
+  protected saveWaitingAckStatus = (): boolean => true;
+
+  protected publishAtMqtt = (macAddress: string, status: number): void => {
+    mqttClient.publish(
+      TopicsMQTT.EMBEDDED_WAITING_ACK_ON_CHANGED_STATUS(
+        this.maskProvider.macAddress(macAddress)
+      ),
+      Buffer.from(`${status}`)
+    );
+  };
+
+  public async execute({
+    deviceId,
+    status,
+    userId,
+    password,
+  }: ChangeDeviceStatusRequestModel): Promise<ChangeDeviceStatusResponseModel> {
+    if (this.userRequired()) {
       if (stringIsNullOrEmpty(userId))
         throw new AppError("BAD_REQUEST", i18n.__("ErrorUserIdRequired"));
 
@@ -196,34 +210,29 @@ class ChangeDeviceStatusService {
         ])
       );
 
+    const status2save = this.saveWaitingAckStatus()
+      ? DeviceStatusDomain.WAITING_ACK
+      : statusConverted;
+
     const [updated, alarmEventCreated] = await transaction([
-      this.deviceRepository.updateStatus({ deviceId, status: statusConverted }),
+      this.deviceRepository.updateStatus({ deviceId, status: status2save }),
       this.alarmEventsRepository.save({
         deviceId,
         userId,
-        currentStatus: statusConverted,
+        currentStatus: status2save,
         message: i18n.__mf("AlarmEvents_ChangeStatus", [
           getEnumDescription(
             "DEVICE_STATUS",
             DeviceStatusDomain[hasDevice.status as number]
           ),
-          getEnumDescription(
-            "DEVICE_STATUS",
-            DeviceStatusDomain[statusConverted]
-          ),
+          getEnumDescription("DEVICE_STATUS", DeviceStatusDomain[status2save]),
         ]),
         createdAt: this.dateProvider.now(),
         id: this.uniqueIdentifierProvider.generate(),
       }),
     ]);
 
-    if (hasDevice.macAddress && publishChangedStatus)
-      mqttClient.publish(
-        TopicsMQTT.ALL_PUB_CHANGE_DEVICE_STATUS(
-          this.maskProvider.macAddress(hasDevice.macAddress)
-        ),
-        Buffer.from(`${statusConverted}`)
-      );
+    this.publishAtMqtt(hasDevice.macAddress, statusConverted);
 
     return {
       id: updated.id,
