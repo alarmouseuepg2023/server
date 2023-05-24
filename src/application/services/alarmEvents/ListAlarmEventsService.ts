@@ -1,9 +1,12 @@
+import i18n from "i18n";
 import { injectable, inject } from "inversify";
 
 import { DeviceStatusDomain } from "@domains/DeviceStatusDomain";
+import { AppError } from "@handlers/error/AppError";
 import { capitalize } from "@helpers/capitalize";
 import { getEnumDescription } from "@helpers/getEnumDescription";
 import { pagination } from "@helpers/pagination";
+import { toNumber } from "@helpers/toNumber";
 import { IPaginationResponse } from "@http/models/IPaginationResponse";
 import { IAlarmEventsRepository } from "@infra/database/repositories/alarmEvents";
 import { transaction } from "@infra/database/transaction";
@@ -27,12 +30,69 @@ class ListAlarmEventsService {
     deviceId,
     size,
     page,
+    filters,
   }: ListAlarmEventsRequestModel): Promise<
     IPaginationResponse<ListAlarmEventsResponseModel>
   > {
-    const countOperation = this.alarmEventsRepository.count({ deviceId });
+    const statusConverted = ((): number | null => {
+      if (!filters?.status) return null;
+
+      const converted = toNumber({
+        value: filters.status,
+        error: i18n.__("ErrorStatusInvalid"),
+      });
+
+      if (!(converted in DeviceStatusDomain))
+        throw new AppError("BAD_REQUEST", i18n.__("ErrorStatusOutOfDomain"));
+
+      return converted;
+    })();
+
+    const startDate = ((): Date | null => {
+      if (!filters?.date?.start) return null;
+
+      if (!this.dateProvider.isValidISOString(filters.date.start))
+        throw new AppError(
+          "BAD_REQUEST",
+          i18n.__mf("ErrorDateInvalid", [i18n.__("RandomWord_StartDate")])
+        );
+
+      const [date, time] = filters.date.start.split("T");
+
+      return this.dateProvider.getUTCDate(date, time || "00:00");
+    })();
+
+    const endDate = ((): Date | null => {
+      if (!filters?.date?.end) return null;
+
+      if (!this.dateProvider.isValidISOString(filters.date.end))
+        throw new AppError(
+          "BAD_REQUEST",
+          i18n.__mf("ErrorDateInvalid", [i18n.__("RandomWord_EndDate")])
+        );
+
+      const [date, time] = filters.date.end.split("T");
+
+      return this.dateProvider.getUTCDate(date, time || "23:59");
+    })();
+
+    const whereOptions = {
+      deviceId,
+      filters: {
+        status: statusConverted,
+        date: {
+          end: endDate,
+          start: startDate,
+        },
+      },
+    };
+
+    if (startDate && endDate && this.dateProvider.isAfter(startDate, endDate))
+      throw new AppError("BAD_REQUEST", i18n.__("ErrorDateIntervalInvalid"));
+
+    const countOperation = this.alarmEventsRepository.count(whereOptions);
     const getOperation = this.alarmEventsRepository.get(
-      { deviceId },
+      whereOptions,
       pagination({ size, page })
     );
 
