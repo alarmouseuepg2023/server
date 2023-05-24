@@ -1,5 +1,11 @@
 type getInput = {
   deviceId: string;
+  filters: searchFilters;
 };
 
-export { getInput };
+type searchFilters = {
+  status: number | null;
+  date: { start: Date | null; end: Date | null };
+} | null;
+
+export { getInput, searchFilters };
