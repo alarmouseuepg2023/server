@@ -8,10 +8,12 @@ import { DeviceStatusDomain } from "@domains/DeviceStatusDomain";
 import { AppError } from "@handlers/error/AppError";
 import { getEnumDescription } from "@helpers/getEnumDescription";
 import { getUserType2External } from "@helpers/getUserType2External";
+import { jsonStringify } from "@helpers/jsonStringify";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { IAlarmEventsRepository } from "@infra/database/repositories/alarmEvents";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { transaction } from "@infra/database/transaction";
+import { ChangeDeviceStatusMobileNotificationModel } from "@infra/dtos/device/ChangeDeviceStatusMobileNotificationModel";
 import { ChangeWifiRequestModel } from "@infra/dtos/device/ChangeWifiRequestModel";
 import { UpdateDeviceResponseModel } from "@infra/dtos/device/UpdateDeviceResponseModel";
 import { mqttClient } from "@infra/mqtt/client";
@@ -99,7 +101,7 @@ class HandleDeviceChangedWifiService {
     mqttClient.publish(
       TopicsMQTT.MOBILE_NOTIFICATION_STATUS_CHANGED,
       Buffer.from(
-        JSON.stringify({
+        jsonStringify<ChangeDeviceStatusMobileNotificationModel>({
           status: unlocked,
           macAddress: this.maskProvider.macAddress(hasDevice.macAddress),
         })
