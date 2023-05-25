@@ -7,6 +7,7 @@ import { InviteStatusDomain } from "@domains/InviteStatusDomain";
 import { AppError } from "@handlers/error/AppError";
 import { env } from "@helpers/env";
 import { getEnumDescription } from "@helpers/getEnumDescription";
+import { jsonStringify } from "@helpers/jsonStringify";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { toNumber } from "@helpers/toNumber";
 import { IDeviceRepository } from "@infra/database/repositories/device";
@@ -16,6 +17,7 @@ import { IUserRepository } from "@infra/database/repositories/user";
 import { transaction } from "@infra/database/transaction";
 import { CreateInviteRequestModel } from "@infra/dtos/invite/CreateInviteRequestModel";
 import { CreateInviteResponseModel } from "@infra/dtos/invite/CreateInviteResponseModel";
+import { ListInvitsResponseModel } from "@infra/dtos/invite/ListInvitsResponseModel";
 import { mailTransporter } from "@infra/mail";
 import { mqttClient } from "@infra/mqtt/client";
 import { IDateProvider } from "@providers/date";
@@ -142,7 +144,14 @@ class CreateInviteService {
 
     mqttClient.publish(
       TopicsMQTT.MOBILE_NOTIFICATION_INVITE(hasGuest.id),
-      Buffer.from("new invite")
+      Buffer.from(
+        jsonStringify<ListInvitsResponseModel>({
+          id: inviteCreated.id,
+          invitedAt: this.maskProvider.timestamp(inviteCreated.invitedAt),
+          device: { nickname: hasDevice.nickname },
+          inviter: { name: hasOwner.name },
+        })
+      )
     );
 
     return {

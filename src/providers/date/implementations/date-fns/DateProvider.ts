@@ -5,6 +5,8 @@ import ptBR, {
   addMinutes,
   isEqual,
   subMinutes,
+  parseISO,
+  isValid,
 } from "date-fns";
 import { zonedTimeToUtc } from "date-fns-tz";
 import { injectable } from "inversify";
@@ -46,6 +48,8 @@ class DateProvider implements IDateProvider {
   subMinutes = (date: Date, minutes: number): Date => subMinutes(date, minutes);
 
   equals = (start: Date, end: Date): boolean => isEqual(start, end);
+
+  isValidISOString = (date: string): boolean => isValid(parseISO(date));
 
   readableDate = (date: Date): string => {
     const now = this.now();

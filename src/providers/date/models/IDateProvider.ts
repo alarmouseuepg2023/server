@@ -10,6 +10,7 @@ interface IDateProvider {
   differenceInMillis(end: Date, start: Date): number;
   equals(start: Date, end: Date): boolean;
   readableDate(date: Date): string;
+  isValidISOString(date: string): boolean;
 }
 
 export { IDateProvider };

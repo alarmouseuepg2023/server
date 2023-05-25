@@ -7,6 +7,7 @@ import { AlarmEvents, PrismaPromise } from "@prisma/client";
 import { IAlarmEventsRepository } from "../../../models/IAlarmEventsRepository";
 import { getInput } from "../../../models/inputs/getInput";
 import { saveInput } from "../../../models/inputs/saveInput";
+import { clause2searchAlarmEventsWithFilters } from "./clause2searchAlarmEventsWithFilters";
 
 @injectable()
 class AlarmEventsRepository
@@ -32,19 +33,25 @@ class AlarmEventsRepository
       },
     });
 
-  public count = ({ deviceId }: getInput): PrismaPromise<number> =>
+  public count = ({ deviceId, filters }: getInput): PrismaPromise<number> =>
     this.prisma.alarmEvents.count({
-      where: { deviceId },
+      where: {
+        deviceId,
+        AND: clause2searchAlarmEventsWithFilters(filters),
+      },
     });
 
   public get = (
-    { deviceId }: getInput,
+    { deviceId, filters }: getInput,
     [take, skip]: [number, number]
   ): PrismaPromise<
     (AlarmEventsModel & { user: { id: string; name: string } | null })[]
   > =>
     this.prisma.alarmEvents.findMany({
-      where: { deviceId },
+      where: {
+        deviceId,
+        AND: clause2searchAlarmEventsWithFilters(filters),
+      },
       select: {
         id: true,
         message: true,

@@ -6,6 +6,7 @@ import { TopicsMQTT } from "@commons/TopicsMQTT";
 import { DeviceStatusDomain } from "@domains/DeviceStatusDomain";
 import { AppError } from "@handlers/error/AppError";
 import { getEnumDescription } from "@helpers/getEnumDescription";
+import { jsonStringify } from "@helpers/jsonStringify";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { toNumber } from "@helpers/toNumber";
 import { IAlarmEventsRepository } from "@infra/database/repositories/alarmEvents";
@@ -13,6 +14,7 @@ import { IDeviceRepository } from "@infra/database/repositories/device";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
 import { IUserRepository } from "@infra/database/repositories/user";
 import { transaction } from "@infra/database/transaction";
+import { ChangeDeviceStatusMobileNotificationModel } from "@infra/dtos/device/ChangeDeviceStatusMobileNotificationModel";
 import { ChangeDeviceStatusRequestModel } from "@infra/dtos/device/ChangeDeviceStatusRequestModel";
 import { ChangeDeviceStatusResponseModel } from "@infra/dtos/device/ChangeDeviceStatusResponseModel";
 import { mqttClient } from "@infra/mqtt/client";
@@ -234,7 +236,7 @@ class ChangeDeviceStatusService {
     mqttClient.publish(
       TopicsMQTT.MOBILE_NOTIFICATION_STATUS_CHANGED,
       Buffer.from(
-        JSON.stringify({
+        jsonStringify<ChangeDeviceStatusMobileNotificationModel>({
           status: status2save,
           macAddress: this.maskProvider.macAddress(hasDevice.macAddress),
         })

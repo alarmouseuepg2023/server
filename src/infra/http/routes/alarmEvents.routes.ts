@@ -18,7 +18,7 @@ const ensureAuthenticated = container.resolve(
   EnsureUserAuthenticatedMiddleware
 );
 
-routes.get(
+routes.post(
   "/:device_id",
   handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
   logMiddleware.routeStart,

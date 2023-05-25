@@ -18,6 +18,7 @@ class AlarmEventsController {
   ): Promise<void> {
     const { device_id: deviceId } = req.params;
     const { size, page } = req.query;
+    const { status, date } = req.body;
 
     const service = container.resolve(ListAlarmEventsService);
 
@@ -25,6 +26,10 @@ class AlarmEventsController {
       deviceId,
       size,
       page,
+      filters: {
+        status,
+        date,
+      },
     });
 
     res.status(HttpStatus.OK).json({
