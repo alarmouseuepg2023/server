@@ -17,6 +17,7 @@ import {
   ListDevicesService,
   NotifyAllDeviceWifiChangesHaveStartedService,
   ResetDevicePasswordService,
+  UserAuthenticationAtDeviceService,
 } from "@services/device";
 
 class DeviceController {
@@ -92,6 +93,31 @@ class DeviceController {
       password,
       oldPassword,
       deviceId,
+    });
+
+    res.status(HttpStatus.OK).json({
+      success: true,
+      message: i18n.__("SuccessGeneric"),
+    });
+
+    return next();
+  }
+
+  public async authentication(
+    req: Request,
+    res: Response<IResponseMessage>,
+    next: NextFunction
+  ): Promise<void> {
+    const { id: userId } = req.user;
+    const { device_id: deviceId } = req.params;
+    const { password } = req.body;
+
+    const service = container.resolve(UserAuthenticationAtDeviceService);
+
+    await service.execute({
+      password,
+      deviceId,
+      userId,
     });
 
     res.status(HttpStatus.OK).json({

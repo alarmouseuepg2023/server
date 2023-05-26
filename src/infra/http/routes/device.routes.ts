@@ -56,6 +56,15 @@ routes.post(
   controller.resetPassword,
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
+routes.post(
+  "/authentication/:device_id",
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
+  logMiddleware.routeStart,
+  ensureAuthenticated.execute,
+  RBAC.has(),
+  controller.authentication,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
 routes.patch(
   "/changeNickname/:device_id",
   handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,

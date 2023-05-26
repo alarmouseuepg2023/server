@@ -9,8 +9,10 @@ import { ListDevicesService } from "./ListDevicesService";
 import { NotifyAllDeviceWifiChangesHaveStartedService } from "./NotifyAllDeviceWifiChangesHaveStartedService";
 import { ResetDevicePasswordService } from "./ResetDevicePasswordService";
 import { SynchronizeCurrentDeviceStatusService } from "./SynchronizeCurrentDeviceStatusService";
+import { UserAuthenticationAtDeviceService } from "./UserAuthenticationAtDeviceService";
 
 export {
+  UserAuthenticationAtDeviceService,
   NotifyAllDeviceWifiChangesHaveStartedService,
   HandleFailedChangedStatusAttemptService,
   DeleteDeviceService,
