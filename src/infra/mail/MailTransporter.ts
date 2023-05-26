@@ -7,7 +7,10 @@ import { logger } from "@infra/log";
 class MailTransporter {
   private transporter: Transporter;
 
+  private configured2send: boolean;
+
   constructor() {
+    this.configured2send = env("MAIL_CONFIGURED") === "true";
     this.transporter = createTransport({
       host: env("MAIL_HOST"),
       port: toNumber({
@@ -22,6 +25,8 @@ class MailTransporter {
   }
 
   public sendMail(mailOptions: Exclude<SendMailOptions, "from">): void {
+    if (!this.configured2send) return;
+
     logger.info(`Sending email to: ${mailOptions.to}`);
 
     this.transporter.sendMail({

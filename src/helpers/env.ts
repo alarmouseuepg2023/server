@@ -20,7 +20,8 @@ type keys =
   | "MAIL_HOST"
   | "MAIL_AUTH_USERNAME"
   | "MAIL_AUTH_PASSWORD"
-  | "MAIL_FROM";
+  | "MAIL_FROM"
+  | "MAIL_CONFIGURED";
 
 const env = (key: keys, errorMessage = "ErrorEnvVarNotFound"): string => {
   const _env = process.env[key];
