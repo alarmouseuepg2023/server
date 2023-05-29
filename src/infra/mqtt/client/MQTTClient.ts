@@ -1,6 +1,7 @@
 import mqtt from "mqtt";
 
 import { env } from "@helpers/env";
+import { envVarsLogRemoval } from "@helpers/envVarsLogRemoval";
 import { toNumber } from "@helpers/toNumber";
 import { logger } from "@infra/log";
 
@@ -39,13 +40,23 @@ class MQTTClient {
   };
 
   public publish(topic: string, payload: string | Buffer): void {
-    logger.info(`MQTT Publish at topic: ${topic}`);
+    const topic2log = this.getLogMessage(topic);
+
+    logger.info(`MQTT Publish at topic: ${topic2log}`);
 
     this.client.publish(topic, payload, (err) => {
       if (err)
-        logger.error(`Error at MQTT publish at topic ${topic}: ${err.message}`);
+        logger.error(
+          `Error at MQTT publish at topic ${topic2log}: ${err.message}`
+        );
     });
   }
+
+  private getLogMessage = (message: string): string =>
+    envVarsLogRemoval(message, [
+      "MQTT_PRIVATE_TOPICS_HASH",
+      "MQTT_PUBLIC_TOPICS_HASH",
+    ]);
 
   private onConnectCb = () => {
     logger.info(
@@ -66,9 +77,11 @@ class MQTTClient {
   };
 
   private onMessageCb: mqtt.OnMessageCallback = (topic, payload) => {
+    const topic2log = this.getLogMessage(topic);
+
     if (!this.subscriptionsMap) {
       logger.error(
-        `MQTT Client received message without subscription map: Topic ${topic}`
+        `MQTT Client received message without subscription map: Topic ${topic2log}`
       );
       return;
     }
@@ -77,12 +90,12 @@ class MQTTClient {
 
     if (!subscription) {
       logger.error(
-        `MQTT Client received message with incorrectly subscription map: Topic ${topic}`
+        `MQTT Client received message with incorrectly subscription map: Topic ${topic2log}`
       );
       return;
     }
 
-    logger.info(`MQTT Client received message at ${topic}`);
+    logger.info(`MQTT Client received message at ${topic2log}`);
 
     subscription.cb(payload).catch((e) => subscription.errorHandler(e));
   };

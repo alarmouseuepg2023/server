@@ -3,7 +3,7 @@ import i18n from "i18n";
 import { AppError } from "@handlers/error/AppError";
 import { logger } from "@infra/log";
 
-type keys =
+type envKeys =
   | "PORT"
   | "PASSWORD_HASH_SALT"
   | "SUPPORT_ID"
@@ -23,16 +23,16 @@ type keys =
   | "MAIL_FROM"
   | "MAIL_CONFIGURED";
 
-const env = (key: keys, errorMessage = "ErrorEnvVarNotFound"): string => {
+const env = (key: envKeys, errorMessage = "ErrorEnvVarNotFound"): string => {
   const _env = process.env[key];
 
   if (!_env) {
     logger.error(`Access attempting to non-existing env var: ${key}`);
 
-    throw new AppError("BAD_REQUEST", i18n.__(errorMessage));
+    throw new AppError("INTERNAL_SERVER_ERROR", i18n.__(errorMessage));
   }
 
   return _env;
 };
 
-export { env };
+export { env, envKeys };
