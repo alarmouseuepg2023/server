@@ -15,28 +15,30 @@ import { IUniqueIdentifierProvider } from "@providers/uniqueIdentifier";
 class UserAuthenticationAtDeviceService {
   constructor(
     @inject("UniqueIdentifierProvider")
-    private uniqueIdentifierProvider: IUniqueIdentifierProvider,
+    protected uniqueIdentifierProvider: IUniqueIdentifierProvider,
     @inject("HashProvider")
-    private hashProvider: IHashProvider,
+    protected hashProvider: IHashProvider,
     @inject("DeviceAccessControlRepository")
-    private deviceAccessControlRepository: IDeviceAccessControlRepository,
+    protected deviceAccessControlRepository: IDeviceAccessControlRepository,
     @inject("DateProvider")
-    private dateProvider: IDateProvider
+    protected dateProvider: IDateProvider
   ) {}
 
   public async execute({
     deviceId,
     password,
-    userId,
-  }: UserAuthenticationAtDeviceRequestModel): Promise<void> {
+    userId: userIdNullable,
+  }: UserAuthenticationAtDeviceRequestModel): Promise<any> {
     if (stringIsNullOrEmpty(password))
       throw new AppError("BAD_REQUEST", i18n.__("ErrorPasswordRequired"));
 
-    if (stringIsNullOrEmpty(userId))
+    if (stringIsNullOrEmpty(userIdNullable))
       throw new AppError("BAD_REQUEST", i18n.__("ErrorUserIdRequired"));
 
     if (stringIsNullOrEmpty(deviceId))
       throw new AppError("BAD_REQUEST", i18n.__("ErrorDeviceIdRequired"));
+
+    const userId = `${userIdNullable}`;
 
     if (
       !this.uniqueIdentifierProvider.isValid(userId) ||

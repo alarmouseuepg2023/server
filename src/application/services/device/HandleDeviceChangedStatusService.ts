@@ -8,7 +8,6 @@ import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { IAlarmEventsRepository } from "@infra/database/repositories/alarmEvents";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
-import { IUserRepository } from "@infra/database/repositories/user";
 import { transaction } from "@infra/database/transaction";
 import { ChangeDeviceStatusRequestModel } from "@infra/dtos/device/ChangeDeviceStatusRequestModel";
 import { ChangeDeviceStatusResponseModel } from "@infra/dtos/device/ChangeDeviceStatusResponseModel";
@@ -38,8 +37,6 @@ class HandleDeviceChangedStatusService extends ChangeDeviceStatusService {
     deviceAccessControlRepository: IDeviceAccessControlRepository,
     @inject("HashProvider")
     hashProvider: IHashProvider,
-    @inject("UserRepository")
-    userRepository: IUserRepository,
     @inject("ValidatorsProvider")
     private validatorsProvider: IValidatorsProvider
   ) {
@@ -50,8 +47,7 @@ class HandleDeviceChangedStatusService extends ChangeDeviceStatusService {
       dateProvider,
       maskProvider,
       deviceAccessControlRepository,
-      hashProvider,
-      userRepository
+      hashProvider
     );
   }
 

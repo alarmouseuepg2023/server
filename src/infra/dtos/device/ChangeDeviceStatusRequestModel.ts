@@ -1,7 +1,6 @@
-type ChangeDeviceStatusRequestModel = {
-  userId: string | null;
-  password: string | null;
-  deviceId: string;
+import { UserAuthenticationAtDeviceRequestModel } from "./UserAuthenticationAtDeviceRequestModel";
+
+type ChangeDeviceStatusRequestModel = UserAuthenticationAtDeviceRequestModel & {
   status: string;
 };
 

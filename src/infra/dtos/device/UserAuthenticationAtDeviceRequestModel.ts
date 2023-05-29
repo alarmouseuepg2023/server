@@ -1,7 +1,7 @@
 type UserAuthenticationAtDeviceRequestModel = {
-  password: string;
+  password: string | null;
   deviceId: string;
-  userId: string;
+  userId: string | null;
 };
 
 export { UserAuthenticationAtDeviceRequestModel };

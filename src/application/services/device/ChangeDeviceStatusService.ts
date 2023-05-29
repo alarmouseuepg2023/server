@@ -1,7 +1,6 @@
 import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
-import { ConstantsKeys } from "@commons/ConstantsKeys";
 import { TopicsMQTT } from "@commons/TopicsMQTT";
 import { DeviceStatusDomain } from "@domains/DeviceStatusDomain";
 import { AppError } from "@handlers/error/AppError";
@@ -12,7 +11,6 @@ import { toNumber } from "@helpers/toNumber";
 import { IAlarmEventsRepository } from "@infra/database/repositories/alarmEvents";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
-import { IUserRepository } from "@infra/database/repositories/user";
 import { transaction } from "@infra/database/transaction";
 import { ChangeDeviceStatusMobileNotificationModel } from "@infra/dtos/device/ChangeDeviceStatusMobileNotificationModel";
 import { ChangeDeviceStatusRequestModel } from "@infra/dtos/device/ChangeDeviceStatusRequestModel";
@@ -23,26 +21,33 @@ import { IHashProvider } from "@providers/hash";
 import { IMaskProvider } from "@providers/mask";
 import { IUniqueIdentifierProvider } from "@providers/uniqueIdentifier";
 
+import { UserAuthenticationAtDeviceService } from "./UserAuthenticationAtDeviceService";
+
 @injectable()
-class ChangeDeviceStatusService {
+class ChangeDeviceStatusService extends UserAuthenticationAtDeviceService {
   constructor(
     @inject("UniqueIdentifierProvider")
-    private uniqueIdentifierProvider: IUniqueIdentifierProvider,
+    uniqueIdentifierProvider: IUniqueIdentifierProvider,
     @inject("DeviceRepository")
     protected deviceRepository: IDeviceRepository,
     @inject("AlarmEventsRepository")
     private alarmEventsRepository: IAlarmEventsRepository,
     @inject("DateProvider")
-    private dateProvider: IDateProvider,
+    dateProvider: IDateProvider,
     @inject("MaskProvider")
     protected maskProvider: IMaskProvider,
     @inject("DeviceAccessControlRepository")
-    private deviceAccessControlRepository: IDeviceAccessControlRepository,
+    deviceAccessControlRepository: IDeviceAccessControlRepository,
     @inject("HashProvider")
-    private hashProvider: IHashProvider,
-    @inject("UserRepository")
-    private userRepository: IUserRepository
-  ) {}
+    hashProvider: IHashProvider
+  ) {
+    super(
+      uniqueIdentifierProvider,
+      hashProvider,
+      deviceAccessControlRepository,
+      dateProvider
+    );
+  }
 
   protected canChangeToAnyStatus = (): boolean => false;
 
@@ -57,105 +62,11 @@ class ChangeDeviceStatusService {
     password,
   }: ChangeDeviceStatusRequestModel): Promise<ChangeDeviceStatusResponseModel> {
     if (this.userRequired()) {
-      if (stringIsNullOrEmpty(userId))
-        throw new AppError("BAD_REQUEST", i18n.__("ErrorUserIdRequired"));
-
-      if (stringIsNullOrEmpty(password))
-        throw new AppError(
-          "BAD_REQUEST",
-          i18n.__("ErrorDevicePasswordRequired")
-        );
-
-      if (!this.uniqueIdentifierProvider.isValid(userId as string))
-        throw new AppError("BAD_REQUEST", i18n.__("ErrorUUIDInvalid"));
-
-      const [hasDeviceAccessControl, hasUser] = await transaction([
-        this.deviceAccessControlRepository.getById({
-          deviceId,
-          userId: userId || "",
-        }),
-        this.userRepository.getById({ id: userId || "" }),
-      ]);
-
-      if (!hasDeviceAccessControl)
-        throw new AppError(
-          "NOT_FOUND",
-          i18n.__("ErrorDeviceAccessControlNotFound")
-        );
-
-      if (hasDeviceAccessControl.blocked)
-        throw new AppError(
-          "UNAUTHORIZED",
-          i18n.__("ErrorUserIsBlockedAtDevice")
-        );
-
-      if (!hasUser)
-        throw new AppError(
-          "NOT_FOUND",
-          i18n.__mf("ErrorUserNotFound", [i18n.__("RandomWord_User")])
-        );
-
-      const now = this.dateProvider.now();
-
-      if (
-        !(await this.hashProvider.compare(
-          password || "",
-          hasDeviceAccessControl.password
-        ))
-      ) {
-        const attempts =
-          !hasDeviceAccessControl.lastFailedUnlock ||
-          this.dateProvider.isBefore(
-            now,
-            this.dateProvider.addMinutes(
-              hasDeviceAccessControl.lastFailedUnlock,
-              ConstantsKeys.MINUTES_TO_RESET_FAILED_LOGIN_ATTEMPTS_AT_DEVICE
-            )
-          )
-            ? hasDeviceAccessControl.unlockAttempts + 1
-            : 1;
-
-        const [deviceAccessControlUpdated] = await transaction([
-          this.deviceAccessControlRepository.updateControlProps({
-            deviceId,
-            userId: hasUser.id,
-            unlockAttempts: attempts,
-            lastFailedUnlock: now,
-            blocked: attempts === ConstantsKeys.MAX_LOGIN_ATTEMPTS_AT_DEVICE,
-          }),
-        ]);
-
-        if (
-          deviceAccessControlUpdated.unlockAttempts <
-          ConstantsKeys.MAX_LOGIN_ATTEMPTS_AT_DEVICE
-        )
-          throw new AppError(
-            "UNAUTHORIZED",
-            i18n.__mf(
-              "ErrorLoginAtDeviceUserUnauthorizedAndWillBeBlockedInFewAttempts",
-              [
-                ConstantsKeys.MAX_LOGIN_ATTEMPTS_AT_DEVICE -
-                  deviceAccessControlUpdated.unlockAttempts,
-              ]
-            )
-          );
-
-        if (deviceAccessControlUpdated.blocked)
-          throw new AppError(
-            "UNAUTHORIZED",
-            i18n.__("ErrorLoginAtDeviceUserWillBeBlocked")
-          );
-      }
-
-      await transaction([
-        this.deviceAccessControlRepository.updateControlProps({
-          deviceId,
-          userId: hasUser.id,
-          unlockAttempts: 0,
-          blocked: false,
-          lastFailedUnlock: null,
-        }),
-      ]);
+      await super.execute({
+        deviceId,
+        password,
+        userId,
+      });
     }
 
     if (stringIsNullOrEmpty(deviceId))

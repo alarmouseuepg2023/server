@@ -4,7 +4,6 @@ import { DeviceStatusDomain } from "@domains/DeviceStatusDomain";
 import { IAlarmEventsRepository } from "@infra/database/repositories/alarmEvents";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
-import { IUserRepository } from "@infra/database/repositories/user";
 import { ChangeDeviceStatusRequestModel } from "@infra/dtos/device/ChangeDeviceStatusRequestModel";
 import { ChangeDeviceStatusResponseModel } from "@infra/dtos/device/ChangeDeviceStatusResponseModel";
 import { IDateProvider } from "@providers/date";
@@ -30,9 +29,7 @@ class NotifyAllDeviceWifiChangesHaveStartedService extends ChangeDeviceStatusSer
     @inject("DeviceAccessControlRepository")
     deviceAccessControlRepository: IDeviceAccessControlRepository,
     @inject("HashProvider")
-    hashProvider: IHashProvider,
-    @inject("UserRepository")
-    userRepository: IUserRepository
+    hashProvider: IHashProvider
   ) {
     super(
       uniqueIdentifierProvider,
@@ -41,8 +38,7 @@ class NotifyAllDeviceWifiChangesHaveStartedService extends ChangeDeviceStatusSer
       dateProvider,
       maskProvider,
       deviceAccessControlRepository,
-      hashProvider,
-      userRepository
+      hashProvider
     );
   }
 
