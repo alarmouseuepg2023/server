@@ -15,9 +15,11 @@ import {
   ChangeNicknameService,
   CreateDeviceService,
   DeleteDeviceService,
+  ForgotDevicePasswordService,
   GenerateDeviceQRCodeService,
   ListDevicesService,
   NotifyAllDeviceWifiChangesHaveStartedService,
+  ResetDevicePasswordService,
   UserAuthenticationAtDeviceService,
 } from "@services/device";
 
@@ -93,6 +95,56 @@ class DeviceController {
       userId,
       password,
       oldPassword,
+      deviceId,
+    });
+
+    res.status(HttpStatus.OK).json({
+      success: true,
+      message: i18n.__("SuccessGeneric"),
+    });
+
+    return next();
+  }
+
+  public async resetPassword(
+    req: Request,
+    res: Response<IResponseMessage>,
+    next: NextFunction
+  ): Promise<void> {
+    const { id: userId } = req.user;
+    const { device_id: deviceId } = req.params;
+    const { password, confirmPassword, pin } = req.body;
+
+    const service = container.resolve(ResetDevicePasswordService);
+
+    await service.execute({
+      confirmPassword,
+      userId,
+      password,
+      deviceId,
+      pin,
+    });
+
+    res.status(HttpStatus.OK).json({
+      success: true,
+      message: i18n.__("SuccessGeneric"),
+    });
+
+    return next();
+  }
+
+  public async forgotPassword(
+    req: Request,
+    res: Response<IResponseMessage>,
+    next: NextFunction
+  ): Promise<void> {
+    const { id: userId } = req.user;
+    const { device_id: deviceId } = req.params;
+
+    const service = container.resolve(ForgotDevicePasswordService);
+
+    await service.execute({
+      userId,
       deviceId,
     });
 

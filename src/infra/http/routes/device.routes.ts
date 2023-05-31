@@ -59,6 +59,24 @@ routes.post(
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
 routes.post(
+  "/resetPassword/:device_id",
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
+  logMiddleware.routeStart,
+  ensureAuthenticated.execute,
+  RBAC.has(),
+  controller.resetPassword,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
+routes.post(
+  "/forgotPassword/:device_id",
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
+  logMiddleware.routeStart,
+  ensureAuthenticated.execute,
+  RBAC.has(),
+  controller.forgotPassword,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
+routes.post(
   "/authentication/:device_id",
   handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
   logMiddleware.routeStart,
