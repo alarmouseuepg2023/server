@@ -239,10 +239,13 @@ class DeviceController {
   ): Promise<void> {
     const { pin } = req.params;
 
+    const { email } = req.query;
+
     const service = container.resolve(GenerateDeviceQRCodeService);
 
     const filePath = await service.execute({
       pin,
+      email,
     });
 
     res.locals.filePath = filePath;

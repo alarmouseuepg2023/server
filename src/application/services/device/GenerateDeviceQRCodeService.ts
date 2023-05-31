@@ -5,6 +5,7 @@ import path from "node:path";
 import { AppError } from "@handlers/error/AppError";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { GenerateDeviceQRCodeRequestModel } from "@infra/dtos/device/GenerateDeviceQRCodeRequestModel";
+import { mailTransporter } from "@infra/mail";
 import { IDateProvider } from "@providers/date";
 import { IQRCodeProvider } from "@providers/qrcode";
 import { IValidatorsProvider } from "@providers/validators";
@@ -22,6 +23,7 @@ class GenerateDeviceQRCodeService {
 
   public async execute({
     pin,
+    email,
   }: GenerateDeviceQRCodeRequestModel): Promise<string> {
     if (stringIsNullOrEmpty(pin))
       throw new AppError(
@@ -43,6 +45,25 @@ class GenerateDeviceQRCodeService {
     );
 
     await this.qrcodeProvider.generateQRCodeFile(filePath, pin);
+
+    if (email) {
+      const emailConverted = `${email}`;
+
+      if (!this.validatorsProvider.email(emailConverted))
+        throw new AppError("BAD_REQUEST", i18n.__("ErrorEmailInvalid"));
+
+      await mailTransporter.sendMailAndWait({
+        to: emailConverted,
+        html: i18n.__("MailSentDeviceQrCodeGeneratedHtml"),
+        subject: i18n.__("MailSentDeviceQrCodeGeneratedSubject"),
+        attachments: [
+          {
+            path: filePath,
+            filename: "alarmouse_qrcode.png",
+          },
+        ],
+      });
+    }
 
     return filePath;
   }

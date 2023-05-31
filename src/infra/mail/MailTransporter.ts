@@ -34,6 +34,19 @@ class MailTransporter {
       from: env("MAIL_FROM"),
     });
   }
+
+  public async sendMailAndWait(
+    mailOptions: Exclude<SendMailOptions, "from">
+  ): Promise<void> {
+    if (!this.configured2send) return;
+
+    logger.info(`Sending email to: ${mailOptions.to} and waiting`);
+
+    await this.transporter.sendMail({
+      ...mailOptions,
+      from: env("MAIL_FROM"),
+    });
+  }
 }
 
 export { MailTransporter };

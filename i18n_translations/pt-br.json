@@ -96,6 +96,8 @@
   "MailSentCompleteUserCreationNotificationSubject": "Alarmouse - Confirmação de criação de conta",
   "MailSentDeleteAccountNotificationHtml": "Você solicitou a exclusão da sua conta. Caso não tenha sido você, desconsidere este email.<br/>Pin para confirmação: <b>{0}</b><br/>Solicitação expira em: <b>{1}</b>.",
   "MailSentDeleteAccountNotificationSubject": "Confirmar exclusão de conta!!",
+  "MailSentDeviceQrCodeGeneratedHtml": "Você solicitou um novo <b>QR code</b> para configuração de um dispositivo <b><b/>. Segue em anexo ;)",
+  "MailSentDeviceQrCodeGeneratedSubject": "Seu código QR está pronto!!",
   "MailSentFailedChangedStatusAttemptNotificationHtml": "Houve uma tentativa de alteração malsucedida do estado do seu dispositivo <b>{0}</b>.",
   "MailSentFailedChangedStatusAttemptNotificationSubject": "Atenção!! Tentativa de alteração de estado.",
   "MailSentInviteHtml": "Olá, {0}. <br/> Você recebeu um novo convite para gerenciar o dispositivo <b>{1}</b> de <b>{2}</b>. <br/>Código para aceitar o convite: <b>{3}</b>.",
