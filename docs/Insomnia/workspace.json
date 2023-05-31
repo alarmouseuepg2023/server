@@ -1,13 +1,13 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-05-26T18:39:09.356Z",
+  "__export_date": "2023-05-31T17:49:59.046Z",
   "__export_source": "insomnia.desktop.app:v2022.5.0",
   "resources": [
     {
       "_id": "req_c6c69242a08f42e28b652987f14ce009",
       "parentId": "fld_181a331c4c6d4ee78115e131523a0dae",
-      "modified": 1680556517046,
+      "modified": 1685394167893,
       "created": 1679761231303,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{{ _.device_id }}",
       "name": "list",
@@ -18,7 +18,7 @@
       "headers": [],
       "authentication": {
         "type": "bearer",
-        "token": "{% response 'body', 'req_444514f8504145588253c23220ae265d', 'b64::JC5jb250ZW50LmFjY2Vzc1Rva2Vu::46b', 'never', 60 %}"
+        "token": "{% response 'body', 'req_73159beaac29458f8cfb58bc95d3d053', 'b64::JC5jb250ZW50LmFjY2Vzc1Rva2Vu::46b', 'never', 60 %}"
       },
       "metaSortKey": -1679761231303,
       "isPrivate": false,
@@ -55,7 +55,7 @@
     {
       "_id": "req_a7d432c1d7324b0b84271388539c1ef8",
       "parentId": "fld_181a331c4c6d4ee78115e131523a0dae",
-      "modified": 1683234036643,
+      "modified": 1685489812528,
       "created": 1679752009248,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
       "name": "revoke",
@@ -90,7 +90,7 @@
     {
       "_id": "req_22e232e9a4f54253bb29235435236cd8",
       "parentId": "fld_7d88991623304b80a8e49a4fd1156b3c",
-      "modified": 1685125609171,
+      "modified": 1685394165869,
       "created": 1679744445615,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{{ _.device_id }}",
       "name": "list",
@@ -137,7 +137,7 @@
     {
       "_id": "req_13f0ba0dc1024af3bb77b59943405ffd",
       "parentId": "fld_d3f307c549fe462da5dd7139279704c4",
-      "modified": 1680038198978,
+      "modified": 1685394134448,
       "created": 1679913353877,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
       "name": "reject",
@@ -184,7 +184,7 @@
     {
       "_id": "req_e7fe789674e74b54a5f2287973ed95a3",
       "parentId": "fld_d3f307c549fe462da5dd7139279704c4",
-      "modified": 1684167311624,
+      "modified": 1685394128427,
       "created": 1679580102413,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "list",
@@ -195,7 +195,7 @@
       "headers": [],
       "authentication": {
         "type": "bearer",
-        "token": "{% response 'body', 'req_444514f8504145588253c23220ae265d', 'b64::JC5jb250ZW50LmFjY2Vzc1Rva2Vu::46b', 'never', 60 %}"
+        "token": "{% response 'body', 'req_73159beaac29458f8cfb58bc95d3d053', 'b64::JC5jb250ZW50LmFjY2Vzc1Rva2Vu::46b', 'never', 60 %}"
       },
       "metaSortKey": -1679571922816,
       "isPrivate": false,
@@ -210,7 +210,7 @@
     {
       "_id": "req_027d356eddf045abaa5d8be57fade4bc",
       "parentId": "fld_d3f307c549fe462da5dd7139279704c4",
-      "modified": 1680521123560,
+      "modified": 1685394136258,
       "created": 1679571922766,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
       "name": "accept",
@@ -245,7 +245,7 @@
     {
       "_id": "req_659ce2a30fc346b6a1340f39a23979d6",
       "parentId": "fld_d3f307c549fe462da5dd7139279704c4",
-      "modified": 1680521090494,
+      "modified": 1685394137167,
       "created": 1679509084902,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{{ _.device_id }}",
       "name": "create",
@@ -278,9 +278,105 @@
       "_type": "request"
     },
     {
+      "_id": "req_d16f5c244e6e479bbccdb4026b375be3",
+      "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
+      "modified": 1685554689942,
+      "created": 1685553520537,
+      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/{{ _.device_id }}",
+      "name": "forgotPassword",
+      "description": "",
+      "method": "POST",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_73159beaac29458f8cfb58bc95d3d053', 'b64::JC5jb250ZW50LmFjY2Vzc1Rva2Vu::46b', 'never', 60 %}"
+      },
+      "metaSortKey": -1685553520537,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_f088d2cca15e4c9289eec1082bf0b18a",
+      "parentId": "wrk_ce01f82396cd4a70b1b0685f1170e71f",
+      "modified": 1679436068037,
+      "created": 1679436068037,
+      "name": "device",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1679436068037,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_a17ee3cc088e437196471fd2f277b444",
+      "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
+      "modified": 1685555308502,
+      "created": 1685553583432,
+      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/{{ _.device_id }}",
+      "name": "resetPassword",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"pin\": \"752863\",\n\t\"password\": \"654321\",\n\t\"confirmPassword\": \"654321\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_fab49d0b35a84416ac0c8d1462aa7992"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_73159beaac29458f8cfb58bc95d3d053', 'b64::JC5jb250ZW50LmFjY2Vzc1Rva2Vu::46b', 'never', 60 %}"
+      },
+      "metaSortKey": -1685521746332.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_8294726cea56483ebf9ae295795ee52a",
+      "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
+      "modified": 1685490511135,
+      "created": 1685489972128,
+      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/{{ _.support_id }}/2893701982730182",
+      "name": "generateQr",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1685489972128,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
       "_id": "req_39c03a017e454af08c93f6fbac028e3b",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1685126289964,
+      "modified": 1685555339970,
       "created": 1685125749900,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/{{ _.device_id }}",
       "name": "authentication",
@@ -288,7 +384,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"password\": \"123456\"\n}"
+        "text": "{\n\t\"password\": \"654321\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -313,21 +409,9 @@
       "_type": "request"
     },
     {
-      "_id": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "parentId": "wrk_ce01f82396cd4a70b1b0685f1170e71f",
-      "modified": 1679436068037,
-      "created": 1679436068037,
-      "name": "device",
-      "description": "",
-      "environment": {},
-      "environmentPropertyOrder": null,
-      "metaSortKey": -1679436068037,
-      "_type": "request_group"
-    },
-    {
       "_id": "req_1c692869180a4c1daf783d41c3c43132",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1684167403359,
+      "modified": 1685394115617,
       "created": 1684166110371,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{{ _.device_id }}",
       "name": "delete",
@@ -353,7 +437,7 @@
     {
       "_id": "req_bd8f2835f8d34a6bba27b17f3f0fa57a",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1684929906831,
+      "modified": 1685394113797,
       "created": 1684757038942,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/{{ _.device_id }}",
       "name": "wifiChangeHaveStarted",
@@ -388,7 +472,7 @@
     {
       "_id": "req_f600b9dbf0a0432e8423323378e790e7",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1684846286695,
+      "modified": 1685394112575,
       "created": 1680044909711,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
       "name": "changeNickname",
@@ -423,7 +507,7 @@
     {
       "_id": "req_0a89ee682a044613893d650681410c32",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1684848026215,
+      "modified": 1685394107999,
       "created": 1679504059656,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "list",
@@ -449,7 +533,7 @@
     {
       "_id": "req_4e8cc19eacf4458c9a0447fba9ddbf05",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1684846283472,
+      "modified": 1685394108584,
       "created": 1679436070298,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "save",
@@ -484,10 +568,10 @@
     {
       "_id": "req_e4607fd26ee441f89981c50f5233a4d7",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1684846281106,
+      "modified": 1685553316329,
       "created": 1679603290201,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
-      "name": "resetPassword",
+      "name": "changePassword",
       "description": "",
       "method": "POST",
       "body": {
@@ -519,7 +603,7 @@
     {
       "_id": "req_7ab3b5baeacc47b79b0cd7762009017f",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1684848020041,
+      "modified": 1685394110495,
       "created": 1679605720893,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/{{ _.device_id }}",
       "name": "status",
@@ -527,7 +611,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"status\": \"1\",\n\t\"password\": \"123456\"\n}"
+        "text": "{\n\t\"status\": \"2\",\n\t\"password\": \"123456\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -554,7 +638,7 @@
     {
       "_id": "req_99491c1f968b41d188428839574968a1",
       "parentId": "fld_5996bcfc128240c4b1bd6114430f10a0",
-      "modified": 1684588094804,
+      "modified": 1685394093565,
       "created": 1684172879820,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
       "name": "confirm",
@@ -598,7 +682,7 @@
     {
       "_id": "req_ab709a3fb6e948659921f7deaf9ebbab",
       "parentId": "fld_5996bcfc128240c4b1bd6114430f10a0",
-      "modified": 1683234045148,
+      "modified": 1685394097152,
       "created": 1680283044670,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
       "name": "delete/request",
@@ -624,7 +708,7 @@
     {
       "_id": "req_2b20371fe9114d1eac995b38023275c7",
       "parentId": "fld_5996bcfc128240c4b1bd6114430f10a0",
-      "modified": 1684112693262,
+      "modified": 1685394098601,
       "created": 1680283057366,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/400545",
       "name": "delete/confirm",
@@ -650,7 +734,7 @@
     {
       "_id": "req_ffeced58ed584d059c7866e0ca40f8ba",
       "parentId": "fld_5996bcfc128240c4b1bd6114430f10a0",
-      "modified": 1684588051722,
+      "modified": 1685394099696,
       "created": 1679334866620,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "create",
@@ -682,7 +766,7 @@
     {
       "_id": "req_9c128e23f7a346968e2de93070d0998a",
       "parentId": "fld_5996bcfc128240c4b1bd6114430f10a0",
-      "modified": 1683234050695,
+      "modified": 1685394103722,
       "created": 1679576584629,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
       "name": "changePassword",
@@ -761,7 +845,7 @@
     {
       "_id": "req_e736ff6ee9d846a498e0d908334429e9",
       "parentId": "fld_631dfacbc1d64b56a2acfa95833bbaff",
-      "modified": 1680280847456,
+      "modified": 1685553601920,
       "created": 1680037098202,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
       "name": "forgotPassword",
@@ -793,7 +877,7 @@
     {
       "_id": "req_915194bbbfec4c62aeb4f6942de30bef",
       "parentId": "fld_631dfacbc1d64b56a2acfa95833bbaff",
-      "modified": 1680466988552,
+      "modified": 1685553603277,
       "created": 1680037137458,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
       "name": "resetPassword",
@@ -825,7 +909,7 @@
     {
       "_id": "req_73159beaac29458f8cfb58bc95d3d053",
       "parentId": "fld_631dfacbc1d64b56a2acfa95833bbaff",
-      "modified": 1685125683369,
+      "modified": 1685554017828,
       "created": 1679245043762,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "login",
@@ -870,14 +954,14 @@
     {
       "_id": "jar_a6e7c17505fd463a8d23c5eba09c4c9f",
       "parentId": "wrk_ce01f82396cd4a70b1b0685f1170e71f",
-      "modified": 1685125672754,
+      "modified": 1685540069385,
       "created": 1679245008010,
       "name": "Default Jar",
       "cookies": [
         {
           "key": "__cf_bm",
-          "value": "_1i28D6wzBzfzJDIj06ABaUwsAVL4hzXRVwRa8j9Pi8-1685125672-0-AdwPTpumTtwkcQYiQaid9MwU+FdR/G+MdV4ErXrc7pEJeKWKcsaS0MIb0GG3IA2oUf6oP+3heRtKw70b274mBGQ=",
-          "expires": "2023-05-26T18:57:52.000Z",
+          "value": "gRGE.zJmUFcFe15Zaglig7Cd45lLV3Wco74DhMkGcy8-1685540069-0-AVyPD/bHuRG9SnBISTrcQyZdE34JmYUEFZHudDxVCbVH42QhyYJNf3QK2g0xESos/2C7xQ57K/bImOlo7pHo3y4=",
+          "expires": "2023-05-31T14:04:29.000Z",
           "domain": "onrender.com",
           "path": "/",
           "secure": true,
@@ -887,8 +971,8 @@
           ],
           "hostOnly": false,
           "creation": "2023-05-26T18:27:52.748Z",
-          "lastAccessed": "2023-05-26T18:27:52.748Z",
-          "id": "22645554899238451"
+          "lastAccessed": "2023-05-31T13:34:29.380Z",
+          "id": "47346923594873"
         },
         {
           "key": "_cfuvid",
@@ -903,7 +987,7 @@
           "hostOnly": false,
           "creation": "2023-05-26T18:27:52.749Z",
           "lastAccessed": "2023-05-26T18:27:52.749Z",
-          "id": "35262172891018695"
+          "id": "8549778536590915"
         }
       ],
       "_type": "cookie_jar"
@@ -921,17 +1005,19 @@
     {
       "_id": "env_4199f22b58b54e54a5a8441084895a71",
       "parentId": "env_7f9d87bbe52b4e79b46a382e128538eb",
-      "modified": 1684845712294,
+      "modified": 1685490035938,
       "created": 1679245014413,
       "name": "dev",
       "data": {
         "base_url": "http://localhost:3333/api",
-        "device_id": "5088d612-579f-40f9-9846-8a2d0006299f"
+        "device_id": "5088d612-579f-40f9-9846-8a2d0006299f",
+        "support_id": "123"
       },
       "dataPropertyOrder": {
         "&": [
           "base_url",
-          "device_id"
+          "device_id",
+          "support_id"
         ]
       },
       "color": "#2be811",
