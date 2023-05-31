@@ -3,6 +3,7 @@ interface IValidatorsProvider {
   length(str: string, length: number): boolean;
   macAddress(macAddress: string): boolean;
   devicePassword(password: string): boolean;
+  deviceSmartConfigPassword(password: string): boolean;
 }
 
 export { IValidatorsProvider };
