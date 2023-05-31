@@ -2,6 +2,7 @@ import { ChangeDeviceStatusService } from "./ChangeDeviceStatusService";
 import { ChangeNicknameService } from "./ChangeNicknameService";
 import { CreateDeviceService } from "./CreateDeviceService";
 import { DeleteDeviceService } from "./DeleteDeviceService";
+import { GenerateDeviceQRCodeService } from "./GenerateDeviceQRCodeService";
 import { HandleDeviceChangedStatusService } from "./HandleDeviceChangedStatusService";
 import { HandleDeviceChangedWifiService } from "./HandleDeviceChangedWifiService";
 import { HandleFailedChangedStatusAttemptService } from "./HandleFailedChangedStatusAttemptService";
@@ -12,6 +13,7 @@ import { SynchronizeCurrentDeviceStatusService } from "./SynchronizeCurrentDevic
 import { UserAuthenticationAtDeviceService } from "./UserAuthenticationAtDeviceService";
 
 export {
+  GenerateDeviceQRCodeService,
   UserAuthenticationAtDeviceService,
   NotifyAllDeviceWifiChangesHaveStartedService,
   HandleFailedChangedStatusAttemptService,

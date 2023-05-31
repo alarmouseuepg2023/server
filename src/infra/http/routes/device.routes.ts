@@ -9,6 +9,8 @@ import {
   HandleUrlPatternMatchMiddleware,
   LogMiddleware,
   RBACMiddleware,
+  downloadFileAndUnlinkMiddleware,
+  isSupportMiddleware,
   throwAppError2MQTTMiddleware,
 } from "@middlewares/index";
 
@@ -90,6 +92,15 @@ routes.delete(
   ensureAuthenticated.execute,
   RBAC.is(RolesKeys.OWNER),
   controller.delete,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
+routes.get(
+  "/generateQr/:support/:pin",
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
+  logMiddleware.routeStart,
+  isSupportMiddleware,
+  controller.generateQrCode,
+  downloadFileAndUnlinkMiddleware,
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
 

@@ -14,6 +14,7 @@ import {
   ChangeNicknameService,
   CreateDeviceService,
   DeleteDeviceService,
+  GenerateDeviceQRCodeService,
   ListDevicesService,
   NotifyAllDeviceWifiChangesHaveStartedService,
   ResetDevicePasswordService,
@@ -227,6 +228,26 @@ class DeviceController {
       content: result,
       message: i18n.__("SuccessGeneric"),
     });
+
+    return next();
+  }
+
+  public async generateQrCode(
+    req: Request,
+    res: Response<IResponseMessage>,
+    next: NextFunction
+  ): Promise<void> {
+    const { pin } = req.params;
+
+    const service = container.resolve(GenerateDeviceQRCodeService);
+
+    const filePath = await service.execute({
+      pin,
+    });
+
+    res.locals.filePath = filePath;
+
+    res.status(HttpStatus.OK);
 
     return next();
   }
