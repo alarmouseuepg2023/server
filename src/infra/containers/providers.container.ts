@@ -3,6 +3,7 @@ import { DateProvider, IDateProvider } from "@providers/date";
 import { HashProvider, IHashProvider } from "@providers/hash";
 import { IMaskProvider, MaskProvider } from "@providers/mask";
 import { IPasswordProvider, PasswordProvider } from "@providers/password";
+import { IQRCodeProvider, QRCodeProvider } from "@providers/qrcode";
 import {
   IUniqueIdentifierProvider,
   UniqueIdentifierProvider,
@@ -26,5 +27,7 @@ container
   .to(UniqueIdentifierProvider);
 
 container.bind<IPasswordProvider>("PasswordProvider").to(PasswordProvider);
+
+container.bind<IQRCodeProvider>("QRCodeProvider").to(QRCodeProvider);
 
 container.bind<IMaskProvider>("MaskProvider").to(MaskProvider);
