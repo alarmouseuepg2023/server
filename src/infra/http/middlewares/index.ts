@@ -1,3 +1,4 @@
+import { downloadFileAndUnlinkMiddleware } from "./downloadFileAndUnlinkMiddleware";
 import { errorHandlerMiddleware } from "./errorHandlerMiddleware";
 import { HandleUrlPatternMatchMiddleware } from "./HandleUrlPatternMatchMiddleware";
 import { internationalizationMiddleware } from "./internationalizationMiddleware";
@@ -8,6 +9,7 @@ import { SetRuntimeMiddleware } from "./SetRuntimeMiddleware";
 import { throwAppError2MQTTMiddleware } from "./throwAppError2MQTTMiddleware";
 
 export {
+  downloadFileAndUnlinkMiddleware,
   throwAppError2MQTTMiddleware,
   RBACMiddleware,
   SetRuntimeMiddleware,
