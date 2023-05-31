@@ -1,4 +1,4 @@
-type ResetDevicePasswordRequestModel = {
+type ChangeDevicePasswordRequestModel = {
   password: string;
   confirmPassword: string;
   oldPassword: string;
@@ -6,4 +6,4 @@ type ResetDevicePasswordRequestModel = {
   deviceId: string;
 };
 
-export { ResetDevicePasswordRequestModel };
+export { ChangeDevicePasswordRequestModel };

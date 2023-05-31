@@ -50,12 +50,12 @@ routes.post(
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
 routes.post(
-  "/resetPassword/:device_id",
+  "/changePassword/:device_id",
   handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
   logMiddleware.routeStart,
   ensureAuthenticated.execute,
   RBAC.has(),
-  controller.resetPassword,
+  controller.changePassword,
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
 routes.post(

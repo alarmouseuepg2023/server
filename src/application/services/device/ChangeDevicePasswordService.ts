@@ -7,13 +7,13 @@ import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { toNumber } from "@helpers/toNumber";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
 import { transaction } from "@infra/database/transaction";
-import { ResetDevicePasswordRequestModel } from "@infra/dtos/device/ResetDevicePasswordRequestModel";
+import { ChangeDevicePasswordRequestModel } from "@infra/dtos/device/ChangeDevicePasswordRequestModel";
 import { IHashProvider } from "@providers/hash";
 import { IUniqueIdentifierProvider } from "@providers/uniqueIdentifier";
 import { IValidatorsProvider } from "@providers/validators";
 
 @injectable()
-class ResetDevicePasswordService {
+class ChangeDevicePasswordService {
   constructor(
     @inject("UniqueIdentifierProvider")
     private uniqueIdentifierProvider: IUniqueIdentifierProvider,
@@ -31,7 +31,7 @@ class ResetDevicePasswordService {
     oldPassword,
     userId,
     deviceId,
-  }: ResetDevicePasswordRequestModel): Promise<boolean> {
+  }: ChangeDevicePasswordRequestModel): Promise<boolean> {
     if (stringIsNullOrEmpty(oldPassword))
       throw new AppError(
         "BAD_REQUEST",
@@ -98,4 +98,4 @@ class ResetDevicePasswordService {
   }
 }
 
-export { ResetDevicePasswordService };
+export { ChangeDevicePasswordService };

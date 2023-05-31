@@ -10,6 +10,7 @@ import { CreateDeviceResponseModel } from "@infra/dtos/device/CreateDeviceRespon
 import { ListDevicesResponseModel } from "@infra/dtos/device/ListDevicesResponseModel";
 import { UpdateDeviceResponseModel } from "@infra/dtos/device/UpdateDeviceResponseModel";
 import {
+  ChangeDevicePasswordService,
   ChangeDeviceStatusService,
   ChangeNicknameService,
   CreateDeviceService,
@@ -17,7 +18,6 @@ import {
   GenerateDeviceQRCodeService,
   ListDevicesService,
   NotifyAllDeviceWifiChangesHaveStartedService,
-  ResetDevicePasswordService,
   UserAuthenticationAtDeviceService,
 } from "@services/device";
 
@@ -77,7 +77,7 @@ class DeviceController {
     return next();
   }
 
-  public async resetPassword(
+  public async changePassword(
     req: Request,
     res: Response<IResponseMessage>,
     next: NextFunction
@@ -86,7 +86,7 @@ class DeviceController {
     const { device_id: deviceId } = req.params;
     const { password, confirmPassword, oldPassword } = req.body;
 
-    const service = container.resolve(ResetDevicePasswordService);
+    const service = container.resolve(ChangeDevicePasswordService);
 
     await service.execute({
       confirmPassword,
