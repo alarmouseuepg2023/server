@@ -1,18 +1,18 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-05-31T17:49:59.046Z",
+  "__export_date": "2023-06-01T23:57:19.661Z",
   "__export_source": "insomnia.desktop.app:v2022.5.0",
   "resources": [
     {
-      "_id": "req_c6c69242a08f42e28b652987f14ce009",
+      "_id": "req_cc9089ac51054afc859301b6c08d8e7c",
       "parentId": "fld_181a331c4c6d4ee78115e131523a0dae",
-      "modified": 1685394167893,
-      "created": 1679761231303,
-      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{{ _.device_id }}",
-      "name": "list",
+      "modified": 1685660595568,
+      "created": 1685654333975,
+      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/{{ _.device_id }}",
+      "name": "exit",
       "description": "",
-      "method": "GET",
+      "method": "POST",
       "body": {},
       "parameters": [],
       "headers": [],
@@ -20,7 +20,7 @@
         "type": "bearer",
         "token": "{% response 'body', 'req_73159beaac29458f8cfb58bc95d3d053', 'b64::JC5jb250ZW50LmFjY2Vzc1Rva2Vu::46b', 'never', 60 %}"
       },
-      "metaSortKey": -1679761231303,
+      "metaSortKey": -1685654333975,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -51,6 +51,32 @@
       "description": "",
       "scope": "design",
       "_type": "workspace"
+    },
+    {
+      "_id": "req_c6c69242a08f42e28b652987f14ce009",
+      "parentId": "fld_181a331c4c6d4ee78115e131523a0dae",
+      "modified": 1685394167893,
+      "created": 1679761231303,
+      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{{ _.device_id }}",
+      "name": "list",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_73159beaac29458f8cfb58bc95d3d053', 'b64::JC5jb250ZW50LmFjY2Vzc1Rva2Vu::46b', 'never', 60 %}"
+      },
+      "metaSortKey": -1679761231303,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
     },
     {
       "_id": "req_a7d432c1d7324b0b84271388539c1ef8",
@@ -376,7 +402,7 @@
     {
       "_id": "req_39c03a017e454af08c93f6fbac028e3b",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1685555339970,
+      "modified": 1685653956197,
       "created": 1685125749900,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/{{ _.device_id }}",
       "name": "authentication",
@@ -507,7 +533,7 @@
     {
       "_id": "req_0a89ee682a044613893d650681410c32",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1685394107999,
+      "modified": 1685663767527,
       "created": 1679504059656,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "list",
@@ -909,7 +935,7 @@
     {
       "_id": "req_73159beaac29458f8cfb58bc95d3d053",
       "parentId": "fld_631dfacbc1d64b56a2acfa95833bbaff",
-      "modified": 1685554017828,
+      "modified": 1685654376177,
       "created": 1679245043762,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "login",
