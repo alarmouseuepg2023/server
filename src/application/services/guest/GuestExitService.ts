@@ -1,12 +1,32 @@
-import { injectable } from "inversify";
+import { inject, injectable } from "inversify";
 
-import { GuestExitRequestModel } from "@infra/dtos/guest/GuestExitRequestModel";
+import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
+import { RevokeGuestPermissionRequestModel } from "@infra/dtos/guest/RevokeGuestPermissionRequestModel";
+import { IUniqueIdentifierProvider } from "@providers/uniqueIdentifier";
+
+import { RevokeGuestPermissionService } from "./RevokeGuestPermissionService";
 
 @injectable()
-class GuestExitService {
-  public async execute(obj: GuestExitRequestModel): Promise<boolean> {
-    console.log(obj);
-    return true;
+class GuestExitService extends RevokeGuestPermissionService {
+  constructor(
+    @inject("DeviceAccessControlRepository")
+    deviceAccessControlRepository: IDeviceAccessControlRepository,
+    @inject("UniqueIdentifierProvider")
+    uniqueIdentifierProvider: IUniqueIdentifierProvider
+  ) {
+    super(uniqueIdentifierProvider, deviceAccessControlRepository);
+  }
+
+  public async execute({
+    deviceId,
+    guestId,
+  }: RevokeGuestPermissionRequestModel): Promise<boolean> {
+    const result = await super.execute({
+      deviceId,
+      guestId,
+    });
+
+    return result;
   }
 }
 

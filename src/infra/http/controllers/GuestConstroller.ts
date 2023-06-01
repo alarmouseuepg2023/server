@@ -49,7 +49,7 @@ class GuestController {
 
     const result = await service.execute({
       deviceId,
-      userId,
+      guestId: userId,
     });
 
     res.status(HttpStatus.OK).json({
