@@ -7,6 +7,7 @@ import { HttpStatus } from "@http/utils/HttpStatus";
 import { container } from "@infra/containers";
 import { ListGuestsResponseModel } from "@infra/dtos/guest/ListGuestsResponseModel";
 import {
+  GuestExitService,
   ListGuestsService,
   RevokeGuestPermissionService,
 } from "@services/guest";
@@ -25,6 +26,30 @@ class GuestController {
     const result = await service.execute({
       deviceId,
       guestId,
+    });
+
+    res.status(HttpStatus.OK).json({
+      success: true,
+      content: result,
+      message: i18n.__("SuccessGeneric"),
+    });
+
+    return next();
+  }
+
+  public async guestExit(
+    req: Request,
+    res: Response<IResponseMessage<boolean>>,
+    next: NextFunction
+  ): Promise<void> {
+    const { id: userId } = req.user;
+    const { device_id: deviceId } = req.params;
+
+    const service = container.resolve(GuestExitService);
+
+    const result = await service.execute({
+      deviceId,
+      userId,
     });
 
     res.status(HttpStatus.OK).json({

@@ -1,4 +1,5 @@
+import { GuestExitService } from "./GuestExitService";
 import { ListGuestsService } from "./ListGuestsService";
 import { RevokeGuestPermissionService } from "./RevokeGuestPermissionService";
 
-export { ListGuestsService, RevokeGuestPermissionService };
+export { GuestExitService, ListGuestsService, RevokeGuestPermissionService };

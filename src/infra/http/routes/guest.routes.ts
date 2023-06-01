@@ -37,4 +37,13 @@ routes.post(
   controller.revokePermission,
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
+routes.post(
+  "/exit/:device_id",
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
+  logMiddleware.routeStart,
+  ensureAuthenticated.execute,
+  RBAC.is(RolesKeys.GUEST),
+  controller.guestExit,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
 export { routes };
