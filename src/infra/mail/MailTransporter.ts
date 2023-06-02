@@ -1,6 +1,7 @@
 import { Transporter, createTransport, SendMailOptions } from "nodemailer";
 
 import { env } from "@helpers/env";
+import { getErrorStackTrace } from "@helpers/getErrorStackTrace";
 import { toNumber } from "@helpers/toNumber";
 import { logger } from "@infra/log";
 
@@ -24,15 +25,21 @@ class MailTransporter {
     });
   }
 
+  private errorHandler = (e: any): void => {
+    logger.info(`Error at send email: ${getErrorStackTrace(e)}`);
+  };
+
   public sendMail(mailOptions: Exclude<SendMailOptions, "from">): void {
     if (!this.configured2send) return;
 
     logger.info(`Sending email to: ${mailOptions.to}`);
 
-    this.transporter.sendMail({
-      ...mailOptions,
-      from: env("MAIL_FROM"),
-    });
+    this.transporter
+      .sendMail({
+        ...mailOptions,
+        from: env("MAIL_FROM"),
+      })
+      .catch(this.errorHandler);
   }
 
   public async sendMailAndWait(
@@ -42,10 +49,14 @@ class MailTransporter {
 
     logger.info(`Sending email to: ${mailOptions.to} and waiting`);
 
-    await this.transporter.sendMail({
-      ...mailOptions,
-      from: env("MAIL_FROM"),
-    });
+    try {
+      await this.transporter.sendMail({
+        ...mailOptions,
+        from: env("MAIL_FROM"),
+      });
+    } catch (e) {
+      this.errorHandler(e);
+    }
   }
 }
 
