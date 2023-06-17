@@ -12,6 +12,8 @@ class RoutesPrefix {
   public static readonly ALARM_EVENTS: string = "/alarmEvents";
 
   public static readonly GUEST: string = "/guest";
+
+  public static readonly PUSH_NOTIFICATIONS: string = "/pushNotifications";
 }
 
 export { RoutesPrefix };
