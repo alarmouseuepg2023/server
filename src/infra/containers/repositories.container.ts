@@ -1,6 +1,6 @@
 import {
   IPushNotificationsRepository,
-  PushNotificationRepository,
+  PushNotificationsRepository,
 } from "@infra/database/repositories/pushNotification";
 import {
   AlarmEventsRepository,
@@ -41,5 +41,5 @@ container
   .to(WaitingEmailConfirmationRepository);
 
 container
-  .bind<IPushNotificationsRepository>("PushNotificationRepository")
-  .to(PushNotificationRepository);
+  .bind<IPushNotificationsRepository>("PushNotificationsRepository")
+  .to(PushNotificationsRepository);

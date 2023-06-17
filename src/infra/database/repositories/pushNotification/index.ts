@@ -1,4 +1,4 @@
-import { PushNotificationRepository } from "./implementations/PostgreSQL/Prisma/PushNotificationRepository";
+import { PushNotificationsRepository } from "./implementations/PostgreSQL/Prisma/PushNotificationsRepository";
 import { IPushNotificationsRepository } from "./models/IPushNotificationsRepository";
 
-export { PushNotificationRepository, IPushNotificationsRepository };
+export { PushNotificationsRepository, IPushNotificationsRepository };
