@@ -1,13 +1,70 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-06-01T23:57:19.661Z",
+  "__export_date": "2023-06-17T21:05:47.767Z",
   "__export_source": "insomnia.desktop.app:v2022.5.0",
   "resources": [
     {
+      "_id": "req_15ebc4fad0e24d44ac2a5adfb01d0e19",
+      "parentId": "fld_d72ca7ddd2db4518bdbe36b945b2a98b",
+      "modified": 1687035503406,
+      "created": 1687026043193,
+      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
+      "name": "update token",
+      "description": "",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"token\": \"teaeaeoken\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_bf8fd58262fc461ead8b7d2b94422461"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_73159beaac29458f8cfb58bc95d3d053', 'b64::JC5jb250ZW50LmFjY2Vzc1Rva2Vu::46b', 'never', 60 %}"
+      },
+      "metaSortKey": -1687026043193,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_d72ca7ddd2db4518bdbe36b945b2a98b",
+      "parentId": "wrk_ce01f82396cd4a70b1b0685f1170e71f",
+      "modified": 1687026041772,
+      "created": 1687026041772,
+      "name": "pushNotifications",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1687026041772,
+      "_type": "request_group"
+    },
+    {
+      "_id": "wrk_ce01f82396cd4a70b1b0685f1170e71f",
+      "parentId": null,
+      "modified": 1684588020240,
+      "created": 1684588020240,
+      "name": "alarmouse",
+      "description": "",
+      "scope": "design",
+      "_type": "workspace"
+    },
+    {
       "_id": "req_cc9089ac51054afc859301b6c08d8e7c",
       "parentId": "fld_181a331c4c6d4ee78115e131523a0dae",
-      "modified": 1685660595568,
+      "modified": 1687020297211,
       "created": 1685654333975,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/{{ _.device_id }}",
       "name": "exit",
@@ -41,16 +98,6 @@
       "environmentPropertyOrder": null,
       "metaSortKey": -1679752008015,
       "_type": "request_group"
-    },
-    {
-      "_id": "wrk_ce01f82396cd4a70b1b0685f1170e71f",
-      "parentId": null,
-      "modified": 1684588020240,
-      "created": 1684588020240,
-      "name": "alarmouse",
-      "description": "",
-      "scope": "design",
-      "_type": "workspace"
     },
     {
       "_id": "req_c6c69242a08f42e28b652987f14ce009",
@@ -533,7 +580,7 @@
     {
       "_id": "req_0a89ee682a044613893d650681410c32",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1685663767527,
+      "modified": 1685664042516,
       "created": 1679504059656,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "list",
@@ -871,7 +918,7 @@
     {
       "_id": "req_e736ff6ee9d846a498e0d908334429e9",
       "parentId": "fld_631dfacbc1d64b56a2acfa95833bbaff",
-      "modified": 1685553601920,
+      "modified": 1687010727636,
       "created": 1680037098202,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
       "name": "forgotPassword",
@@ -879,7 +926,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"email\": \"email@email.com\"\n}\t"
+        "text": "{\n\t\"email\": \"marcoskrul2k@gmail.com\"\n}\t"
       },
       "parameters": [],
       "headers": [
@@ -903,7 +950,7 @@
     {
       "_id": "req_915194bbbfec4c62aeb4f6942de30bef",
       "parentId": "fld_631dfacbc1d64b56a2acfa95833bbaff",
-      "modified": 1685553603277,
+      "modified": 1685930822385,
       "created": 1680037137458,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}",
       "name": "resetPassword",
@@ -935,7 +982,7 @@
     {
       "_id": "req_73159beaac29458f8cfb58bc95d3d053",
       "parentId": "fld_631dfacbc1d64b56a2acfa95833bbaff",
-      "modified": 1685654376177,
+      "modified": 1687026127068,
       "created": 1679245043762,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "login",
@@ -980,14 +1027,14 @@
     {
       "_id": "jar_a6e7c17505fd463a8d23c5eba09c4c9f",
       "parentId": "wrk_ce01f82396cd4a70b1b0685f1170e71f",
-      "modified": 1685540069385,
+      "modified": 1685930812319,
       "created": 1679245008010,
       "name": "Default Jar",
       "cookies": [
         {
           "key": "__cf_bm",
-          "value": "gRGE.zJmUFcFe15Zaglig7Cd45lLV3Wco74DhMkGcy8-1685540069-0-AVyPD/bHuRG9SnBISTrcQyZdE34JmYUEFZHudDxVCbVH42QhyYJNf3QK2g0xESos/2C7xQ57K/bImOlo7pHo3y4=",
-          "expires": "2023-05-31T14:04:29.000Z",
+          "value": "ytw4NB66ezB.ihr6owJgAtCHmhPXdIfQ3G_rT1IysZQ-1685930812-0-AcHKtxkNluYcd1jDRMMxLe54EKErCBC5fXDQXAlGmBPXnwQ5QNm6EemYRsy2Rcx4JWHezTRSzbT5ibx2g/Wurc8=",
+          "expires": "2023-06-05T02:36:52.000Z",
           "domain": "onrender.com",
           "path": "/",
           "secure": true,
@@ -997,12 +1044,12 @@
           ],
           "hostOnly": false,
           "creation": "2023-05-26T18:27:52.748Z",
-          "lastAccessed": "2023-05-31T13:34:29.380Z",
-          "id": "47346923594873"
+          "lastAccessed": "2023-06-05T02:06:52.312Z",
+          "id": "17214685832711285"
         },
         {
           "key": "_cfuvid",
-          "value": "wGybXDlLx5QQEqL2XNcFPNnmHzJ8RNLtOO9j3HX4.Ac-1685125672702-0-604800000",
+          "value": "OSy5U77Hxz5eah0JYqfThsVERve0ANQfo_5xQbrqJIg-1685930812240-0-604800000",
           "domain": "onrender.com",
           "path": "/",
           "secure": true,
@@ -1012,8 +1059,8 @@
           ],
           "hostOnly": false,
           "creation": "2023-05-26T18:27:52.749Z",
-          "lastAccessed": "2023-05-26T18:27:52.749Z",
-          "id": "8549778536590915"
+          "lastAccessed": "2023-06-05T02:06:52.313Z",
+          "id": "21717666648957734"
         }
       ],
       "_type": "cookie_jar"
