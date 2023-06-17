@@ -11,6 +11,7 @@ if (
     !key.startsWith("Mail") && 
     !key.startsWith("Domain") &&
     !key.startsWith("RandomWord_") &&
+    !key.startsWith("PushNotification") &&
     !key.startsWith("AlarmEvents_")
   ) || !locale || !message
 ) {
