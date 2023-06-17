@@ -22,6 +22,7 @@ model User {
   alarmEvents               AlarmEvents[]
   deviceAccessControl       DeviceAccessControl[]
   waitingEmailConfirmations WaitingEmailConfirmations[]
+  pushNotifications         PushNotifications?
 
   @@map("user")
 }
@@ -105,4 +106,14 @@ model DeviceAccessControl {
 
   @@id([userId, deviceId])
   @@map("device_access_control")
+}
+
+model PushNotifications {
+  userId String @id @map("user_id") @db.Uuid()
+  user   User   @relation(fields: [userId], references: [id])
+
+  fcmToken            String  @map("fcm_token") @db.VarChar(255)
+  notificationEnabled Boolean @default(true) @map("notification_enabled")
+
+  @@map("push_notifications")
 }
