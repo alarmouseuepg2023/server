@@ -1,4 +1,8 @@
 import {
+  IPushNotificationsRepository,
+  PushNotificationRepository,
+} from "@infra/database/repositories/pushNotification";
+import {
   AlarmEventsRepository,
   IAlarmEventsRepository,
 } from "@repositories/alarmEvents";
@@ -35,3 +39,7 @@ container
     "WaitingEmailConfirmationRepository"
   )
   .to(WaitingEmailConfirmationRepository);
+
+container
+  .bind<IPushNotificationsRepository>("PushNotificationRepository")
+  .to(PushNotificationRepository);
