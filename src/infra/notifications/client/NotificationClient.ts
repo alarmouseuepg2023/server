@@ -16,7 +16,7 @@ import { IUniqueIdentifierProvider } from "@providers/uniqueIdentifier";
 
 @injectable()
 class NotificationClient {
-  private readonly firebaseApp: firebaseApp.App;
+  private readonly firebaseApp: firebaseApp.App | undefined;
 
   private readonly defaultOptions: messaging.AndroidConfig = {
     ttl: 3600,
@@ -29,13 +29,17 @@ class NotificationClient {
     @inject("UniqueIdentifierProvider")
     private uniqueIdentifierProvider: IUniqueIdentifierProvider
   ) {
-    this.firebaseApp = admin.initializeApp({
-      credential: credential.cert({
-        clientEmail: env("NOTIFICATIONS_CLIENT_EMAIL"),
-        privateKey: env("NOTIFICATIONS_PRIVATE_KEY"),
-        projectId: env("NOTIFICATIONS_PROJECT_ID"),
-      }),
-    });
+    try {
+      this.firebaseApp = admin.initializeApp({
+        credential: credential.cert({
+          clientEmail: env("NOTIFICATIONS_CLIENT_EMAIL"),
+          privateKey: env("NOTIFICATIONS_PRIVATE_KEY"),
+          projectId: env("NOTIFICATIONS_PROJECT_ID"),
+        }),
+      });
+    } catch (e: any) {
+      logger.error(`Error at notification client: ${e.message}`);
+    }
   }
 
   private onSuccessNotificationCb = (response: string): void => {
@@ -71,6 +75,8 @@ class NotificationClient {
     android,
     userId,
   }: messaging.TokenMessage & { userId: string }): void => {
+    if (!this.firebaseApp) return;
+
     logger.info(
       `Firebase app sending push notification: ${
         notification?.title || "WITHOUT TITLE"
