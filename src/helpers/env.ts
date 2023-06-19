@@ -21,7 +21,11 @@ type envKeys =
   | "MAIL_AUTH_USERNAME"
   | "MAIL_AUTH_PASSWORD"
   | "MAIL_FROM"
-  | "MAIL_CONFIGURED";
+  | "MAIL_CONFIGURED"
+  | "API_BASE_URL"
+  | "NOTIFICATIONS_PROJECT_ID"
+  | "NOTIFICATIONS_PRIVATE_KEY"
+  | "NOTIFICATIONS_CLIENT_EMAIL";
 
 const env = (key: envKeys, errorMessage = "ErrorEnvVarNotFound"): string => {
   const _env = process.env[key];
