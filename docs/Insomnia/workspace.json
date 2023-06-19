@@ -1,35 +1,26 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-06-17T21:05:47.767Z",
+  "__export_date": "2023-06-19T19:56:07.968Z",
   "__export_source": "insomnia.desktop.app:v2022.5.0",
   "resources": [
     {
-      "_id": "req_15ebc4fad0e24d44ac2a5adfb01d0e19",
+      "_id": "req_090bb57d74bc4a76b59badb8a6bbd135",
       "parentId": "fld_d72ca7ddd2db4518bdbe36b945b2a98b",
-      "modified": 1687035503406,
-      "created": 1687026043193,
+      "modified": 1687204539933,
+      "created": 1687138239607,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
-      "name": "update token",
+      "name": "delete",
       "description": "",
-      "method": "PATCH",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\"token\": \"teaeaeoken\"\n}"
-      },
+      "method": "DELETE",
+      "body": {},
       "parameters": [],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_bf8fd58262fc461ead8b7d2b94422461"
-        }
-      ],
+      "headers": [],
       "authentication": {
         "type": "bearer",
         "token": "{% response 'body', 'req_73159beaac29458f8cfb58bc95d3d053', 'b64::JC5jb250ZW50LmFjY2Vzc1Rva2Vu::46b', 'never', 60 %}"
       },
-      "metaSortKey": -1687026043193,
+      "metaSortKey": -1687138239607,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -60,6 +51,41 @@
       "description": "",
       "scope": "design",
       "_type": "workspace"
+    },
+    {
+      "_id": "req_15ebc4fad0e24d44ac2a5adfb01d0e19",
+      "parentId": "fld_d72ca7ddd2db4518bdbe36b945b2a98b",
+      "modified": 1687132671376,
+      "created": 1687026043193,
+      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
+      "name": "update token",
+      "description": "",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"token\": \"teaeadawdawdeoken\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_bf8fd58262fc461ead8b7d2b94422461"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_73159beaac29458f8cfb58bc95d3d053', 'b64::JC5jb250ZW50LmFjY2Vzc1Rva2Vu::46b', 'never', 60 %}"
+      },
+      "metaSortKey": -1687026043193,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
     },
     {
       "_id": "req_cc9089ac51054afc859301b6c08d8e7c",
@@ -391,7 +417,7 @@
     {
       "_id": "req_a17ee3cc088e437196471fd2f277b444",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1685555308502,
+      "modified": 1687134618781,
       "created": 1685553583432,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/{{ _.device_id }}",
       "name": "resetPassword",
@@ -580,7 +606,7 @@
     {
       "_id": "req_0a89ee682a044613893d650681410c32",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1685664042516,
+      "modified": 1687204514769,
       "created": 1679504059656,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "list",
@@ -606,7 +632,7 @@
     {
       "_id": "req_4e8cc19eacf4458c9a0447fba9ddbf05",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1685394108584,
+      "modified": 1687138453394,
       "created": 1679436070298,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "save",
@@ -641,9 +667,9 @@
     {
       "_id": "req_e4607fd26ee441f89981c50f5233a4d7",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1685553316329,
+      "modified": 1687134641547,
       "created": 1679603290201,
-      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/79182c48-9701-4bc8-b080-34d7dad0fe24",
+      "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/{{ _.device_id }}",
       "name": "changePassword",
       "description": "",
       "method": "POST",
@@ -661,7 +687,7 @@
       ],
       "authentication": {
         "type": "bearer",
-        "token": "{% response 'body', 'req_444514f8504145588253c23220ae265d', 'b64::JC5jb250ZW50LmFjY2Vzc1Rva2Vu::46b', 'never', 60 %}"
+        "token": "{% response 'body', 'req_73159beaac29458f8cfb58bc95d3d053', 'b64::JC5jb250ZW50LmFjY2Vzc1Rva2Vu::46b', 'never', 60 %}"
       },
       "metaSortKey": -1679392871371.5,
       "isPrivate": false,
@@ -676,7 +702,7 @@
     {
       "_id": "req_7ab3b5baeacc47b79b0cd7762009017f",
       "parentId": "fld_f088d2cca15e4c9289eec1082bf0b18a",
-      "modified": 1685394110495,
+      "modified": 1687138484098,
       "created": 1679605720893,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}/{% request 'name', '', 0 %}/{{ _.device_id }}",
       "name": "status",
@@ -982,7 +1008,7 @@
     {
       "_id": "req_73159beaac29458f8cfb58bc95d3d053",
       "parentId": "fld_631dfacbc1d64b56a2acfa95833bbaff",
-      "modified": 1687026127068,
+      "modified": 1687204535997,
       "created": 1679245043762,
       "url": "{{ _.base_url }}/{% request 'folder', '', 0 %}",
       "name": "login",
@@ -1027,14 +1053,14 @@
     {
       "_id": "jar_a6e7c17505fd463a8d23c5eba09c4c9f",
       "parentId": "wrk_ce01f82396cd4a70b1b0685f1170e71f",
-      "modified": 1685930812319,
+      "modified": 1687176996724,
       "created": 1679245008010,
       "name": "Default Jar",
       "cookies": [
         {
           "key": "__cf_bm",
-          "value": "ytw4NB66ezB.ihr6owJgAtCHmhPXdIfQ3G_rT1IysZQ-1685930812-0-AcHKtxkNluYcd1jDRMMxLe54EKErCBC5fXDQXAlGmBPXnwQ5QNm6EemYRsy2Rcx4JWHezTRSzbT5ibx2g/Wurc8=",
-          "expires": "2023-06-05T02:36:52.000Z",
+          "value": "spxln3d_.1it7ISjAo6nIm9X7dqXLi0fIZUc_E1_MU4-1687176996-0-AfJD99i1FVU8WVcLX0K19t2WSh+pKnjMO8IojTnFdbHg+nXXk/wRPIzF4PIivJOe/vof1OW3Up1HGWR0mG8JPpk=",
+          "expires": "2023-06-19T12:46:36.000Z",
           "domain": "onrender.com",
           "path": "/",
           "secure": true,
@@ -1044,8 +1070,8 @@
           ],
           "hostOnly": false,
           "creation": "2023-05-26T18:27:52.748Z",
-          "lastAccessed": "2023-06-05T02:06:52.312Z",
-          "id": "17214685832711285"
+          "lastAccessed": "2023-06-19T12:16:36.724Z",
+          "id": "7204795950179728"
         },
         {
           "key": "_cfuvid",
@@ -1060,7 +1086,7 @@
           "hostOnly": false,
           "creation": "2023-05-26T18:27:52.749Z",
           "lastAccessed": "2023-06-05T02:06:52.313Z",
-          "id": "21717666648957734"
+          "id": "3949684061015193"
         }
       ],
       "_type": "cookie_jar"
@@ -1078,7 +1104,7 @@
     {
       "_id": "env_4199f22b58b54e54a5a8441084895a71",
       "parentId": "env_7f9d87bbe52b4e79b46a382e128538eb",
-      "modified": 1685490035938,
+      "modified": 1687134610944,
       "created": 1679245014413,
       "name": "dev",
       "data": {
@@ -1101,12 +1127,12 @@
     {
       "_id": "env_3bc74afa8f424fb0bd58baeb94b738c3",
       "parentId": "env_7f9d87bbe52b4e79b46a382e128538eb",
-      "modified": 1680287718053,
+      "modified": 1687138450275,
       "created": 1679338450432,
       "name": "homolog",
       "data": {
         "base_url": "https://server-wefs.onrender.com/api",
-        "device_id": "f3f65f31-3bde-48b5-af74-9dee8d68bca0"
+        "device_id": "a56a9529-6b45-483f-ac63-2107e603e597"
       },
       "dataPropertyOrder": {
         "&": [
