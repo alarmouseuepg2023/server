@@ -33,7 +33,7 @@ class NotificationClient {
       this.firebaseApp = admin.initializeApp({
         credential: credential.cert({
           clientEmail: env("NOTIFICATIONS_CLIENT_EMAIL"),
-          privateKey: env("NOTIFICATIONS_PRIVATE_KEY"),
+          privateKey: env("NOTIFICATIONS_PRIVATE_KEY").replace(/\\n/gm, "\n"),
           projectId: env("NOTIFICATIONS_PROJECT_ID"),
         }),
       });
