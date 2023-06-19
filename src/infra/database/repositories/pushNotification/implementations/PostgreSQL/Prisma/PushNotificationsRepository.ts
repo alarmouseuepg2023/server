@@ -3,6 +3,7 @@ import { PushNotificationModel } from "@models/PushNotificationModel";
 import { PrismaPromise } from "@prisma/client";
 
 import { deleteInput } from "../../../models/inputs/deleteInput";
+import { getByDeviceInput } from "../../../models/inputs/getByDeviceInput";
 import { IPushNotificationsRepository } from "../../../models/IPushNotificationsRepository";
 
 class PushNotificationsRepository
@@ -34,6 +35,26 @@ class PushNotificationsRepository
     this.prisma.pushNotifications.delete({
       where: {
         userId,
+      },
+    });
+
+  public getByDevice = ({
+    deviceId,
+  }: getByDeviceInput): PrismaPromise<
+    (PushNotificationModel & { userId: string })[]
+  > =>
+    this.prisma.pushNotifications.findMany({
+      where: {
+        user: {
+          deviceAccessControl: {
+            every: { deviceId },
+          },
+        },
+      },
+      select: {
+        userId: true,
+        fcmToken: true,
+        notificationEnabled: true,
       },
     });
 }
