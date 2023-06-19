@@ -5,7 +5,10 @@ import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
 import { container } from "@infra/containers";
 import { UpdatePushNotificationFCMTokenResponseModel } from "@infra/dtos/pushNotifications/UpdatePushNotificationFCMTokenResponseModel";
-import { UpdatePushNotificationFCMTokenService } from "@services/pushNotifications";
+import {
+  DeletePushNotificationService,
+  UpdatePushNotificationFCMTokenService,
+} from "@services/pushNotifications";
 
 class PushNotificationsController {
   public async updateToken(
@@ -22,6 +25,28 @@ class PushNotificationsController {
 
     const result = await service.execute({
       token,
+      userId,
+    });
+
+    res.status(HttpStatus.OK).json({
+      success: true,
+      content: result,
+      message: i18n.__("SuccessGeneric"),
+    });
+
+    return next();
+  }
+
+  public async delete(
+    req: Request,
+    res: Response<IResponseMessage<boolean>>,
+    next: NextFunction
+  ): Promise<void> {
+    const { id: userId } = req.user;
+
+    const service = container.resolve(DeletePushNotificationService);
+
+    const result = await service.execute({
       userId,
     });
 

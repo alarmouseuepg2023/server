@@ -24,5 +24,13 @@ routes.patch(
   controller.updateToken,
   handleUrlPatternMatchMiddleware.setHasUrlMatched()
 );
+routes.delete(
+  "/",
+  handleUrlPatternMatchMiddleware.skipIfHasUrlMatched,
+  logMiddleware.routeStart,
+  ensureAuthenticated.execute,
+  controller.delete,
+  handleUrlPatternMatchMiddleware.setHasUrlMatched()
+);
 
 export { routes };

@@ -1,3 +1,4 @@
+import { DeletePushNotificationService } from "./DeletePushNotificationService";
 import { UpdatePushNotificationFCMTokenService } from "./UpdatePushNotificationFCMTokenService";
 
-export { UpdatePushNotificationFCMTokenService };
+export { DeletePushNotificationService, UpdatePushNotificationFCMTokenService };
