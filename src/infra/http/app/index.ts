@@ -33,6 +33,20 @@ app.use(
   isSupportMiddleware,
   express.static(path.join(__dirname, "..", "..", "..", "..", "logs"))
 );
+app.use(
+  "/pushNotifications/icons",
+  express.static(
+    path.join(
+      __dirname,
+      "..",
+      "..",
+      "..",
+      "..",
+      "public",
+      "pushNotificationIcons"
+    )
+  )
+);
 app.use("*", new HandleUrlPatternMatchMiddleware().verify);
 app.use(errorHandlerMiddleware);
 app.use(setRuntimeMiddleware.end);
