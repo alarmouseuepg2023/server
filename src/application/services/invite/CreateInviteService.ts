@@ -13,6 +13,7 @@ import { toNumber } from "@helpers/toNumber";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
 import { IInviteRepository } from "@infra/database/repositories/invite";
+import { IPushNotificationsRepository } from "@infra/database/repositories/pushNotification";
 import { IUserRepository } from "@infra/database/repositories/user";
 import { transaction } from "@infra/database/transaction";
 import { CreateInviteRequestModel } from "@infra/dtos/invite/CreateInviteRequestModel";
@@ -20,6 +21,7 @@ import { CreateInviteResponseModel } from "@infra/dtos/invite/CreateInviteRespon
 import { ListInvitsResponseModel } from "@infra/dtos/invite/ListInvitsResponseModel";
 import { mailTransporter } from "@infra/mail";
 import { mqttClient } from "@infra/mqtt/client";
+import { notificationClient } from "@infra/notifications/client";
 import { IDateProvider } from "@providers/date";
 import { IHashProvider } from "@providers/hash";
 import { IMaskProvider } from "@providers/mask";
@@ -46,7 +48,9 @@ class CreateInviteService {
     @inject("DeviceRepository")
     private deviceRepository: IDeviceRepository,
     @inject("DeviceAccessControlRepository")
-    private deviceAccessControlRepository: IDeviceAccessControlRepository
+    private deviceAccessControlRepository: IDeviceAccessControlRepository,
+    @inject("PushNotificationsRepository")
+    private pushNotificationsRepository: IPushNotificationsRepository
   ) {}
 
   public async execute({
@@ -119,7 +123,7 @@ class CreateInviteService {
       error: i18n.__("ErrorEnvVarNotFound"),
     });
 
-    const [inviteCreated] = await transaction([
+    const [inviteCreated, hasPushNotifications] = await transaction([
       this.inviteRepository.save({
         id: this.uniqueIdentifierProvider.generate(),
         deviceId,
@@ -129,7 +133,21 @@ class CreateInviteService {
         token: await this.hashProvider.hash(token, hashSalt),
         status: InviteStatusDomain.SENT,
       }),
+      this.pushNotificationsRepository.getById({ userId: hasGuest.id }),
     ]);
+
+    if (hasPushNotifications && hasPushNotifications.notificationEnabled)
+      notificationClient.send({
+        token: hasPushNotifications.fcmToken,
+        userId: hasGuest.id,
+        notification: {
+          title: i18n.__("PushNotificationSentInviteTitle"),
+          body: i18n.__mf("PushNotificationSentInviteBody", [
+            hasDevice.nickname,
+            hasOwner.name,
+          ]),
+        },
+      });
 
     mailTransporter.sendMail({
       subject: i18n.__("MailSentInviteSubject"),
