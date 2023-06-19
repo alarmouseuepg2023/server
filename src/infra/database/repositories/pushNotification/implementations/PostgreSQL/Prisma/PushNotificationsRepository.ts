@@ -4,6 +4,7 @@ import { PrismaPromise } from "@prisma/client";
 
 import { deleteInput } from "../../../models/inputs/deleteInput";
 import { getByDeviceInput } from "../../../models/inputs/getByDeviceInput";
+import { getByIdInput } from "../../../models/inputs/getByIdInput";
 import { IPushNotificationsRepository } from "../../../models/IPushNotificationsRepository";
 
 class PushNotificationsRepository
@@ -55,6 +56,15 @@ class PushNotificationsRepository
         userId: true,
         fcmToken: true,
         notificationEnabled: true,
+      },
+    });
+
+  public getById = ({
+    userId,
+  }: getByIdInput): PrismaPromise<PushNotificationModel | null> =>
+    this.prisma.pushNotifications.findFirst({
+      where: {
+        userId,
       },
     });
 }

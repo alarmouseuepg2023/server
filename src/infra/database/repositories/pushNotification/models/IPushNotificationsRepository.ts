@@ -3,6 +3,7 @@ import { PrismaPromise } from "@prisma/client";
 
 import { deleteInput } from "./inputs/deleteInput";
 import { getByDeviceInput } from "./inputs/getByDeviceInput";
+import { getByIdInput } from "./inputs/getByIdInput";
 
 interface IPushNotificationsRepository {
   save(
@@ -14,6 +15,8 @@ interface IPushNotificationsRepository {
   getByDevice(
     _: getByDeviceInput
   ): PrismaPromise<(PushNotificationModel & { userId: string })[]>;
+
+  getById(_: getByIdInput): PrismaPromise<PushNotificationModel | null>;
 }
 
 export { IPushNotificationsRepository };
