@@ -8,10 +8,12 @@ import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { IAlarmEventsRepository } from "@infra/database/repositories/alarmEvents";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
+import { IPushNotificationsRepository } from "@infra/database/repositories/pushNotification";
 import { transaction } from "@infra/database/transaction";
 import { ChangeDeviceStatusRequestModel } from "@infra/dtos/device/ChangeDeviceStatusRequestModel";
 import { ChangeDeviceStatusResponseModel } from "@infra/dtos/device/ChangeDeviceStatusResponseModel";
 import { mailTransporter } from "@infra/mail";
+import { notificationClient } from "@infra/notifications/client";
 import { IDateProvider } from "@providers/date";
 import { IHashProvider } from "@providers/hash";
 import { IMaskProvider } from "@providers/mask";
@@ -38,7 +40,9 @@ class HandleDeviceChangedStatusService extends ChangeDeviceStatusService {
     @inject("HashProvider")
     hashProvider: IHashProvider,
     @inject("ValidatorsProvider")
-    private validatorsProvider: IValidatorsProvider
+    private validatorsProvider: IValidatorsProvider,
+    @inject("PushNotificationsRepository")
+    private pushNotificationsRepository: IPushNotificationsRepository
   ) {
     super(
       uniqueIdentifierProvider,
@@ -86,7 +90,21 @@ class HandleDeviceChangedStatusService extends ChangeDeviceStatusService {
     if (
       result.status ===
       getEnumDescription("DEVICE_STATUS", DeviceStatusDomain[3])
-    )
+    ) {
+      const [receivers] = await transaction([
+        this.pushNotificationsRepository.getByDevice({
+          deviceId: hasDevice.id,
+        }),
+      ]);
+
+      notificationClient.sendAll(receivers, {
+        title: i18n.__("PushNotificationDeviceTriggeredTitle"),
+        body: i18n.__mf("PushNotificationDeviceTriggeredBody", [
+          hasDevice.nickname,
+          result.alarmEvent.createdAt,
+        ]),
+      });
+
       mailTransporter.sendMail({
         subject: i18n.__("MailSentNotificationDeviceTriggeredSubject"),
         to: hasDevice.owner.email,
@@ -95,6 +113,7 @@ class HandleDeviceChangedStatusService extends ChangeDeviceStatusService {
           result.alarmEvent.createdAt,
         ]),
       });
+    }
 
     return result;
   }
