@@ -48,7 +48,7 @@ class PushNotificationsRepository
       where: {
         user: {
           deviceAccessControl: {
-            every: { deviceId },
+            some: { deviceId },
           },
         },
       },
