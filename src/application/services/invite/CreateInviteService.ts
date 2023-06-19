@@ -13,7 +13,7 @@ import { toNumber } from "@helpers/toNumber";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
 import { IInviteRepository } from "@infra/database/repositories/invite";
-import { IPushNotificationsRepository } from "@infra/database/repositories/pushNotification";
+import { IPushNotificationsRepository } from "@infra/database/repositories/pushNotifications";
 import { IUserRepository } from "@infra/database/repositories/user";
 import { transaction } from "@infra/database/transaction";
 import { CreateInviteRequestModel } from "@infra/dtos/invite/CreateInviteRequestModel";

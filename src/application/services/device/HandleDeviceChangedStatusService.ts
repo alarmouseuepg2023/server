@@ -8,7 +8,7 @@ import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { IAlarmEventsRepository } from "@infra/database/repositories/alarmEvents";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
-import { IPushNotificationsRepository } from "@infra/database/repositories/pushNotification";
+import { IPushNotificationsRepository } from "@infra/database/repositories/pushNotifications";
 import { transaction } from "@infra/database/transaction";
 import { ChangeDeviceStatusRequestModel } from "@infra/dtos/device/ChangeDeviceStatusRequestModel";
 import { ChangeDeviceStatusResponseModel } from "@infra/dtos/device/ChangeDeviceStatusResponseModel";

@@ -1,7 +1,7 @@
 import {
   IPushNotificationsRepository,
   PushNotificationsRepository,
-} from "@infra/database/repositories/pushNotification";
+} from "@infra/database/repositories/pushNotifications";
 import {
   AlarmEventsRepository,
   IAlarmEventsRepository,

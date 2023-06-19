@@ -8,7 +8,7 @@ import { inject, injectable } from "inversify";
 import { env } from "@helpers/env";
 import { getErrorStackTrace } from "@helpers/getErrorStackTrace";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
-import { IPushNotificationsRepository } from "@infra/database/repositories/pushNotification";
+import { IPushNotificationsRepository } from "@infra/database/repositories/pushNotifications";
 import { transaction } from "@infra/database/transaction";
 import { logger } from "@infra/log";
 import { PushNotificationModel } from "@models/PushNotificationModel";

@@ -4,7 +4,7 @@ import { inject, injectable } from "inversify";
 import { VarcharMaxLength } from "@commons/VarcharMaxLength";
 import { AppError } from "@handlers/error/AppError";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
-import { IPushNotificationsRepository } from "@infra/database/repositories/pushNotification";
+import { IPushNotificationsRepository } from "@infra/database/repositories/pushNotifications";
 import { transaction } from "@infra/database/transaction";
 import { UpdatePushNotificationFCMTokenRequestModel } from "@infra/dtos/pushNotifications/UpdatePushNotificationFCMTokenRequestModel";
 import { UpdatePushNotificationFCMTokenResponseModel } from "@infra/dtos/pushNotifications/UpdatePushNotificationFCMTokenResponseModel";

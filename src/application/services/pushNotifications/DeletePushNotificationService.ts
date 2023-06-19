@@ -3,7 +3,7 @@ import { inject, injectable } from "inversify";
 
 import { AppError } from "@handlers/error/AppError";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
-import { IPushNotificationsRepository } from "@infra/database/repositories/pushNotification";
+import { IPushNotificationsRepository } from "@infra/database/repositories/pushNotifications";
 import { transaction } from "@infra/database/transaction";
 import { DeletePushNotificationRequestModel } from "@infra/dtos/pushNotifications/DeletePushNotificationRequestModel";
 import { IUniqueIdentifierProvider } from "@providers/uniqueIdentifier";
@@ -14,7 +14,7 @@ class DeletePushNotificationService {
     @inject("UniqueIdentifierProvider")
     private uniqueIdentifierProvider: IUniqueIdentifierProvider,
     @inject("PushNotificationsRepository")
-    private pushNotificationRepository: IPushNotificationsRepository
+    private pushNotificationsRepository: IPushNotificationsRepository
   ) {}
 
   public async execute({
@@ -27,7 +27,7 @@ class DeletePushNotificationService {
       throw new AppError("BAD_REQUEST", i18n.__("ErrorUUIDInvalid"));
 
     const [hasPushNotification] = await transaction([
-      this.pushNotificationRepository.getById({ userId }),
+      this.pushNotificationsRepository.getById({ userId }),
     ]);
 
     if (!hasPushNotification)
@@ -37,7 +37,7 @@ class DeletePushNotificationService {
       );
 
     const [deleted] = await transaction([
-      this.pushNotificationRepository.delete({ userId }),
+      this.pushNotificationsRepository.delete({ userId }),
     ]);
 
     return !!deleted;
