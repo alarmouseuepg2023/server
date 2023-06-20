@@ -1,9 +1,9 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 import path from "node:path";
 
 import { AppError } from "@handlers/error/AppError";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
+import { getMessage } from "@helpers/translatedMessagesControl";
 import { GenerateDeviceQRCodeRequestModel } from "@infra/dtos/device/GenerateDeviceQRCodeRequestModel";
 import { mailTransporter } from "@infra/mail";
 import { IDateProvider } from "@providers/date";
@@ -28,11 +28,14 @@ class GenerateDeviceQRCodeService {
     if (stringIsNullOrEmpty(pin))
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorDeviceQrCodePinRequired")
+        getMessage("ErrorDeviceQrCodePinRequired")
       );
 
     if (!this.validatorsProvider.deviceSmartConfigPassword(pin))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorDeviceQrCodePinInvalid"));
+      throw new AppError(
+        "BAD_REQUEST",
+        getMessage("ErrorDeviceQrCodePinInvalid")
+      );
 
     const filePath = path.join(
       __dirname,
@@ -50,12 +53,12 @@ class GenerateDeviceQRCodeService {
       const emailConverted = `${email}`;
 
       if (!this.validatorsProvider.email(emailConverted))
-        throw new AppError("BAD_REQUEST", i18n.__("ErrorEmailInvalid"));
+        throw new AppError("BAD_REQUEST", getMessage("ErrorEmailInvalid"));
 
       await mailTransporter.sendMailAndWait({
         to: emailConverted,
-        html: i18n.__("MailSentDeviceQrCodeGeneratedHtml"),
-        subject: i18n.__("MailSentDeviceQrCodeGeneratedSubject"),
+        html: getMessage("MailSentDeviceQrCodeGeneratedHtml"),
+        subject: getMessage("MailSentDeviceQrCodeGeneratedSubject"),
         attachments: [
           {
             path: filePath,

@@ -1,4 +1,3 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { TopicsMQTT } from "@commons/TopicsMQTT";
@@ -8,6 +7,10 @@ import { getEnumDescription } from "@helpers/getEnumDescription";
 import { jsonStringify } from "@helpers/jsonStringify";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { toNumber } from "@helpers/toNumber";
+import {
+  getMessage,
+  getVariableMessage,
+} from "@helpers/translatedMessagesControl";
 import { IAlarmEventsRepository } from "@infra/database/repositories/alarmEvents";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
@@ -70,18 +73,18 @@ class ChangeDeviceStatusService extends UserAuthenticationAtDeviceService {
     }
 
     if (stringIsNullOrEmpty(deviceId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorDeviceIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorDeviceIdRequired"));
 
     if (stringIsNullOrEmpty(status))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorStatusRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorStatusRequired"));
 
     const statusConverted = toNumber({
       value: status,
-      error: i18n.__("ErrorStatusInvalid"),
+      error: getMessage("ErrorStatusInvalid"),
     });
 
     if (!(statusConverted in DeviceStatusDomain))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorStatusOutOfDomain"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorStatusOutOfDomain"));
 
     if (
       !this.canChangeToAnyStatus() &&
@@ -89,10 +92,13 @@ class ChangeDeviceStatusService extends UserAuthenticationAtDeviceService {
         statusConverted
       )
     )
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorCantUpdateDeviceStatus"));
+      throw new AppError(
+        "BAD_REQUEST",
+        getMessage("ErrorCantUpdateDeviceStatus")
+      );
 
     if (!this.uniqueIdentifierProvider.isValid(deviceId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUUIDInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUUIDInvalid"));
 
     const [hasDevice] = await transaction([
       this.deviceRepository.getById({
@@ -101,12 +107,12 @@ class ChangeDeviceStatusService extends UserAuthenticationAtDeviceService {
     ]);
 
     if (!hasDevice)
-      throw new AppError("NOT_FOUND", i18n.__("ErrorDeviceNotFound"));
+      throw new AppError("NOT_FOUND", getMessage("ErrorDeviceNotFound"));
 
     if (hasDevice.status === statusConverted)
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__mf("ErrorUpdateDeviceWithoutChangeStatus", [
+        getVariableMessage("ErrorUpdateDeviceWithoutChangeStatus", [
           getEnumDescription(
             "DEVICE_STATUS",
             DeviceStatusDomain[statusConverted]
@@ -124,7 +130,7 @@ class ChangeDeviceStatusService extends UserAuthenticationAtDeviceService {
         deviceId,
         userId,
         currentStatus: status2save,
-        message: i18n.__mf("AlarmEvents_ChangeStatus", [
+        message: getVariableMessage("AlarmEvents_ChangeStatus", [
           getEnumDescription(
             "DEVICE_STATUS",
             DeviceStatusDomain[hasDevice.status as number]

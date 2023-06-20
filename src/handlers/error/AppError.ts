@@ -1,5 +1,4 @@
-import i18n from "i18n";
-
+import { getMessage } from "@helpers/translatedMessagesControl";
 import { HttpStatus } from "@http/utils/HttpStatus";
 
 class AppError<T = any> extends Error {
@@ -29,7 +28,7 @@ class AppError<T = any> extends Error {
   public static getErrorMessage(error: any): string {
     return error instanceof AppError
       ? error.message
-      : i18n.__("ErrorGenericUnknown");
+      : getMessage("ErrorGenericUnknown");
   }
 }
 

@@ -1,9 +1,12 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { ConstantsKeys } from "@commons/ConstantsKeys";
 import { AppError } from "@handlers/error/AppError";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
+import {
+  getMessage,
+  getVariableMessage,
+} from "@helpers/translatedMessagesControl";
 import { transaction } from "@infra/database/transaction";
 import { LoginRequestModel, LoginResponseModel } from "@infra/dtos/auth";
 import { IAuthTokenPayload, IAuthTokenProvider } from "@providers/authToken";
@@ -29,20 +32,23 @@ class LoginService {
     password,
   }: LoginRequestModel): Promise<LoginResponseModel> {
     if (stringIsNullOrEmpty(email))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorEmailRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorEmailRequired"));
 
     if (stringIsNullOrEmpty(password))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorPasswordRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorPasswordRequired"));
 
     const [hasUser] = await transaction([
       this.userRepository.hasEmail({ email }),
     ]);
 
     if (!hasUser)
-      throw new AppError("UNAUTHORIZED", i18n.__("ErrorLoginUserUnauthorized"));
+      throw new AppError(
+        "UNAUTHORIZED",
+        getMessage("ErrorLoginUserUnauthorized")
+      );
 
     if (hasUser.blocked)
-      throw new AppError("UNAUTHORIZED", i18n.__("ErrorUserIsBlocked"));
+      throw new AppError("UNAUTHORIZED", getMessage("ErrorUserIsBlocked"));
 
     const now = this.dateProvider.now();
 
@@ -76,19 +82,25 @@ class LoginService {
       )
         throw new AppError(
           "UNAUTHORIZED",
-          i18n.__mf("ErrorLoginUserUnauthorizedAndWillBeBlockedInFewAttempts", [
-            ConstantsKeys.MAX_LOGIN_ATTEMPTS -
-              (userUpdated.loginAttempts as number),
-          ])
+          getVariableMessage(
+            "ErrorLoginUserUnauthorizedAndWillBeBlockedInFewAttempts",
+            [
+              ConstantsKeys.MAX_LOGIN_ATTEMPTS -
+                (userUpdated.loginAttempts as number),
+            ]
+          )
         );
 
       if (userUpdated.blocked)
         throw new AppError(
           "UNAUTHORIZED",
-          i18n.__("ErrorLoginUserWillBeBlocked")
+          getMessage("ErrorLoginUserWillBeBlocked")
         );
 
-      throw new AppError("UNAUTHORIZED", i18n.__("ErrorLoginUserUnauthorized"));
+      throw new AppError(
+        "UNAUTHORIZED",
+        getMessage("ErrorLoginUserUnauthorized")
+      );
     }
 
     await transaction([

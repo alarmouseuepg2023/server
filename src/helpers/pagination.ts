@@ -1,8 +1,8 @@
 import { ConstantsKeys } from "@commons/ConstantsKeys";
-import { i18n } from "@config/i18n";
 import { IPaginationOptions } from "@http/models/IPaginationOptions";
 
 import { toNumber } from "./toNumber";
+import { getMessage } from "./translatedMessagesControl";
 
 const pagination = ({
   size,
@@ -13,7 +13,7 @@ const pagination = ({
       const converted = Math.abs(
         toNumber({
           value: size,
-          error: i18n.__("ErrorQueryTypecasting"),
+          error: getMessage("ErrorQueryTypecasting"),
         })
       );
 
@@ -29,7 +29,7 @@ const pagination = ({
     if (page) {
       const converted = toNumber({
         value: page,
-        error: i18n.__("ErrorQueryTypecasting"),
+        error: getMessage("ErrorQueryTypecasting"),
       });
 
       return Math.abs(converted) * take;

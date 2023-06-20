@@ -1,5 +1,4 @@
-import i18n from "i18n";
-
+import { getMessage } from "@helpers/translatedMessagesControl";
 import { IMiddleware } from "@http/models/IMiddleware";
 import { HttpStatus } from "@http/utils/HttpStatus";
 import { logger } from "@infra/log";
@@ -37,7 +36,7 @@ class HandleUrlPatternMatchMiddleware {
     );
 
     res.status(HttpStatus.NOT_FOUND).json({
-      message: i18n.__("ErrorRouteNotFound"),
+      message: getMessage("ErrorRouteNotFound"),
       success: false,
       content: {
         route,

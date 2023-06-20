@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import i18n from "i18n";
 
+import { getMessage } from "@helpers/translatedMessagesControl";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
 import { container } from "@infra/containers";
@@ -33,7 +33,7 @@ class UserController {
     res.status(HttpStatus.OK).json({
       success: true,
       content: result,
-      message: i18n.__("SuccessGeneric"),
+      message: getMessage("SuccessGeneric"),
     });
 
     return next();
@@ -56,7 +56,7 @@ class UserController {
     res.status(HttpStatus.OK).json({
       success: true,
       content: result,
-      message: i18n.__("SuccessGeneric"),
+      message: getMessage("SuccessGeneric"),
     });
 
     return next();
@@ -81,7 +81,7 @@ class UserController {
 
     res.status(HttpStatus.OK).json({
       success: true,
-      message: i18n.__("SuccessGeneric"),
+      message: getMessage("SuccessGeneric"),
     });
 
     return next();
@@ -103,7 +103,7 @@ class UserController {
     res.status(HttpStatus.OK).json({
       success: true,
       content: result,
-      message: i18n.__("SuccessGeneric"),
+      message: getMessage("SuccessGeneric"),
     });
 
     return next();
@@ -127,7 +127,7 @@ class UserController {
     res.status(HttpStatus.OK).json({
       success: true,
       content: result,
-      message: i18n.__("SuccessGeneric"),
+      message: getMessage("SuccessGeneric"),
     });
 
     return next();

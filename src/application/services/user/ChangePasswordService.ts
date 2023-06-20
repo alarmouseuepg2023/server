@@ -1,10 +1,13 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { AppError } from "@handlers/error/AppError";
 import { env } from "@helpers/env";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { toNumber } from "@helpers/toNumber";
+import {
+  getMessage,
+  getVariableMessage,
+} from "@helpers/translatedMessagesControl";
 import { transaction } from "@infra/database/transaction";
 import { ChangePasswordRequestModel } from "@infra/dtos/user/ChangePasswordRequestModel";
 import { IHashProvider } from "@providers/hash";
@@ -34,41 +37,41 @@ class ChangePasswordService {
     if (stringIsNullOrEmpty(oldPassword))
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorResetPasswdOldPasswordRequired")
+        getMessage("ErrorResetPasswdOldPasswordRequired")
       );
 
     if (stringIsNullOrEmpty(password))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorPasswordRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorPasswordRequired"));
 
     if (stringIsNullOrEmpty(confirmPassword))
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorConfirmPasswordRequired")
+        getMessage("ErrorConfirmPasswordRequired")
       );
 
     if (password !== confirmPassword)
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorPasswordAndConfirmAreNotEqual")
+        getMessage("ErrorPasswordAndConfirmAreNotEqual")
       );
 
     if (stringIsNullOrEmpty(userId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUserIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUserIdRequired"));
 
     if (!this.uniqueIdentifierProvider.isValid(userId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUUIDInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUUIDInvalid"));
 
     if (this.passwordProvider.outOfBounds(password))
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__mf("ErrorPasswordOutOfBounds", [
+        getVariableMessage("ErrorPasswordOutOfBounds", [
           this.passwordProvider.MIN_LENGTH,
           this.passwordProvider.MAX_LENGTH,
         ])
       );
 
     if (!this.passwordProvider.hasStrength(password))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorPasswordToWeak"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorPasswordToWeak"));
 
     const [hasUser] = await transaction([
       this.userRepository.getById({ id: userId }),
@@ -77,13 +80,13 @@ class ChangePasswordService {
     if (!hasUser)
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__mf("ErrorUserNotFound", [i18n.__("RandomWord_User")])
+        getVariableMessage("ErrorUserNotFound", [getMessage("RandomWord_User")])
       );
 
     if (!(await this.hashProvider.compare(oldPassword, hasUser.password)))
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorResetPasswdOldPasswordInvalid")
+        getMessage("ErrorResetPasswdOldPasswordInvalid")
       );
 
     const hashSalt = toNumber({

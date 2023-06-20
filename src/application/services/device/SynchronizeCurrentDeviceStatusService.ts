@@ -1,9 +1,9 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { TopicsMQTT } from "@commons/TopicsMQTT";
 import { AppError } from "@handlers/error/AppError";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
+import { getMessage } from "@helpers/translatedMessagesControl";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { transaction } from "@infra/database/transaction";
 import { GetCurrentDeviceStatusRequestModel } from "@infra/dtos/device/GetCurrentDeviceStatusRequestModel";
@@ -26,10 +26,10 @@ class SynchronizeCurrentDeviceStatusService {
     macAddress,
   }: GetCurrentDeviceStatusRequestModel): Promise<void> {
     if (stringIsNullOrEmpty(macAddress))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorMacAddressRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorMacAddressRequired"));
 
     if (!this.validatorsProvider.macAddress(macAddress))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorMacAddressInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorMacAddressInvalid"));
 
     const macAddressFormatted = this.maskProvider.removeMacAddress(macAddress);
 
@@ -38,7 +38,7 @@ class SynchronizeCurrentDeviceStatusService {
     ]);
 
     if (!hasMacAddress)
-      throw new AppError("NOT_FOUND", i18n.__("ErrorMacAddressNotFound"));
+      throw new AppError("NOT_FOUND", getMessage("ErrorMacAddressNotFound"));
 
     mqttClient.publish(
       TopicsMQTT.EMBEDDED_PUB_GET_CURRENT_DEVICE_STATUS(

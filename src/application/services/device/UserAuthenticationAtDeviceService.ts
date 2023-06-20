@@ -4,6 +4,7 @@ import { inject, injectable } from "inversify";
 import { ConstantsKeys } from "@commons/ConstantsKeys";
 import { AppError } from "@handlers/error/AppError";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
+import { getMessage } from "@helpers/translatedMessagesControl";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
 import { transaction } from "@infra/database/transaction";
 import { UserAuthenticationAtDeviceRequestModel } from "@infra/dtos/device/UserAuthenticationAtDeviceRequestModel";
@@ -30,13 +31,13 @@ class UserAuthenticationAtDeviceService {
     userId: userIdNullable,
   }: UserAuthenticationAtDeviceRequestModel): Promise<any> {
     if (stringIsNullOrEmpty(password))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorPasswordRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorPasswordRequired"));
 
     if (stringIsNullOrEmpty(userIdNullable))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUserIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUserIdRequired"));
 
     if (stringIsNullOrEmpty(deviceId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorDeviceIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorDeviceIdRequired"));
 
     const userId = `${userIdNullable}`;
 
@@ -44,17 +45,20 @@ class UserAuthenticationAtDeviceService {
       !this.uniqueIdentifierProvider.isValid(userId) ||
       !this.uniqueIdentifierProvider.isValid(deviceId)
     )
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUUIDInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUUIDInvalid"));
 
     const [hasDeviceAccessControl] = await transaction([
       this.deviceAccessControlRepository.getById({ deviceId, userId }),
     ]);
 
     if (!hasDeviceAccessControl)
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorDeviceNotFound"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorDeviceNotFound"));
 
     if (hasDeviceAccessControl.blocked)
-      throw new AppError("UNAUTHORIZED", i18n.__("ErrorUserIsBlockedAtDevice"));
+      throw new AppError(
+        "UNAUTHORIZED",
+        getMessage("ErrorUserIsBlockedAtDevice")
+      );
 
     const now = this.dateProvider.now();
 
@@ -104,7 +108,7 @@ class UserAuthenticationAtDeviceService {
       if (deviceAccessControlUpdated.blocked)
         throw new AppError(
           "UNAUTHORIZED",
-          i18n.__("ErrorLoginAtDeviceUserWillBeBlocked")
+          getMessage("ErrorLoginAtDeviceUserWillBeBlocked")
         );
     }
 

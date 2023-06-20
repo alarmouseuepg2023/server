@@ -1,8 +1,8 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { AppError } from "@handlers/error/AppError";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
+import { getMessage } from "@helpers/translatedMessagesControl";
 import { IUserRepository } from "@infra/database/repositories/user";
 import { transaction } from "@infra/database/transaction";
 import { LoginResponseModel } from "@infra/dtos/auth";
@@ -19,21 +19,27 @@ class RefreshTokenService {
 
   public async execute(tokenToRefresh: string): Promise<LoginResponseModel> {
     if (stringIsNullOrEmpty(tokenToRefresh))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorRefreshTokenRequired"));
+      throw new AppError(
+        "BAD_REQUEST",
+        getMessage("ErrorRefreshTokenRequired")
+      );
 
     const payload = this.authTokenProvider.decode(tokenToRefresh);
 
     if (!payload || payload.type !== "refreshToken")
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorRefreshTokenInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorRefreshTokenInvalid"));
 
     if (payload.exp && Date.now() >= payload.exp * 1000)
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorRefreshTokenExpired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorRefreshTokenExpired"));
 
     try {
       if (!this.authTokenProvider.verify(tokenToRefresh, "refreshToken"))
-        throw new AppError("BAD_REQUEST", i18n.__("ErrorRefreshTokenInvalid"));
+        throw new AppError(
+          "BAD_REQUEST",
+          getMessage("ErrorRefreshTokenInvalid")
+        );
     } catch (_) {
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorRefreshTokenInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorRefreshTokenInvalid"));
     }
 
     const [hasUser] = await transaction([
@@ -41,7 +47,7 @@ class RefreshTokenService {
     ]);
 
     if (!hasUser)
-      throw new AppError("NOT_FOUND", i18n.__("ErrorRefreshUserNotFound"));
+      throw new AppError("NOT_FOUND", getMessage("ErrorRefreshUserNotFound"));
 
     const accessToken = this.authTokenProvider.generate({
       id: hasUser.id,

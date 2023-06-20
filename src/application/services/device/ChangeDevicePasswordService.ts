@@ -1,10 +1,10 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { AppError } from "@handlers/error/AppError";
 import { env } from "@helpers/env";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { toNumber } from "@helpers/toNumber";
+import { getMessage } from "@helpers/translatedMessagesControl";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
 import { transaction } from "@infra/database/transaction";
 import { ChangeDevicePasswordRequestModel } from "@infra/dtos/device/ChangeDevicePasswordRequestModel";
@@ -35,50 +35,53 @@ class ChangeDevicePasswordService {
     if (stringIsNullOrEmpty(oldPassword))
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorResetPasswdOldPasswordRequired")
+        getMessage("ErrorResetPasswdOldPasswordRequired")
       );
 
     if (stringIsNullOrEmpty(password))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorPasswordRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorPasswordRequired"));
 
     if (stringIsNullOrEmpty(confirmPassword))
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorConfirmPasswordRequired")
+        getMessage("ErrorConfirmPasswordRequired")
       );
 
     if (password !== confirmPassword)
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorPasswordAndConfirmAreNotEqual")
+        getMessage("ErrorPasswordAndConfirmAreNotEqual")
       );
 
     if (stringIsNullOrEmpty(userId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUserIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUserIdRequired"));
 
     if (stringIsNullOrEmpty(deviceId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorDeviceIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorDeviceIdRequired"));
 
     if (
       !this.uniqueIdentifierProvider.isValid(userId) ||
       !this.uniqueIdentifierProvider.isValid(deviceId)
     )
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUUIDInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUUIDInvalid"));
 
     if (!this.validatorsProvider.devicePassword(password))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorDevicePasswordInvalid"));
+      throw new AppError(
+        "BAD_REQUEST",
+        getMessage("ErrorDevicePasswordInvalid")
+      );
 
     const [hasDevice] = await transaction([
       this.deviceAccessControlRepository.getById({ deviceId, userId }),
     ]);
 
     if (!hasDevice)
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorDeviceNotFound"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorDeviceNotFound"));
 
     if (!(await this.hashProvider.compare(oldPassword, hasDevice.password)))
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorResetPasswdOldPasswordInvalid")
+        getMessage("ErrorResetPasswdOldPasswordInvalid")
       );
 
     const hashSalt = toNumber({

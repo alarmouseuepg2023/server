@@ -1,6 +1,6 @@
-import { i18n } from "@config/i18n";
 import { AppError } from "@handlers/error/AppError";
 import { getErrorStackTrace } from "@helpers/getErrorStackTrace";
+import { getMessage } from "@helpers/translatedMessagesControl";
 import { IMiddlewareWithError } from "@http/models/IMiddlewareWithError";
 import { HttpStatus } from "@http/utils/HttpStatus";
 import { logger } from "@infra/log";
@@ -23,7 +23,7 @@ const errorHandlerMiddleware: IMiddlewareWithError = async (
 
     return [
       HttpStatus.INTERNAL_SERVER_ERROR,
-      i18n.__("ErrorGenericUnknown"),
+      getMessage("ErrorGenericUnknown"),
       undefined,
     ];
   })();

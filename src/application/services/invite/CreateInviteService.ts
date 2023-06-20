@@ -1,4 +1,3 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { RolesKeys } from "@commons/RolesKey";
@@ -10,6 +9,10 @@ import { getEnumDescription } from "@helpers/getEnumDescription";
 import { jsonStringify } from "@helpers/jsonStringify";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { toNumber } from "@helpers/toNumber";
+import {
+  getMessage,
+  getVariableMessage,
+} from "@helpers/translatedMessagesControl";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
 import { IInviteRepository } from "@infra/database/repositories/invite";
@@ -59,19 +62,19 @@ class CreateInviteService {
     deviceId,
   }: CreateInviteRequestModel): Promise<CreateInviteResponseModel> {
     if (stringIsNullOrEmpty(email))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorEmailRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorEmailRequired"));
 
     if (stringIsNullOrEmpty(ownerId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorOwnerIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorOwnerIdRequired"));
 
     if (stringIsNullOrEmpty(deviceId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorDeviceIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorDeviceIdRequired"));
 
     if (
       !this.uniqueIdentifierProvider.isValid(ownerId) ||
       !this.uniqueIdentifierProvider.isValid(deviceId)
     )
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUUIDInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUUIDInvalid"));
 
     const [hasOwner, hasGuest] = await transaction([
       this.userRepository.getById({ id: ownerId }),
@@ -81,17 +84,21 @@ class CreateInviteService {
     if (!hasOwner)
       throw new AppError(
         "NOT_FOUND",
-        i18n.__mf("ErrorUserNotFound", [i18n.__("RandomWord_Owner")])
+        getVariableMessage("ErrorUserNotFound", [
+          getMessage("RandomWord_Owner"),
+        ])
       );
 
     if (!hasGuest)
       throw new AppError(
         "NOT_FOUND",
-        i18n.__mf("ErrorUserNotFound", [i18n.__("RandomWord_Guest")])
+        getVariableMessage("ErrorUserNotFound", [
+          getMessage("RandomWord_Guest"),
+        ])
       );
 
     if (ownerId === hasGuest.id)
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorInviteToSameUser"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorInviteToSameUser"));
 
     const [hasDevice] = await transaction([
       this.deviceRepository.getById({
@@ -100,7 +107,7 @@ class CreateInviteService {
     ]);
 
     if (!hasDevice)
-      throw new AppError("NOT_FOUND", i18n.__("ErrorDeviceNotFound"));
+      throw new AppError("NOT_FOUND", getMessage("ErrorDeviceNotFound"));
 
     const [hasRole] = await transaction([
       this.deviceAccessControlRepository.verifyRole({
@@ -113,14 +120,14 @@ class CreateInviteService {
     if (hasRole)
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorUserAlreadyGuestToDevice")
+        getMessage("ErrorUserAlreadyGuestToDevice")
       );
 
     const token = this.passwordProvider.generatePin();
 
     const hashSalt = toNumber({
       value: env("PASSWORD_HASH_SALT"),
-      error: i18n.__("ErrorEnvVarNotFound"),
+      error: getMessage("ErrorEnvVarNotFound"),
     });
 
     const [inviteCreated, hasPushNotifications] = await transaction([
@@ -141,8 +148,8 @@ class CreateInviteService {
         token: hasPushNotifications.fcmToken,
         userId: hasGuest.id,
         notification: {
-          title: i18n.__("PushNotificationSentInviteTitle"),
-          body: i18n.__mf("PushNotificationSentInviteBody", [
+          title: getMessage("PushNotificationSentInviteTitle"),
+          body: getVariableMessage("PushNotificationSentInviteBody", [
             hasDevice.nickname,
             hasOwner.name,
           ]),
@@ -150,9 +157,9 @@ class CreateInviteService {
       });
 
     mailTransporter.sendMail({
-      subject: i18n.__("MailSentInviteSubject"),
+      subject: getMessage("MailSentInviteSubject"),
       to: hasGuest.email,
-      html: i18n.__mf("MailSentInviteHtml", [
+      html: getVariableMessage("MailSentInviteHtml", [
         hasGuest.name,
         hasDevice.nickname,
         hasOwner.name,

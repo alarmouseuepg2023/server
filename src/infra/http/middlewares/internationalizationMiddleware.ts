@@ -1,6 +1,7 @@
 import { i18n } from "@config/i18n";
 import { Languages } from "@config/i18n/Languagens";
 import { AppError } from "@handlers/error/AppError";
+import { getMessage } from "@helpers/translatedMessagesControl";
 import { IMiddleware } from "@http/models/IMiddleware";
 
 const validate = (value: string): Languages | null => {
@@ -25,7 +26,10 @@ const internationalizationMiddleware: IMiddleware = async (req, _, next) => {
         Languages.PORTUGUESE
     );
   } catch (e) {
-    throw new AppError("INTERNAL_SERVER_ERROR", i18n.__("ErrorGenericUnknown"));
+    throw new AppError(
+      "INTERNAL_SERVER_ERROR",
+      getMessage("ErrorGenericUnknown")
+    );
   }
 
   return next();

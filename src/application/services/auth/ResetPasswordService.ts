@@ -1,4 +1,3 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { OperationsWithEmailConfirmationDomain } from "@domains/OperationsWithEmailConfirmationDomain";
@@ -6,6 +5,10 @@ import { AppError } from "@handlers/error/AppError";
 import { env } from "@helpers/env";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { toNumber } from "@helpers/toNumber";
+import {
+  getMessage,
+  getVariableMessage,
+} from "@helpers/translatedMessagesControl";
 import { IUserRepository } from "@infra/database/repositories/user";
 import { IWaitingEmailConfirmationRepository } from "@infra/database/repositories/waitingEmailConfirmation";
 import { transaction } from "@infra/database/transaction";
@@ -39,40 +42,40 @@ class ResetPasswordService {
     email,
   }: ResetPasswordRequestModel): Promise<boolean> {
     if (stringIsNullOrEmpty(pin))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorPinRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorPinRequired"));
 
     if (stringIsNullOrEmpty(email))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorEmailRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorEmailRequired"));
 
     if (!this.validatorsProvider.email(email))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorEmailInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorEmailInvalid"));
 
     if (stringIsNullOrEmpty(password))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorPasswordRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorPasswordRequired"));
 
     if (stringIsNullOrEmpty(confirmPassword))
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorConfirmPasswordRequired")
+        getMessage("ErrorConfirmPasswordRequired")
       );
 
     if (password !== confirmPassword)
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorPasswordAndConfirmAreNotEqual")
+        getMessage("ErrorPasswordAndConfirmAreNotEqual")
       );
 
     if (this.passwordProvider.outOfBounds(password))
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__mf("ErrorPasswordOutOfBounds", [
+        getVariableMessage("ErrorPasswordOutOfBounds", [
           this.passwordProvider.MIN_LENGTH,
           this.passwordProvider.MAX_LENGTH,
         ])
       );
 
     if (!this.passwordProvider.hasStrength(password))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorPasswordToWeak"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorPasswordToWeak"));
 
     const [hasUser] = await transaction([
       this.userRepository.hasEmail({ email }),
@@ -81,7 +84,7 @@ class ResetPasswordService {
     if (!hasUser)
       throw new AppError(
         "NOT_FOUND",
-        i18n.__mf("ErrorUserNotFound", [i18n.__("RandomWord_User")])
+        getVariableMessage("ErrorUserNotFound", [getMessage("RandomWord_User")])
       );
 
     const [hasRequest] = await transaction([
@@ -94,13 +97,13 @@ class ResetPasswordService {
     if (!hasRequest)
       throw new AppError(
         "NOT_FOUND",
-        i18n.__("ErrorResetPasswordRequestNotFound")
+        getMessage("ErrorResetPasswordRequestNotFound")
       );
 
     if (!(await this.hashProvider.compare(pin, hasRequest.pin)))
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorResetPasswordRequestPinInvalid")
+        getMessage("ErrorResetPasswordRequestPinInvalid")
       );
 
     if (
@@ -108,12 +111,12 @@ class ResetPasswordService {
     )
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorResetPasswordRequestTimeExpired")
+        getMessage("ErrorResetPasswordRequestTimeExpired")
       );
 
     const hashSalt = toNumber({
       value: env("PASSWORD_HASH_SALT"),
-      error: i18n.__("ErrorEnvVarNotFound"),
+      error: getMessage("ErrorEnvVarNotFound"),
     });
 
     const [userUpdated, _] = await transaction([

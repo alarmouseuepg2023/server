@@ -1,4 +1,3 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { OperationsWithEmailConfirmationDomain } from "@domains/OperationsWithEmailConfirmationDomain";
@@ -6,6 +5,10 @@ import { AppError } from "@handlers/error/AppError";
 import { env } from "@helpers/env";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { toNumber } from "@helpers/toNumber";
+import {
+  getMessage,
+  getVariableMessage,
+} from "@helpers/translatedMessagesControl";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
 import { IUserRepository } from "@infra/database/repositories/user";
 import { IWaitingEmailConfirmationRepository } from "@infra/database/repositories/waitingEmailConfirmation";
@@ -43,37 +46,40 @@ class ResetDevicePasswordService {
     userId,
   }: ResetDevicePasswordRequestModel): Promise<boolean> {
     if (stringIsNullOrEmpty(userId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUserIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUserIdRequired"));
 
     if (stringIsNullOrEmpty(deviceId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorDeviceIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorDeviceIdRequired"));
 
     if (
       !this.uniqueIdentifierProvider.isValid(userId) ||
       !this.uniqueIdentifierProvider.isValid(deviceId)
     )
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUUIDInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUUIDInvalid"));
 
     if (stringIsNullOrEmpty(pin))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorPinRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorPinRequired"));
 
     if (stringIsNullOrEmpty(password))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorPasswordRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorPasswordRequired"));
 
     if (stringIsNullOrEmpty(confirmPassword))
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorConfirmPasswordRequired")
+        getMessage("ErrorConfirmPasswordRequired")
       );
 
     if (password !== confirmPassword)
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorPasswordAndConfirmAreNotEqual")
+        getMessage("ErrorPasswordAndConfirmAreNotEqual")
       );
 
     if (!this.validatorsProvider.devicePassword(password))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorDevicePasswordInvalid"));
+      throw new AppError(
+        "BAD_REQUEST",
+        getMessage("ErrorDevicePasswordInvalid")
+      );
 
     const [hasUser] = await transaction([
       this.userRepository.getById({ id: userId }),
@@ -82,7 +88,7 @@ class ResetDevicePasswordService {
     if (!hasUser)
       throw new AppError(
         "NOT_FOUND",
-        i18n.__mf("ErrorUserNotFound", [i18n.__("RandomWord_User")])
+        getVariableMessage("ErrorUserNotFound", [getMessage("RandomWord_User")])
       );
 
     const [hasRequest] = await transaction([
@@ -95,13 +101,13 @@ class ResetDevicePasswordService {
     if (!hasRequest)
       throw new AppError(
         "NOT_FOUND",
-        i18n.__("ErrorResetPasswordRequestNotFound")
+        getMessage("ErrorResetPasswordRequestNotFound")
       );
 
     if (!(await this.hashProvider.compare(pin, hasRequest.pin)))
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorResetPasswordRequestPinInvalid")
+        getMessage("ErrorResetPasswordRequestPinInvalid")
       );
 
     if (
@@ -109,12 +115,12 @@ class ResetDevicePasswordService {
     )
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorResetPasswordRequestTimeExpired")
+        getMessage("ErrorResetPasswordRequestTimeExpired")
       );
 
     const hashSalt = toNumber({
       value: env("PASSWORD_HASH_SALT"),
-      error: i18n.__("ErrorEnvVarNotFound"),
+      error: getMessage("ErrorEnvVarNotFound"),
     });
 
     const [userUpdated, _] = await transaction([

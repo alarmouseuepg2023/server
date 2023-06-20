@@ -1,4 +1,3 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { ConstantsKeys } from "@commons/ConstantsKeys";
@@ -7,6 +6,10 @@ import { AppError } from "@handlers/error/AppError";
 import { env } from "@helpers/env";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { toNumber } from "@helpers/toNumber";
+import {
+  getMessage,
+  getVariableMessage,
+} from "@helpers/translatedMessagesControl";
 import { IUserRepository } from "@infra/database/repositories/user";
 import { IWaitingEmailConfirmationRepository } from "@infra/database/repositories/waitingEmailConfirmation";
 import { transaction } from "@infra/database/transaction";
@@ -41,10 +44,10 @@ class RequestDeletionService {
     userId,
   }: RequestUserDeletionRequestModel): Promise<boolean> {
     if (stringIsNullOrEmpty(userId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUserIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUserIdRequired"));
 
     if (!this.uniqueIdentifierProvider.isValid(userId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUUIDInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUUIDInvalid"));
 
     const [hasUser] = await transaction([
       this.userRepository.getById({ id: userId }),
@@ -53,7 +56,7 @@ class RequestDeletionService {
     if (!hasUser)
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__mf("ErrorUserNotFound", [i18n.__("RandomWord_User")])
+        getVariableMessage("ErrorUserNotFound", [getMessage("RandomWord_User")])
       );
 
     const pin = this.passwordProvider.generatePin();
@@ -65,7 +68,7 @@ class RequestDeletionService {
 
     const hashSalt = toNumber({
       value: env("PASSWORD_HASH_SALT"),
-      error: i18n.__("ErrorEnvVarNotFound"),
+      error: getMessage("ErrorEnvVarNotFound"),
     });
 
     const [waitingEmailConfirmationCreated] = await transaction([
@@ -78,9 +81,9 @@ class RequestDeletionService {
     ]);
 
     mailTransporter.sendMail({
-      subject: i18n.__("MailSentDeleteAccountNotificationSubject"),
+      subject: getMessage("MailSentDeleteAccountNotificationSubject"),
       to: hasUser.email,
-      html: i18n.__mf("MailSentDeleteAccountNotificationHtml", [
+      html: getVariableMessage("MailSentDeleteAccountNotificationHtml", [
         pin,
         this.maskProvider.timestamp(expiresIn),
       ]),

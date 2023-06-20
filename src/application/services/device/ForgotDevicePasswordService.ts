@@ -1,4 +1,3 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { ConstantsKeys } from "@commons/ConstantsKeys";
@@ -7,6 +6,10 @@ import { AppError } from "@handlers/error/AppError";
 import { env } from "@helpers/env";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { toNumber } from "@helpers/toNumber";
+import {
+  getMessage,
+  getVariableMessage,
+} from "@helpers/translatedMessagesControl";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { IUserRepository } from "@infra/database/repositories/user";
 import { IWaitingEmailConfirmationRepository } from "@infra/database/repositories/waitingEmailConfirmation";
@@ -45,16 +48,16 @@ class ForgotDevicePasswordService {
     deviceId,
   }: ForgotDevicePasswordRequestModel): Promise<boolean> {
     if (stringIsNullOrEmpty(userId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUserIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUserIdRequired"));
 
     if (stringIsNullOrEmpty(deviceId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorDeviceIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorDeviceIdRequired"));
 
     if (
       !this.uniqueIdentifierProvider.isValid(userId) ||
       !this.uniqueIdentifierProvider.isValid(deviceId)
     )
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUUIDInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUUIDInvalid"));
 
     const [hasUser] = await transaction([
       this.userRepository.getById({ id: userId }),
@@ -63,7 +66,7 @@ class ForgotDevicePasswordService {
     if (!hasUser)
       throw new AppError(
         "NOT_FOUND",
-        i18n.__mf("ErrorUserNotFound", [i18n.__("RandomWord_User")])
+        getVariableMessage("ErrorUserNotFound", [getMessage("RandomWord_User")])
       );
 
     const [hasDevice] = await transaction([
@@ -71,11 +74,11 @@ class ForgotDevicePasswordService {
     ]);
 
     if (!hasDevice)
-      throw new AppError("NOT_FOUND", i18n.__("ErrorDeviceNotFound"));
+      throw new AppError("NOT_FOUND", getMessage("ErrorDeviceNotFound"));
 
     const hashSalt = toNumber({
       value: env("PASSWORD_HASH_SALT"),
-      error: i18n.__("ErrorEnvVarNotFound"),
+      error: getMessage("ErrorEnvVarNotFound"),
     });
 
     const pin = this.passwordProvider.generatePin();
@@ -95,9 +98,9 @@ class ForgotDevicePasswordService {
     ]);
 
     mailTransporter.sendMail({
-      subject: i18n.__("MailSentResetDevicePasswordNotificationSubject"),
+      subject: getMessage("MailSentResetDevicePasswordNotificationSubject"),
       to: hasUser.email,
-      html: i18n.__mf("MailSentResetDevicePasswordNotificationHtml", [
+      html: getVariableMessage("MailSentResetDevicePasswordNotificationHtml", [
         hasDevice.nickname,
         pin,
         this.maskProvider.timestamp(expiresIn),

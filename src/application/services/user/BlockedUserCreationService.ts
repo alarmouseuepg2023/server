@@ -1,4 +1,3 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { ConstantsKeys } from "@commons/ConstantsKeys";
@@ -8,6 +7,10 @@ import { AppError } from "@handlers/error/AppError";
 import { env } from "@helpers/env";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { toNumber } from "@helpers/toNumber";
+import {
+  getMessage,
+  getVariableMessage,
+} from "@helpers/translatedMessagesControl";
 import { IUserRepository } from "@infra/database/repositories/user";
 import { IWaitingEmailConfirmationRepository } from "@infra/database/repositories/waitingEmailConfirmation";
 import { transaction } from "@infra/database/transaction";
@@ -49,57 +52,57 @@ class BlockedUserCreationService {
     password,
   }: CreateBlockedUserRequestModel): Promise<boolean> {
     if (stringIsNullOrEmpty(name))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorNameRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorNameRequired"));
 
     if (!this.validatorsProvider.length(name, VarcharMaxLength.USER_NAME))
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__mf("ErrorVarCharMaxLengthExceeded", [
-          i18n.__("RandomWord_Name"),
+        getVariableMessage("ErrorVarCharMaxLengthExceeded", [
+          getMessage("RandomWord_Name"),
           VarcharMaxLength.USER_NAME,
         ])
       );
 
     if (stringIsNullOrEmpty(email))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorEmailRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorEmailRequired"));
 
     if (!this.validatorsProvider.email(email))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorEmailInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorEmailInvalid"));
 
     if (!this.validatorsProvider.length(email, VarcharMaxLength.USER_EMAIL))
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__mf("ErrorVarCharMaxLengthExceeded", [
-          i18n.__("RandomWord_Email"),
+        getVariableMessage("ErrorVarCharMaxLengthExceeded", [
+          getMessage("RandomWord_Email"),
           VarcharMaxLength.USER_EMAIL,
         ])
       );
 
     if (stringIsNullOrEmpty(password))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorPasswordRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorPasswordRequired"));
 
     if (this.passwordProvider.outOfBounds(password))
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__mf("ErrorPasswordOutOfBounds", [
+        getVariableMessage("ErrorPasswordOutOfBounds", [
           this.passwordProvider.MIN_LENGTH,
           this.passwordProvider.MAX_LENGTH,
         ])
       );
 
     if (!this.passwordProvider.hasStrength(password))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorPasswordToWeak"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorPasswordToWeak"));
 
     if (stringIsNullOrEmpty(confirmPassword))
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorConfirmPasswordRequired")
+        getMessage("ErrorConfirmPasswordRequired")
       );
 
     if (password !== confirmPassword)
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorPasswordAndConfirmAreNotEqual")
+        getMessage("ErrorPasswordAndConfirmAreNotEqual")
       );
 
     const [hasEmail] = await transaction([
@@ -107,11 +110,11 @@ class BlockedUserCreationService {
     ]);
 
     if (hasEmail)
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorEmailAlreadyExists"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorEmailAlreadyExists"));
 
     const hashSalt = toNumber({
       value: env("PASSWORD_HASH_SALT"),
-      error: i18n.__("ErrorEnvVarNotFound"),
+      error: getMessage("ErrorEnvVarNotFound"),
     });
 
     const pin = this.passwordProvider.generatePin();
@@ -137,9 +140,9 @@ class BlockedUserCreationService {
     ]);
 
     mailTransporter.sendMail({
-      subject: i18n.__("MailSentCompleteUserCreationNotificationSubject"),
+      subject: getMessage("MailSentCompleteUserCreationNotificationSubject"),
       to: userCreated.email,
-      html: i18n.__mf("MailSentCompleteUserCreationNotificationHtml", [
+      html: getVariableMessage("MailSentCompleteUserCreationNotificationHtml", [
         userCreated.name,
         pin,
         this.maskProvider.timestamp(expiresIn),

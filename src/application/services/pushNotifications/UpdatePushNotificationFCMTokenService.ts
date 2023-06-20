@@ -1,9 +1,12 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { VarcharMaxLength } from "@commons/VarcharMaxLength";
 import { AppError } from "@handlers/error/AppError";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
+import {
+  getMessage,
+  getVariableMessage,
+} from "@helpers/translatedMessagesControl";
 import { IPushNotificationsRepository } from "@infra/database/repositories/pushNotifications";
 import { transaction } from "@infra/database/transaction";
 import { UpdatePushNotificationFCMTokenRequestModel } from "@infra/dtos/pushNotifications/UpdatePushNotificationFCMTokenRequestModel";
@@ -27,12 +30,12 @@ class UpdatePushNotificationFCMTokenService {
     userId,
   }: UpdatePushNotificationFCMTokenRequestModel): Promise<UpdatePushNotificationFCMTokenResponseModel> {
     if (stringIsNullOrEmpty(userId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUserIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUserIdRequired"));
 
     if (stringIsNullOrEmpty(token))
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorPushNotificationFCMTokenRequired")
+        getMessage("ErrorPushNotificationFCMTokenRequired")
       );
 
     if (
@@ -43,14 +46,14 @@ class UpdatePushNotificationFCMTokenService {
     )
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__mf("ErrorVarCharMaxLengthExceeded", [
-          i18n.__("RandomWord_FCMToken"),
+        getVariableMessage("ErrorVarCharMaxLengthExceeded", [
+          getMessage("RandomWord_FCMToken"),
           VarcharMaxLength.PUSH_NOTIFICATIONS_TOKEN,
         ])
       );
 
     if (!this.uniqueIdentifierProvider.isValid(userId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUUIDInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUUIDInvalid"));
 
     const [updated] = await transaction([
       this.pushNotificationsRepository.save({

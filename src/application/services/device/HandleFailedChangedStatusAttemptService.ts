@@ -1,8 +1,11 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { AppError } from "@handlers/error/AppError";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
+import {
+  getMessage,
+  getVariableMessage,
+} from "@helpers/translatedMessagesControl";
 import { IAlarmEventsRepository } from "@infra/database/repositories/alarmEvents";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
@@ -60,10 +63,10 @@ class HandleFailedChangedStatusAttemptService extends ChangeDeviceStatusService 
     status,
   }: Partial<ChangeDeviceStatusRequestModel>): Promise<ChangeDeviceStatusResponseModel> {
     if (stringIsNullOrEmpty(deviceId || ""))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorDeviceIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorDeviceIdRequired"));
 
     if (!this.validatorsProvider.macAddress(deviceId || ""))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorMacAddressInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorMacAddressInvalid"));
 
     const [hasDevice] = await transaction([
       this.deviceRepository.getByMacAddress({
@@ -72,7 +75,7 @@ class HandleFailedChangedStatusAttemptService extends ChangeDeviceStatusService 
     ]);
 
     if (!hasDevice)
-      throw new AppError("NOT_FOUND", i18n.__("ErrorDeviceNotFound"));
+      throw new AppError("NOT_FOUND", getMessage("ErrorDeviceNotFound"));
 
     const result = await super.execute({
       userId: null,
@@ -82,11 +85,14 @@ class HandleFailedChangedStatusAttemptService extends ChangeDeviceStatusService 
     });
 
     mailTransporter.sendMail({
-      subject: i18n.__("MailSentFailedChangedStatusAttemptNotificationSubject"),
+      subject: getMessage(
+        "MailSentFailedChangedStatusAttemptNotificationSubject"
+      ),
       to: hasDevice.owner.email,
-      html: i18n.__mf("MailSentFailedChangedStatusAttemptNotificationHtml", [
-        result.nickname,
-      ]),
+      html: getVariableMessage(
+        "MailSentFailedChangedStatusAttemptNotificationHtml",
+        [result.nickname]
+      ),
     });
 
     return result;

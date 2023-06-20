@@ -1,10 +1,13 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { DeviceStatusDomain } from "@domains/DeviceStatusDomain";
 import { AppError } from "@handlers/error/AppError";
 import { getEnumDescription } from "@helpers/getEnumDescription";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
+import {
+  getMessage,
+  getVariableMessage,
+} from "@helpers/translatedMessagesControl";
 import { IAlarmEventsRepository } from "@infra/database/repositories/alarmEvents";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
@@ -66,10 +69,10 @@ class HandleDeviceChangedStatusService extends ChangeDeviceStatusService {
     status,
   }: Partial<ChangeDeviceStatusRequestModel>): Promise<ChangeDeviceStatusResponseModel> {
     if (stringIsNullOrEmpty(deviceId || ""))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorDeviceIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorDeviceIdRequired"));
 
     if (!this.validatorsProvider.macAddress(deviceId || ""))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorMacAddressInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorMacAddressInvalid"));
 
     const [hasDevice] = await transaction([
       this.deviceRepository.getByMacAddress({
@@ -78,7 +81,7 @@ class HandleDeviceChangedStatusService extends ChangeDeviceStatusService {
     ]);
 
     if (!hasDevice)
-      throw new AppError("NOT_FOUND", i18n.__("ErrorDeviceNotFound"));
+      throw new AppError("NOT_FOUND", getMessage("ErrorDeviceNotFound"));
 
     const result = await super.execute({
       userId: null,
@@ -98,17 +101,17 @@ class HandleDeviceChangedStatusService extends ChangeDeviceStatusService {
       ]);
 
       notificationClient.sendAll(receivers, {
-        title: i18n.__("PushNotificationDeviceTriggeredTitle"),
-        body: i18n.__mf("PushNotificationDeviceTriggeredBody", [
+        title: getMessage("PushNotificationDeviceTriggeredTitle"),
+        body: getVariableMessage("PushNotificationDeviceTriggeredBody", [
           hasDevice.nickname,
           result.alarmEvent.createdAt,
         ]),
       });
 
       mailTransporter.sendMail({
-        subject: i18n.__("MailSentNotificationDeviceTriggeredSubject"),
+        subject: getMessage("MailSentNotificationDeviceTriggeredSubject"),
         to: hasDevice.owner.email,
-        html: i18n.__mf("MailSentNotificationDeviceTriggeredHtml", [
+        html: getVariableMessage("MailSentNotificationDeviceTriggeredHtml", [
           hasDevice.nickname,
           result.alarmEvent.createdAt,
         ]),

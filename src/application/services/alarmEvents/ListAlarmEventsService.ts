@@ -1,4 +1,3 @@
-import i18n from "i18n";
 import { injectable, inject } from "inversify";
 
 import { DeviceStatusDomain } from "@domains/DeviceStatusDomain";
@@ -7,6 +6,10 @@ import { capitalize } from "@helpers/capitalize";
 import { getEnumDescription } from "@helpers/getEnumDescription";
 import { pagination } from "@helpers/pagination";
 import { toNumber } from "@helpers/toNumber";
+import {
+  getMessage,
+  getVariableMessage,
+} from "@helpers/translatedMessagesControl";
 import { IPaginationResponse } from "@http/models/IPaginationResponse";
 import { IAlarmEventsRepository } from "@infra/database/repositories/alarmEvents";
 import { transaction } from "@infra/database/transaction";
@@ -39,11 +42,11 @@ class ListAlarmEventsService {
 
       const converted = toNumber({
         value: filters.status,
-        error: i18n.__("ErrorStatusInvalid"),
+        error: getMessage("ErrorStatusInvalid"),
       });
 
       if (!(converted in DeviceStatusDomain))
-        throw new AppError("BAD_REQUEST", i18n.__("ErrorStatusOutOfDomain"));
+        throw new AppError("BAD_REQUEST", getMessage("ErrorStatusOutOfDomain"));
 
       return converted;
     })();
@@ -54,7 +57,9 @@ class ListAlarmEventsService {
       if (!this.dateProvider.isValidISOString(filters.date.start))
         throw new AppError(
           "BAD_REQUEST",
-          i18n.__mf("ErrorDateInvalid", [i18n.__("RandomWord_StartDate")])
+          getVariableMessage("ErrorDateInvalid", [
+            getMessage("RandomWord_StartDate"),
+          ])
         );
 
       const [date, time] = filters.date.start.split("T");
@@ -68,7 +73,9 @@ class ListAlarmEventsService {
       if (!this.dateProvider.isValidISOString(filters.date.end))
         throw new AppError(
           "BAD_REQUEST",
-          i18n.__mf("ErrorDateInvalid", [i18n.__("RandomWord_EndDate")])
+          getVariableMessage("ErrorDateInvalid", [
+            getMessage("RandomWord_EndDate"),
+          ])
         );
 
       const [date, time] = filters.date.end.split("T");
@@ -88,7 +95,7 @@ class ListAlarmEventsService {
     };
 
     if (startDate && endDate && this.dateProvider.isAfter(startDate, endDate))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorDateIntervalInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorDateIntervalInvalid"));
 
     const countOperation = this.alarmEventsRepository.count(whereOptions);
     const getOperation = this.alarmEventsRepository.get(

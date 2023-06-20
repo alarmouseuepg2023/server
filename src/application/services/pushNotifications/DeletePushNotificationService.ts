@@ -1,8 +1,8 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { AppError } from "@handlers/error/AppError";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
+import { getMessage } from "@helpers/translatedMessagesControl";
 import { IPushNotificationsRepository } from "@infra/database/repositories/pushNotifications";
 import { transaction } from "@infra/database/transaction";
 import { DeletePushNotificationRequestModel } from "@infra/dtos/pushNotifications/DeletePushNotificationRequestModel";
@@ -21,10 +21,10 @@ class DeletePushNotificationService {
     userId,
   }: DeletePushNotificationRequestModel): Promise<boolean> {
     if (stringIsNullOrEmpty(userId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUserIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUserIdRequired"));
 
     if (!this.uniqueIdentifierProvider.isValid(userId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUUIDInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUUIDInvalid"));
 
     const [hasPushNotification] = await transaction([
       this.pushNotificationsRepository.getById({ userId }),
@@ -33,7 +33,7 @@ class DeletePushNotificationService {
     if (!hasPushNotification)
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorPushNotificationNotFound")
+        getMessage("ErrorPushNotificationNotFound")
       );
 
     const [deleted] = await transaction([

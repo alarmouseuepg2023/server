@@ -1,4 +1,3 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { VarcharMaxLength } from "@commons/VarcharMaxLength";
@@ -7,6 +6,10 @@ import { AppError } from "@handlers/error/AppError";
 import { getEnumDescription } from "@helpers/getEnumDescription";
 import { getUserType2External } from "@helpers/getUserType2External";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
+import {
+  getMessage,
+  getVariableMessage,
+} from "@helpers/translatedMessagesControl";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
 import { transaction } from "@infra/database/transaction";
@@ -34,7 +37,7 @@ class ChangeNicknameService {
     userId,
   }: ChangeNicknameRequestModel): Promise<UpdateDeviceResponseModel> {
     if (stringIsNullOrEmpty(nickname))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorNicknameRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorNicknameRequired"));
 
     if (
       !this.validatorsProvider.length(
@@ -44,23 +47,23 @@ class ChangeNicknameService {
     )
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__mf("ErrorVarCharMaxLengthExceeded", [
-          i18n.__("RandomWord_NickName"),
+        getVariableMessage("ErrorVarCharMaxLengthExceeded", [
+          getMessage("RandomWord_NickName"),
           VarcharMaxLength.DEVICE_NICKNAME,
         ])
       );
 
     if (stringIsNullOrEmpty(userId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUserIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUserIdRequired"));
 
     if (stringIsNullOrEmpty(deviceId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorDeviceIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorDeviceIdRequired"));
 
     if (
       !this.uniqueIdentifierProvider.isValid(deviceId) ||
       !this.uniqueIdentifierProvider.isValid(userId)
     )
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUUIDInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUUIDInvalid"));
 
     const [hasDevice, hasDeviceAccessControl] = await transaction([
       this.deviceRepository.getById({
@@ -73,12 +76,12 @@ class ChangeNicknameService {
     ]);
 
     if (!hasDevice)
-      throw new AppError("NOT_FOUND", i18n.__("ErrorDeviceNotFound"));
+      throw new AppError("NOT_FOUND", getMessage("ErrorDeviceNotFound"));
 
     if (!hasDeviceAccessControl)
       throw new AppError(
         "NOT_FOUND",
-        i18n.__("ErrorDeviceAccessControlNotFound")
+        getMessage("ErrorDeviceAccessControlNotFound")
       );
 
     const [updated] = await transaction([

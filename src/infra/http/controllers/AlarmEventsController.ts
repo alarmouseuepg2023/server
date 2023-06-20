@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import i18n from "i18n";
 
+import { getMessage } from "@helpers/translatedMessagesControl";
 import { IPaginationResponse } from "@http/models/IPaginationResponse";
 import { IResponseMessage } from "@http/models/IResponseMessage";
 import { HttpStatus } from "@http/utils/HttpStatus";
@@ -35,7 +35,7 @@ class AlarmEventsController {
     res.status(HttpStatus.OK).json({
       success: true,
       content: result,
-      message: i18n.__("SuccessGeneric"),
+      message: getMessage("SuccessGeneric"),
     });
 
     return next();

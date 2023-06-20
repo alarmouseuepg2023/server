@@ -1,4 +1,3 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { RolesKeys } from "@commons/RolesKey";
@@ -9,6 +8,10 @@ import { env } from "@helpers/env";
 import { getEnumDescription } from "@helpers/getEnumDescription";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { toNumber } from "@helpers/toNumber";
+import {
+  getMessage,
+  getVariableMessage,
+} from "@helpers/translatedMessagesControl";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
 import { transaction } from "@infra/database/transaction";
@@ -44,7 +47,7 @@ class CreateDeviceService {
     userId,
   }: CreateDeviceRequestModel): Promise<CreateDeviceResponseModel> {
     if (stringIsNullOrEmpty(nickname))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorNicknameRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorNicknameRequired"));
 
     if (
       !this.validatorsProvider.length(
@@ -54,20 +57,20 @@ class CreateDeviceService {
     )
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__mf("ErrorVarCharMaxLengthExceeded", [
-          i18n.__("RandomWord_NickName"),
+        getVariableMessage("ErrorVarCharMaxLengthExceeded", [
+          getMessage("RandomWord_NickName"),
           VarcharMaxLength.DEVICE_NICKNAME,
         ])
       );
 
     if (stringIsNullOrEmpty(macAddress))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorMacAddressRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorMacAddressRequired"));
 
     if (!this.validatorsProvider.macAddress(macAddress))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorMacAddressInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorMacAddressInvalid"));
 
     if (stringIsNullOrEmpty(wifiSsid))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorWifiSsidRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorWifiSsidRequired"));
 
     if (
       !this.validatorsProvider.length(
@@ -77,17 +80,23 @@ class CreateDeviceService {
     )
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__mf("ErrorVarCharMaxLengthExceeded", [
-          i18n.__("RandomWord_WifiSsid"),
+        getVariableMessage("ErrorVarCharMaxLengthExceeded", [
+          getMessage("RandomWord_WifiSsid"),
           VarcharMaxLength.DEVICE_WIFI_SSID,
         ])
       );
 
     if (stringIsNullOrEmpty(ownerPassword))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorOwnerPasswordRequired"));
+      throw new AppError(
+        "BAD_REQUEST",
+        getMessage("ErrorOwnerPasswordRequired")
+      );
 
     if (!this.validatorsProvider.devicePassword(ownerPassword))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorDevicePasswordInvalid"));
+      throw new AppError(
+        "BAD_REQUEST",
+        getMessage("ErrorDevicePasswordInvalid")
+      );
 
     const macAddressFormatted = this.maskProvider.removeMacAddress(macAddress);
 
@@ -98,12 +107,12 @@ class CreateDeviceService {
     if (hasMacAddress)
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorMacAddressAlreadyExists")
+        getMessage("ErrorMacAddressAlreadyExists")
       );
 
     const hashSalt = toNumber({
       value: env("PASSWORD_HASH_SALT"),
-      error: i18n.__("ErrorEnvVarNotFound"),
+      error: getMessage("ErrorEnvVarNotFound"),
     });
 
     const id = this.uniqueIdentifierProvider.generate();

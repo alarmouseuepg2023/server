@@ -1,4 +1,3 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { ConstantsKeys } from "@commons/ConstantsKeys";
@@ -7,6 +6,10 @@ import { AppError } from "@handlers/error/AppError";
 import { env } from "@helpers/env";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { toNumber } from "@helpers/toNumber";
+import {
+  getMessage,
+  getVariableMessage,
+} from "@helpers/translatedMessagesControl";
 import { IUserRepository } from "@infra/database/repositories/user";
 import { IWaitingEmailConfirmationRepository } from "@infra/database/repositories/waitingEmailConfirmation";
 import { transaction } from "@infra/database/transaction";
@@ -41,10 +44,10 @@ class ForgotPasswordService {
     email,
   }: ForgotPasswordRequestModel): Promise<boolean> {
     if (stringIsNullOrEmpty(email))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorEmailRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorEmailRequired"));
 
     if (!this.validatorsProvider.email(email))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorEmailInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorEmailInvalid"));
 
     const [hasUser] = await transaction([
       this.userRepository.hasEmail({ email }),
@@ -53,12 +56,12 @@ class ForgotPasswordService {
     if (!hasUser)
       throw new AppError(
         "NOT_FOUND",
-        i18n.__mf("ErrorUserNotFound", [i18n.__("RandomWord_User")])
+        getVariableMessage("ErrorUserNotFound", [getMessage("RandomWord_User")])
       );
 
     const hashSalt = toNumber({
       value: env("PASSWORD_HASH_SALT"),
-      error: i18n.__("ErrorEnvVarNotFound"),
+      error: getMessage("ErrorEnvVarNotFound"),
     });
 
     const pin = this.passwordProvider.generatePin();
@@ -78,9 +81,9 @@ class ForgotPasswordService {
     ]);
 
     mailTransporter.sendMail({
-      subject: i18n.__("MailSentResetPasswordNotificationSubject"),
+      subject: getMessage("MailSentResetPasswordNotificationSubject"),
       to: hasUser.email,
-      html: i18n.__mf("MailSentResetPasswordNotificationHtml", [
+      html: getVariableMessage("MailSentResetPasswordNotificationHtml", [
         pin,
         this.maskProvider.timestamp(expiresIn),
       ]),

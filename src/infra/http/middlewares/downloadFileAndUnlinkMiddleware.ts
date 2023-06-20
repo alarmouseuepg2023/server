@@ -1,8 +1,8 @@
-import i18n from "i18n";
 import { createReadStream, unlink, access, constants } from "node:fs";
 import { promisify } from "node:util";
 
 import { AppError } from "@handlers/error/AppError";
+import { getMessage } from "@helpers/translatedMessagesControl";
 import { IMiddleware } from "@http/models/IMiddleware";
 import { logger } from "@infra/log";
 
@@ -17,7 +17,7 @@ const downloadFileAndUnlinkMiddleware: IMiddleware = async (_, res) => {
     );
     throw new AppError(
       "INTERNAL_SERVER_ERROR",
-      i18n.__("ErrorDownloadFileDoesNotExists")
+      getMessage("ErrorDownloadFileDoesNotExists")
     );
   }
 

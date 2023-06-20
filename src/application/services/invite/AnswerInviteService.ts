@@ -1,4 +1,3 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { ConstantsKeys } from "@commons/ConstantsKeys";
@@ -6,6 +5,10 @@ import { InviteStatusDomain } from "@domains/InviteStatusDomain";
 import { AppError } from "@handlers/error/AppError";
 import { getEnumDescription } from "@helpers/getEnumDescription";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
+import {
+  getMessage,
+  getVariableMessage,
+} from "@helpers/translatedMessagesControl";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
 import { IInviteRepository } from "@infra/database/repositories/invite";
 import { IUserRepository } from "@infra/database/repositories/user";
@@ -86,26 +89,29 @@ class AnswerInviteService<
   protected getInviteStatus = (): number => {
     logger.error("Abstract method not implemented at answered invite service");
 
-    throw new AppError("INTERNAL_SERVER_ERROR", i18n.__("ErrorGenericUnknown"));
+    throw new AppError(
+      "INTERNAL_SERVER_ERROR",
+      getMessage("ErrorGenericUnknown")
+    );
   };
 
   public async execute(input: T): Promise<K> {
     const { id, token, userId } = input;
 
     if (stringIsNullOrEmpty(token))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorInviteTokenRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorInviteTokenRequired"));
 
     if (stringIsNullOrEmpty(userId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUserIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUserIdRequired"));
 
     if (stringIsNullOrEmpty(id))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorInviteIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorInviteIdRequired"));
 
     if (
       !this.uniqueIdentifierProvider.isValid(userId) ||
       !this.uniqueIdentifierProvider.isValid(id)
     )
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUUIDInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUUIDInvalid"));
 
     const [hasUser] = await transaction([
       this.userRepository.getById({ id: userId }),
@@ -114,7 +120,7 @@ class AnswerInviteService<
     if (!hasUser)
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__mf("ErrorUserNotFound", [i18n.__("RandomWord_User")])
+        getVariableMessage("ErrorUserNotFound", [getMessage("RandomWord_User")])
       );
 
     const [hasInvite] = await transaction([
@@ -125,7 +131,7 @@ class AnswerInviteService<
     ]);
 
     if (!hasInvite)
-      throw new AppError("NOT_FOUND", i18n.__("ErrorInviteNotFound"));
+      throw new AppError("NOT_FOUND", getMessage("ErrorInviteNotFound"));
 
     await this.handleDeviceAccessControl(hasInvite.deviceId, input);
 
@@ -134,12 +140,15 @@ class AnswerInviteService<
         hasInvite.status
       )
     )
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorInviteAlreadyAnswered"));
+      throw new AppError(
+        "BAD_REQUEST",
+        getMessage("ErrorInviteAlreadyAnswered")
+      );
 
     if (!(await this.hashProvider.compare(token, hasInvite.token)))
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorAnswerInviteTokenInvalid")
+        getMessage("ErrorAnswerInviteTokenInvalid")
       );
 
     const now = this.dateProvider.now();
@@ -153,7 +162,7 @@ class AnswerInviteService<
         )
       )
     )
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorAnswerInviteExpired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorAnswerInviteExpired"));
 
     const [inviteUpdated, deviceAccessControl] = await transaction(
       (() => {

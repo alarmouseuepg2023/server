@@ -1,4 +1,3 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { ConstantsKeys } from "@commons/ConstantsKeys";
@@ -7,6 +6,10 @@ import { AppError } from "@handlers/error/AppError";
 import { env } from "@helpers/env";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
 import { toNumber } from "@helpers/toNumber";
+import {
+  getMessage,
+  getVariableMessage,
+} from "@helpers/translatedMessagesControl";
 import { IUserRepository } from "@infra/database/repositories/user";
 import { IWaitingEmailConfirmationRepository } from "@infra/database/repositories/waitingEmailConfirmation";
 import { transaction } from "@infra/database/transaction";
@@ -46,13 +49,13 @@ class CompleteUserCreationService {
     pin,
   }: CompleteUserCreationRequestModel): Promise<CompleteUserCreationResponseModel> {
     if (stringIsNullOrEmpty(pin))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorPinRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorPinRequired"));
 
     if (stringIsNullOrEmpty(email))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorEmailRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorEmailRequired"));
 
     if (!this.validatorsProvider.email(email))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorEmailInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorEmailInvalid"));
 
     const [hasUser] = await transaction([
       this.userRepository.hasEmail({ email }),
@@ -61,7 +64,7 @@ class CompleteUserCreationService {
     if (!hasUser)
       throw new AppError(
         "NOT_FOUND",
-        i18n.__mf("ErrorUserNotFound", [i18n.__("RandomWord_User")])
+        getVariableMessage("ErrorUserNotFound", [getMessage("RandomWord_User")])
       );
 
     const [hasRequest] = await transaction([
@@ -74,13 +77,13 @@ class CompleteUserCreationService {
     if (!hasRequest)
       throw new AppError(
         "NOT_FOUND",
-        i18n.__("ErrorCompleteUserCreationRequestNotFound")
+        getMessage("ErrorCompleteUserCreationRequestNotFound")
       );
 
     if (!(await this.hashProvider.compare(pin, hasRequest.pin)))
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorCompleteUserCreationRequestPinInvalid")
+        getMessage("ErrorCompleteUserCreationRequestPinInvalid")
       );
 
     if (
@@ -94,7 +97,7 @@ class CompleteUserCreationService {
 
       const hashSalt = toNumber({
         value: env("PASSWORD_HASH_SALT"),
-        error: i18n.__("ErrorEnvVarNotFound"),
+        error: getMessage("ErrorEnvVarNotFound"),
       });
 
       await transaction([
@@ -108,18 +111,17 @@ class CompleteUserCreationService {
       ]);
 
       mailTransporter.sendMail({
-        subject: i18n.__("MailSentCompleteUserCreationNotificationSubject"),
+        subject: getMessage("MailSentCompleteUserCreationNotificationSubject"),
         to: hasUser.email,
-        html: i18n.__mf("MailSentCompleteUserCreationNotificationHtml", [
-          hasUser.name,
-          newPin,
-          this.maskProvider.timestamp(newExpiresIn),
-        ]),
+        html: getVariableMessage(
+          "MailSentCompleteUserCreationNotificationHtml",
+          [hasUser.name, newPin, this.maskProvider.timestamp(newExpiresIn)]
+        ),
       });
 
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__("ErrorCompleteUserCreationRequestTimeExpired")
+        getMessage("ErrorCompleteUserCreationRequestTimeExpired")
       );
     }
 

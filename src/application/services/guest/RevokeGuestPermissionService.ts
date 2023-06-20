@@ -1,9 +1,9 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { RolesKeys } from "@commons/RolesKey";
 import { AppError } from "@handlers/error/AppError";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
+import { getMessage } from "@helpers/translatedMessagesControl";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
 import { transaction } from "@infra/database/transaction";
 import { RevokeGuestPermissionRequestModel } from "@infra/dtos/guest/RevokeGuestPermissionRequestModel";
@@ -23,16 +23,16 @@ class RevokeGuestPermissionService {
     guestId,
   }: RevokeGuestPermissionRequestModel): Promise<boolean> {
     if (stringIsNullOrEmpty(deviceId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorDeviceIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorDeviceIdRequired"));
 
     if (stringIsNullOrEmpty(guestId))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorGuestIdRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorGuestIdRequired"));
 
     if (
       !this.uniqueIdentifierProvider.isValid(deviceId) ||
       !this.uniqueIdentifierProvider.isValid(guestId)
     )
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorUUIDInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorUUIDInvalid"));
 
     const [hasPermission] = await transaction([
       this.deviceAccessControlRepository.verifyRole({
@@ -43,7 +43,7 @@ class RevokeGuestPermissionService {
     ]);
 
     if (!hasPermission)
-      throw new AppError("NOT_FOUND", i18n.__("ErrorGuestNotFound"));
+      throw new AppError("NOT_FOUND", getMessage("ErrorGuestNotFound"));
 
     const [deleted] = await transaction([
       this.deviceAccessControlRepository.delete({

@@ -1,4 +1,3 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { RolesKeys } from "@commons/RolesKey";
@@ -10,6 +9,10 @@ import { getEnumDescription } from "@helpers/getEnumDescription";
 import { getUserType2External } from "@helpers/getUserType2External";
 import { jsonStringify } from "@helpers/jsonStringify";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
+import {
+  getMessage,
+  getVariableMessage,
+} from "@helpers/translatedMessagesControl";
 import { IAlarmEventsRepository } from "@infra/database/repositories/alarmEvents";
 import { IDeviceRepository } from "@infra/database/repositories/device";
 import { transaction } from "@infra/database/transaction";
@@ -44,24 +47,24 @@ class HandleDeviceChangedWifiService {
     ssid,
   }: ChangeWifiRequestModel): Promise<UpdateDeviceResponseModel> {
     if (stringIsNullOrEmpty(ssid))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorWifiSsidRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorWifiSsidRequired"));
 
     if (
       !this.validatorsProvider.length(ssid, VarcharMaxLength.DEVICE_WIFI_SSID)
     )
       throw new AppError(
         "BAD_REQUEST",
-        i18n.__mf("ErrorVarCharMaxLengthExceeded", [
-          i18n.__("RandomWord_WifiSsid"),
+        getVariableMessage("ErrorVarCharMaxLengthExceeded", [
+          getMessage("RandomWord_WifiSsid"),
           VarcharMaxLength.DEVICE_WIFI_SSID,
         ])
       );
 
     if (stringIsNullOrEmpty(macAddress))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorMacAddressRequired"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorMacAddressRequired"));
 
     if (!this.validatorsProvider.macAddress(macAddress))
-      throw new AppError("BAD_REQUEST", i18n.__("ErrorMacAddressInvalid"));
+      throw new AppError("BAD_REQUEST", getMessage("ErrorMacAddressInvalid"));
 
     const [hasDevice] = await transaction([
       this.deviceRepository.getByMacAddress({
@@ -70,7 +73,7 @@ class HandleDeviceChangedWifiService {
     ]);
 
     if (!hasDevice)
-      throw new AppError("NOT_FOUND", i18n.__("ErrorDeviceNotFound"));
+      throw new AppError("NOT_FOUND", getMessage("ErrorDeviceNotFound"));
 
     const deviceId = hasDevice.id;
     const unlocked = DeviceStatusDomain.UNLOCKED;
@@ -86,7 +89,7 @@ class HandleDeviceChangedWifiService {
         deviceId,
         userId: hasDevice.owner.id,
         currentStatus: unlocked,
-        message: i18n.__mf("AlarmEvents_ChangeStatus", [
+        message: getVariableMessage("AlarmEvents_ChangeStatus", [
           getEnumDescription(
             "DEVICE_STATUS",
             DeviceStatusDomain[hasDevice.status as number]

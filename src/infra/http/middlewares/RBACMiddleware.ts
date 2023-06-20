@@ -1,7 +1,7 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { AppError } from "@handlers/error/AppError";
+import { getMessage } from "@helpers/translatedMessagesControl";
 import { IMiddleware } from "@http/models/IMiddleware";
 import { HttpStatus } from "@http/utils/HttpStatus";
 import { IDeviceRepository } from "@infra/database/repositories/device";
@@ -27,7 +27,7 @@ class RBACMiddleware {
       const { [`${deviceIdParamName}`]: deviceId } = req.params;
 
       if (!this.uniqueIdentifierProvider.isValid(deviceId))
-        throw new AppError("BAD_REQUEST", i18n.__("ErrorUUIDInvalid"));
+        throw new AppError("BAD_REQUEST", getMessage("ErrorUUIDInvalid"));
 
       const [hasDevice, hasRole] = await transaction([
         this.deviceRepository.getById({ deviceId }),
@@ -39,12 +39,12 @@ class RBACMiddleware {
       ]);
 
       if (!hasDevice)
-        throw new AppError("BAD_REQUEST", i18n.__("ErrorDeviceNotFound"));
+        throw new AppError("BAD_REQUEST", getMessage("ErrorDeviceNotFound"));
 
       if (!hasRole)
         return res.status(HttpStatus.UNAUTHORIZED).json({
           success: false,
-          message: i18n.__("ErrorUnauthorizedUserForThisResource"),
+          message: getMessage("ErrorUnauthorizedUserForThisResource"),
         });
 
       return next();
