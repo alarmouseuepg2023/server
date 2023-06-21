@@ -1,10 +1,12 @@
-import i18n from "i18n";
 import { inject, injectable } from "inversify";
 
 import { ConstantsKeys } from "@commons/ConstantsKeys";
 import { AppError } from "@handlers/error/AppError";
 import { stringIsNullOrEmpty } from "@helpers/stringIsNullOrEmpty";
-import { getMessage } from "@helpers/translatedMessagesControl";
+import {
+  getMessage,
+  getVariableMessage,
+} from "@helpers/translatedMessagesControl";
 import { IDeviceAccessControlRepository } from "@infra/database/repositories/deviceAccessControl";
 import { transaction } from "@infra/database/transaction";
 import { UserAuthenticationAtDeviceRequestModel } from "@infra/dtos/device/UserAuthenticationAtDeviceRequestModel";
@@ -96,7 +98,7 @@ class UserAuthenticationAtDeviceService {
       )
         throw new AppError(
           "UNAUTHORIZED",
-          i18n.__mf(
+          getVariableMessage(
             "ErrorLoginAtDeviceUserUnauthorizedAndWillBeBlockedInFewAttempts",
             [
               ConstantsKeys.MAX_LOGIN_ATTEMPTS_AT_DEVICE -

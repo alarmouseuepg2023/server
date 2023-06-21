@@ -1,7 +1,7 @@
-import i18n from "i18n";
-
 import { AppError } from "@handlers/error/AppError";
 import { logger } from "@infra/log";
+
+import { getMessage } from "./translatedMessagesControl";
 
 type envKeys =
   | "PORT"
@@ -32,7 +32,7 @@ const env = (key: envKeys, errorMessage = "ErrorEnvVarNotFound"): string => {
   if (!_env) {
     logger.error(`Access attempting to non-existing env var: ${key}`);
 
-    throw new AppError("INTERNAL_SERVER_ERROR", i18n.__(errorMessage));
+    throw new AppError("INTERNAL_SERVER_ERROR", getMessage(errorMessage));
   }
 
   return _env;
