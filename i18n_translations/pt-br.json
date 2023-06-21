@@ -113,7 +113,7 @@
   "MailSentResetPasswordNotificationSubject": "Novo pedido para alteração de senha!",
   "PushNotificationDeviceTriggeredBody": "Seu dispositivo {0} foi ACIONADO em {1}.",
   "PushNotificationDeviceTriggeredTitle": "ATENÇÃO!! Seu dispositivo foi acionado!",
-  "PushNotificationSentInviteBody": "Você recebeu um novo convite para gerenciar o dispositivo {0} de {1}.",
+  "PushNotificationSentInviteBody": "Você foi convidado para gerenciar o dispositivo {0} de {1}.",
   "PushNotificationSentInviteTitle": "Você recebeu um novo convite!",
   "RandomWord_Email": "E-mail",
   "RandomWord_EndDate": "Data de Término",
